@@ -13,7 +13,7 @@ namespace Bipolar.PuzzleBoard
 
         private Stack<Piece> piecesPool = new Stack<Piece>();
 
-        public override Piece SpawnPiece()
+        protected override Piece Spawn()
         {
             var spawnedPiece = piecesPool.Count > 0 ? piecesPool.Pop() : CreateNewPiece();
             spawnedPiece.IsCleared = false;
