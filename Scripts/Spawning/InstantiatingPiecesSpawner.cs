@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Bipolar.PuzzleBoard
+namespace Bipolar.PuzzleBoard.Spawning
 {
     public class InstantiatingPiecesSpawner : PiecesSpawner
     {

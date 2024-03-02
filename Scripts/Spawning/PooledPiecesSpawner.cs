@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace Bipolar.PuzzleBoard
+namespace Bipolar.PuzzleBoard.Spawning
 {
     public class PooledPiecesSpawner : PiecesSpawner
     {
