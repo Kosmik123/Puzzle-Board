@@ -1,14 +1,13 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Bipolar.PuzzleBoard
 {
     public class PooledPiecesSpawner : PiecesSpawner
     {
-        [SerializeField, FormerlySerializedAs("tokenPrototype")]
+        [SerializeField]
         private Piece piecePrototype;
-        [SerializeField, FormerlySerializedAs("tokensContainer")]
+        [SerializeField]
         private Transform piecesContainer;
 
         private Stack<Piece> piecesPool = new Stack<Piece>();
