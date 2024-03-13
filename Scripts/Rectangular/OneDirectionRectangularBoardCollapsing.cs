@@ -1,29 +1,21 @@
 ﻿using UnityEngine;
-using UnityEngine.EventSystems;
 
 namespace Bipolar.PuzzleBoard.Rectangular
 {
-    public class RectangularBoardCollapsing : BoardCollapsing<RectangularBoard>
+    [RequireComponent(typeof(RectangularBoard))]
+    public class OneDirectionRectangularBoardCollapsing : BoardCollapsing<RectangularBoard>
     {
         public override event System.Action OnPiecesColapsed;
 
         protected DefaultPiecesMovementManager piecesMovementManager;
 
-        [SerializeField]
-        private MoveDirection collapseDirection;
+        [SerializeField, CollapseDirection]
+        private Vector2Int collapseDirection;
         public Vector2Int CollapseDirection
         {
             get
             {
-                var dir = collapseDirection switch
-                {
-                    MoveDirection.Up => Vector3.up,
-                    MoveDirection.Left => Vector3.left,
-                    MoveDirection.Right => Vector3.right,
-                    MoveDirection.Down => Vector3.down,
-                    _ => Vector3.zero,
-                };
-                return Vector2Int.RoundToInt(Grid.Swizzle(Board.Grid.cellSwizzle, dir));
+                return Vector2Int.RoundToInt(Grid.Swizzle(Board.Grid.cellSwizzle, (Vector2)collapseDirection));
             }
         }
         private int iterationAxis;
@@ -100,8 +92,8 @@ namespace Bipolar.PuzzleBoard.Rectangular
 
             //for (int i = 0; i < lineSize; i++)
             //{
-            //    var coord = Vector2Int.zero; 
-            //    coord[iterationAxis] = lineIndex; 
+            //    var coord = Vector2Int.zero;
+            //    coord[iterationAxis] = lineIndex;
             //    coord[collapseAxis] = (startCellIndex + i * lineCollapseDirection + lineSize) % lineSize;
 
             //    var piece = Board.GetPiece(coord);
@@ -115,7 +107,7 @@ namespace Bipolar.PuzzleBoard.Rectangular
             //        var targetCoord = coord + offsetToMove;
             //        Board[coord] = null;
             //        Board[targetCoord] = piece;
-            //        piecesMovementManager.StartPieceMovement(piece, targetCoord, 0.3f); 
+            //        piecesMovementManager.StartPieceMovement(piece, targetCoord, 0.3f);
             //    }
             //}
 
@@ -137,7 +129,6 @@ namespace Bipolar.PuzzleBoard.Rectangular
 
             int refillingDirection = CollapseDirection[collapseAxis] == 0 ? 1 : CollapseDirection[collapseAxis];
 
-
             IterateOverCellsInLine(lineIndex, count, startCellIndex, refillingDirection, (coord) =>
             {
                 var newPiece = CreatePiece(coord);
@@ -145,7 +136,6 @@ namespace Bipolar.PuzzleBoard.Rectangular
                 newPiece.transform.position = Board.CoordToWorld(spawnCoord);
                 piecesMovementManager.StartPieceMovement(newPiece, coord, 0.3f);
             });
-
 
             //for (int i = 0; i < count; i++)
             //{

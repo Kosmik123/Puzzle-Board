@@ -2,7 +2,7 @@
 
 namespace Bipolar.PuzzleBoard.Rectangular
 {
-    [RequireComponent(typeof(RectangularBoard), typeof(RectangularBoardCollapsing))]
+    [RequireComponent(typeof(RectangularBoard), typeof(OneDirectionRectangularBoardCollapsing))]
     public class RectangularBoardController : BoardController<RectangularBoard>
     {
         public override bool ArePiecesMoving => piecesMovementManager.ArePiecesMoving;
@@ -10,7 +10,7 @@ namespace Bipolar.PuzzleBoard.Rectangular
         protected override void Awake()
         {
             base.Awake();
-            (Collapsing as RectangularBoardCollapsing).Init(piecesMovementManager);
+            (Collapsing as OneDirectionRectangularBoardCollapsing).Init(piecesMovementManager);
         }
     }
 }
