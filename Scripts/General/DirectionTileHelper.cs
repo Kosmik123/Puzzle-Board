@@ -11,8 +11,6 @@ namespace Bipolar.PuzzleBoard.General
             return tile != null;
         }
 
-
         public static Vector2Int GetTileDirection(Vector2Int coord, DirectionTile tile, bool isHexagonal) => Board.GetFixedDirection(coord, tile.Direction, isHexagonal);
-
     }
 }

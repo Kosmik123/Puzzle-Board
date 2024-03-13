@@ -15,7 +15,7 @@ namespace Bipolar.PuzzleBoard
         [SerializeField]
         private Board board;
         [SerializeField]
-        private float defaultMovementDuration = 0.2f;
+        private float defaultMovementDuration = 0.3f;
 
         private readonly Dictionary<Piece, Coroutine> pieceMovementCoroutines = new Dictionary<Piece, Coroutine>();
         public override bool ArePiecesMoving => pieceMovementCoroutines.Count > 0;
