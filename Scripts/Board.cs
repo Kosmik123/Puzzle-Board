@@ -3,11 +3,6 @@ using UnityEngine;
 
 namespace Bipolar.PuzzleBoard
 {
-    public interface IPiecesIndexable
-    {
-        Piece this[Vector2Int coord] { get; set; }
-    }
-
     [DisallowMultipleComponent, RequireComponent(typeof(Grid))]
     public abstract class Board : MonoBehaviour
     {

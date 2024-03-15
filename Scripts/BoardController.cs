@@ -2,6 +2,11 @@
 
 namespace Bipolar.PuzzleBoard
 {
+    public interface IPiecesIndexable
+    {
+        Piece this[Vector2Int coord] { get; set; }
+    }
+
     public delegate void PieceCoordChangeEventHandler(Piece piece, Vector2Int newCoord);
 
     [DisallowMultipleComponent, RequireComponent(typeof(Board), typeof(BoardCollapsing<>))]
@@ -40,7 +45,7 @@ namespace Bipolar.PuzzleBoard
             get
             {
                 if (board == null)
-                    board = GetComponent<TBoard>(); 
+                    board = GetComponent<TBoard>();
                 return board;
             }
         }
@@ -64,7 +69,6 @@ namespace Bipolar.PuzzleBoard
         }
 
         public sealed override void Collapse() => Collapsing.Collapse();
-
 
         private BoardControllerPiecesIndexable piecesIndexable;
         public override IPiecesIndexable Pieces
@@ -94,9 +98,9 @@ namespace Bipolar.PuzzleBoard
                 this.setFunction = setFunction;
             }
 
-            public Piece this[Vector2Int coord] 
-            { 
-                get => getFunction(coord); 
+            public Piece this[Vector2Int coord]
+            {
+                get => getFunction(coord);
                 set => setFunction(coord, value);
             }
         }
