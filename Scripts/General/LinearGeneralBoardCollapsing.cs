@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
 namespace Bipolar.PuzzleBoard.General
 {
-    [RequireComponent(typeof(IGeneralBoard))]
+    [RequireComponent(typeof(GeneralBoard))]
     public class LinearGeneralBoardCollapsing : BoardCollapsing<GeneralBoard>
     {
         public override event System.Action OnPiecesColapsed;

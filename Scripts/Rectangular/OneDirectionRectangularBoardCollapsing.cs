@@ -2,11 +2,12 @@
 
 namespace Bipolar.PuzzleBoard.Rectangular
 {
-    [RequireComponent(typeof(IRectangularBoard))]
+    [RequireComponent(typeof(RectangularBoard))]
     public class OneDirectionRectangularBoardCollapsing : BoardCollapsing<RectangularBoard>
     {
         public override event System.Action OnPiecesColapsed;
 
+        [SerializeField]
         protected DefaultPiecesMovementManager piecesMovementManager;
 
         [SerializeField, CollapseDirection]
@@ -23,14 +24,14 @@ namespace Bipolar.PuzzleBoard.Rectangular
 
         public override bool IsCollapsing => piecesMovementManager.ArePiecesMoving;
 
+        protected virtual void Reset()
+        {
+            piecesMovementManager = FindObjectOfType<DefaultPiecesMovementManager>();
+        }
+
         protected virtual void Awake()
         {
             CalculateAxes();
-        }
-
-        public void Init(DefaultPiecesMovementManager piecesMovementManager)
-        {
-            this.piecesMovementManager = piecesMovementManager;
         }
 
         public override void Collapse()

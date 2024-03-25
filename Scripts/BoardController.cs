@@ -10,68 +10,59 @@ namespace Bipolar.PuzzleBoard
     public delegate void PieceCoordChangeEventHandler(Piece piece, Vector2Int newCoord);
 
     [DisallowMultipleComponent, RequireComponent(typeof(Board), typeof(BoardCollapsing<>))]
-    public abstract class BoardController : MonoBehaviour
+    public class BoardController : MonoBehaviour
     {
-        public abstract event System.Action OnPiecesColapsed;
+        public event System.Action OnPiecesColapsed
+        {
+            add => BoardCollapsing.OnPiecesColapsed += value;
+            remove
+            {
+                if (BoardCollapsing)
+                    BoardCollapsing.OnPiecesColapsed -= value;
+            }
+        }
 
         [SerializeField]
         protected DefaultPiecesMovementManager piecesMovementManager;
         public PiecesMovementManager PiecesMovementManager => piecesMovementManager;
 
-        public abstract Board Board { get; }
-        public abstract bool ArePiecesMoving { get; }
-        public abstract bool IsCollapsing { get; }
-        public abstract IPiecesIndexable Pieces { get; }
-
-        public abstract void Collapse();
-    }
-
-    public abstract class BoardController<TBoard> : BoardController
-        where TBoard : Board
-    {
-        public override event System.Action OnPiecesColapsed
-        {
-            add => Collapsing.OnPiecesColapsed += value;
-            remove
-            {
-                if (Collapsing)
-                    Collapsing.OnPiecesColapsed -= value;
-            }
-        }
-
-        protected TBoard board;
-        public override Board Board
+        private BoardCollapsing _boardCollapsing;
+        public BoardCollapsing BoardCollapsing
         {
             get
             {
-                if (board == null)
-                    board = GetComponent<TBoard>();
-                return board;
+                if (_boardCollapsing == null)
+                    _boardCollapsing = Board.GetComponent<BoardCollapsing>();
+                return _boardCollapsing;
             }
         }
 
-        private BoardCollapsing<TBoard> collapsing;
-        public BoardCollapsing<TBoard> Collapsing
+        public bool ArePiecesMoving => piecesMovementManager.ArePiecesMoving;
+
+        public bool IsCollapsing => BoardCollapsing.IsCollapsing;
+        public void Collapse() => BoardCollapsing.Collapse();
+
+        protected Board _board;
+        public Board Board
         {
             get
             {
-                if (collapsing == null && this)
-                    collapsing = GetComponent<BoardCollapsing<TBoard>>();
-                return collapsing;
+                if (_board == null)
+                    _board = GetComponent<Board>();
+                return _board;
             }
         }
 
-        public sealed override bool IsCollapsing => Collapsing.IsCollapsing;
-
-        protected virtual void Awake()
+        [SerializeField]
+        private bool collapseOnStart;
+        public bool CollapseOnStart
         {
-            board = GetComponent<TBoard>();
+            get => collapseOnStart;
+            set => collapseOnStart = value;
         }
-
-        public sealed override void Collapse() => Collapsing.Collapse();
 
         private BoardControllerPiecesIndexable piecesIndexable;
-        public override IPiecesIndexable Pieces
+        public IPiecesIndexable Pieces
         {
             get
             {
@@ -85,6 +76,17 @@ namespace Bipolar.PuzzleBoard
                     });
                 return piecesIndexable;
             }
+        }
+
+        protected virtual void Awake()
+        {
+            _board = GetComponent<Board>();
+        }
+
+        protected virtual void Start()
+        {
+            if (collapseOnStart)
+                Collapse();
         }
 
         public class BoardControllerPiecesIndexable : IPiecesIndexable

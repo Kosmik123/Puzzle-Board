@@ -15,7 +15,7 @@ namespace Bipolar.PuzzleBoard
             resizedVisual.localScale = Vector3.one;
         }
 
-        public override void ClearPiece()
+        protected override void ClearPiece()
         {
             StartCoroutine(ShrinkingCo());
         }

@@ -2,9 +2,12 @@
 
 namespace Bipolar.PuzzleBoard
 {
+    [DisallowMultipleComponent]
     [RequireComponent(typeof(Piece))]
     public abstract class PieceClearingBehavior : MonoBehaviour
     {
+        public event System.Action<PieceClearingBehavior> OnClearing;
+
         private Piece _piece;
         public Piece Piece
         {
@@ -16,7 +19,13 @@ namespace Bipolar.PuzzleBoard
             }
         }
 
-        public abstract void ClearPiece();
+        protected abstract void ClearPiece();
+
+        public void Clear()
+        {
+            OnClearing?.Invoke(this);
+            ClearPiece();
+        }
 
         protected void FinishClearing()
         {
