@@ -2,59 +2,48 @@
 
 namespace Bipolar.PuzzleBoard.Rectangular
 {
-    public class RectangularBoardVisual : MonoBehaviour
+    public abstract class RectangularBoardVisual : MonoBehaviour
     {
         [SerializeField]
-        private RectangularBoard board;
+        protected RectangularBoard board;
         [SerializeField]
-        private SpriteRenderer spriteRenderer;
+        protected SpriteRenderer spriteRenderer;
+    
+        protected abstract void RefreshGraphic(Vector2Int dimensions);
+        
+        protected virtual void Reset()
+        {
+            board = FindObjectOfType<RectangularBoard>();
+            spriteRenderer = FindObjectOfType<SpriteRenderer>();
+        }
 
-        private void OnEnable()
+        protected virtual void OnEnable()
+        {
+            RefreshGraphic();
+            if (board)
+                board.OnDimensionsChanged += RefreshGraphic;
+        }
+
+        protected virtual void RefreshGraphic()
         {
             if (board)
-            {
                 RefreshGraphic(board.Dimensions);
-                board.OnDimensionsChanged += RefreshGraphic;
-            }
         }
 
-        private void RefreshGraphic(Vector2Int dimensions)
-        {
-            var oneOverParentScale = GetInverseParentScale();
-            var rendererScale = Vector3.Scale(board.Grid.cellSize + board.Grid.cellGap, board.transform.lossyScale);
-            spriteRenderer.transform.localScale = Vector3.Scale(oneOverParentScale, rendererScale);
-            spriteRenderer.size = dimensions;
-        }
-
-        private Vector3 GetInverseParentScale()
-        {
-            if (spriteRenderer.transform.parent == null)
-                return Vector3.one;
-
-            var parentScale = spriteRenderer.transform.parent.lossyScale;
-            var oneOverParentScale = new Vector3(
-                1f / parentScale.x,
-                1f / parentScale.y,
-                1f / parentScale.z);
-            return oneOverParentScale;
-        }
-
-        private void OnDisable()
+        protected virtual void OnDisable()
         {
             if (board)
                 board.OnDimensionsChanged -= RefreshGraphic;
         }
 
-        private void OnValidate()
+        protected virtual void OnValidate()
         {
-            if (board)
-                RefreshGraphic(board.Dimensions);
+            RefreshGraphic();
         }
 
-        private void OnDrawGizmos()
+        protected virtual void OnDrawGizmos()
         {
-            if (board)
-                RefreshGraphic(board.Dimensions);
+            RefreshGraphic();
         }
     }
 }
