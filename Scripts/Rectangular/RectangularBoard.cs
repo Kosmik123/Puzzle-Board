@@ -4,7 +4,12 @@ using UnityEngine;
 
 namespace Bipolar.PuzzleBoard.Rectangular
 {
-    public class RectangularBoard : Board
+    public interface IRectangularBoard : IBoard
+    {
+        Vector2Int Dimensions { get; set; }
+    }
+
+    public class RectangularBoard : Board, IRectangularBoard
     {
         public event System.Action<Vector2Int> OnDimensionsChanged;
 

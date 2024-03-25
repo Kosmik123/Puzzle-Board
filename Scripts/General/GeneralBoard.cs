@@ -5,7 +5,13 @@ using UnityEngine.Tilemaps;
 
 namespace Bipolar.PuzzleBoard.General
 {
-    public class GeneralBoard : Board
+    public interface IGeneralBoard : IBoard
+    {
+        IReadOnlyList<Vector2Int> Coords { get; }
+        void CreateBoardShape();
+    }
+
+    public class GeneralBoard : Board, IGeneralBoard
     {
         [SerializeField, Tooltip("Provides board shape")]
         [FormerlySerializedAs("tilemap")]
@@ -60,8 +66,6 @@ namespace Bipolar.PuzzleBoard.General
                     }
                 }
             }
-
-
         }
 
         public override bool Contains(int x, int y)

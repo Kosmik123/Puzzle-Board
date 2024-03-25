@@ -3,8 +3,20 @@ using UnityEngine;
 
 namespace Bipolar.PuzzleBoard
 {
+    public interface IBoard
+    {
+        IReadOnlyCollection<Piece> Pieces { get; }
+        Piece this[Vector2Int coord] { get; }
+        bool Contains(Vector2Int coord);
+        bool Contains(int x, int y);
+        Vector3 CoordToWorld(Vector2 coord);
+        Vector3 CoordToWorld(float x, float y);
+        Piece GetPiece(int x, int y);
+        Piece GetPiece(Vector2Int coord);
+    }
+
     [DisallowMultipleComponent, RequireComponent(typeof(Grid))]
-    public abstract class Board : MonoBehaviour
+    public abstract class Board : MonoBehaviour, IBoard
     {
         private Grid _grid;
         public Grid Grid
