@@ -19,7 +19,7 @@ namespace Bipolar.PuzzleBoard.Rectangular
             }
         }
         private int iterationAxis;
-        public int collapseAxis;
+        private int collapseAxis;
 
         public override bool IsCollapsing => piecesMovementManager.ArePiecesMoving;
 
