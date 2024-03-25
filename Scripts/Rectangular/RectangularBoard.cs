@@ -32,7 +32,7 @@ namespace Bipolar.PuzzleBoard.Rectangular
         public override Piece this[Vector2Int coord]
         {
             get => pieces [coord.x, coord.y];
-            internal set => pieces [coord.x, coord.y] = value;
+            set => pieces [coord.x, coord.y] = value;
         }
 
         private PiecesCollection piecesCollection;

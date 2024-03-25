@@ -5,7 +5,7 @@ using UnityEngine.Tilemaps;
 
 namespace Bipolar.PuzzleBoard.General
 {
-    [RequireComponent(typeof(GeneralBoard))]
+    [RequireComponent(typeof(IGeneralBoard))]
     public class LinearGeneralBoardCollapsing : BoardCollapsing<GeneralBoard>
     {
         public override event System.Action OnPiecesColapsed;
@@ -41,9 +41,8 @@ namespace Bipolar.PuzzleBoard.General
             var tempSourceCoordsDict = new Dictionary<Vector2Int, Vector2Int>();
 
             bool isBoardHexagonal = Board.Grid.cellLayout == GridLayout.CellLayout.Hexagon;
-            for (int coordIndex = 0; coordIndex < Board.Coords.Count; coordIndex++)
+            foreach (var coord in Board.Coords)
             {
-                var coord = Board.Coords[coordIndex];
                 HandleCoordCreation(coord, isBoardHexagonal, startingCoords, endingCoords,
                     notStartingCoords, notEndingCoords, tempSourceCoordsDict);
             }

@@ -33,7 +33,7 @@ namespace Bipolar.PuzzleBoard.General
         public override Piece this[Vector2Int coord] 
         { 
             get => piecesByCoords[coord];
-            internal set => piecesByCoords[coord] = value; 
+            set => piecesByCoords[coord] = value; 
         }
         public override IReadOnlyCollection<Piece> Pieces => piecesByCoords.Values;
 
@@ -92,7 +92,7 @@ namespace Bipolar.PuzzleBoard.General
                 return;
 
             Gizmos.color = 0.7f * Color.white;
-            foreach (var coord in includedCoords)
+            foreach (var coord in Coords)
                 Gizmos.DrawSphere(CoordToWorld(coord), 0.3f);
         }
     }

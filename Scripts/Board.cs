@@ -5,6 +5,7 @@ namespace Bipolar.PuzzleBoard
 {
     public interface IBoard
     {
+        Grid Grid { get; }
         IReadOnlyCollection<Piece> Pieces { get; }
         Piece this[Vector2Int coord] { get; }
         bool Contains(Vector2Int coord);
@@ -15,8 +16,13 @@ namespace Bipolar.PuzzleBoard
         Piece GetPiece(Vector2Int coord);
     }
 
+    public interface IModifiableBoard : IBoard
+    {
+        new Piece this[Vector2Int coord] { get; set; }
+    }
+
     [DisallowMultipleComponent, RequireComponent(typeof(Grid))]
-    public abstract class Board : MonoBehaviour, IBoard
+    public abstract class Board : MonoBehaviour, IModifiableBoard
     {
         private Grid _grid;
         public Grid Grid
@@ -34,7 +40,7 @@ namespace Bipolar.PuzzleBoard
 
         public abstract IReadOnlyCollection<Piece> Pieces { get; }
 
-        public abstract Piece this[Vector2Int coord] { get; internal set; }
+        public abstract Piece this[Vector2Int coord] { get; set; }
 
         public bool Contains(Vector2Int coord) => Contains(coord.x, coord.y);
         public abstract bool Contains(int x, int y);

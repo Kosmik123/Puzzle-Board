@@ -4,7 +4,7 @@ namespace Bipolar.PuzzleBoard
 {
     [DisallowMultipleComponent, RequireComponent(typeof(Board))]
     public abstract class BoardCollapsing<TBoard> : MonoBehaviour
-        where TBoard : Board
+        where TBoard : IModifiableBoard
     {
         public abstract event System.Action OnPiecesColapsed;
 
