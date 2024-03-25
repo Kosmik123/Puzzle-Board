@@ -20,7 +20,14 @@ namespace Bipolar.PuzzleBoard.Rectangular
 
         private void RefreshGraphic(Vector2Int dimensions)
         {
-            spriteRenderer.transform.localScale = board.Grid.cellSize + board.Grid.cellGap;
+            var parentScale = spriteRenderer.transform.parent.lossyScale;
+            var oneOverParentScale = new Vector3(
+                1f / parentScale.x,
+                1f / parentScale.y,
+                1f / parentScale.z);
+
+            var rendererScale = Vector3.Scale(board.Grid.cellSize + board.Grid.cellGap, board.transform.lossyScale);
+            spriteRenderer.transform.localScale = Vector3.Scale(oneOverParentScale, rendererScale);
             spriteRenderer.size = dimensions;
         }
 

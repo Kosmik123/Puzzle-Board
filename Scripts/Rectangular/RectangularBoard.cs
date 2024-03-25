@@ -59,7 +59,7 @@ namespace Bipolar.PuzzleBoard.Rectangular
                 topRight = Vector3.Scale(upForward, topRight);
                 topRight += Vector3.Scale(right, Grid.CellToLocalInterpolated(lastCellCoord + Vector3.one / 2));
             }
-            localCenter = topRight / 2; 
+            localCenter = Vector3.Scale(topRight / 2, transform.lossyScale); 
         }
 
         public override Vector3 CoordToWorld(Vector2 coord) => base.CoordToWorld(coord) - localCenter;
@@ -93,8 +93,8 @@ namespace Bipolar.PuzzleBoard.Rectangular
                 for (int i = 0; i < dimensions.x; i++)
                 {
                     Vector3 position = CoordToWorld(i, j);
-                    Vector3 cubeSize = Grid.cellSize;
-                    bool isEven = (i + j) % 2 == 0;
+                    Vector3 cubeSize = Vector3.Scale(Grid.cellSize, transform.lossyScale);
+                    bool isEven = (i + j) % 2  == 0;
                     switch (Grid.cellLayout)
                     {
                     case GridLayout.CellLayout.Rectangle:
