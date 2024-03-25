@@ -10,6 +10,11 @@ namespace Bipolar.PuzzleBoard
         [SerializeField]
         private Board board;
 
+        protected virtual void Reset()
+        {
+            board = FindObjectOfType<Board>();
+        }
+
         public void OnPointerClick(PointerEventData eventData)
         {
             var pressWorldPosition = eventData.pointerPressRaycast.worldPosition;

@@ -82,7 +82,10 @@ namespace Bipolar.PuzzleBoard
                 return null;
             return piece;
         }
+    }
 
+    public static class BoardHelper
+    {
         public static Vector2Int GetFixedDirection(Vector2Int coord, Vector2Int direction, bool isHexagonal)
         {
             if (isHexagonal && direction.y != 0)
