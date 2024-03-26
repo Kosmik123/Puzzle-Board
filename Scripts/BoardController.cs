@@ -31,7 +31,7 @@ namespace Bipolar.PuzzleBoard
         {
             get
             {
-                if (_boardCollapsing == null)
+                if (_boardCollapsing == null && Board != null)
                     _boardCollapsing = Board.GetComponent<BoardCollapsing>();
                 return _boardCollapsing;
             }

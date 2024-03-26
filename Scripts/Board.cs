@@ -12,8 +12,8 @@ namespace Bipolar.PuzzleBoard
         bool Contains(int x, int y);
         Vector3 CoordToWorld(Vector2 coord);
         Vector3 CoordToWorld(float x, float y);
-        Piece GetPiece(int x, int y);
         Piece GetPiece(Vector2Int coord);
+        Piece GetPiece(int x, int y);
     }
 
     public interface IModifiableBoard : IBoard
