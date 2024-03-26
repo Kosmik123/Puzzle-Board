@@ -4,6 +4,6 @@ namespace Bipolar.PuzzleBoard
 {
     public abstract class PieceTypeProvider : MonoBehaviour
     {
-        public abstract PieceType GetPieceType(int x, int y);
+        public abstract IPieceType GetPieceType(int x, int y);
     }
 }

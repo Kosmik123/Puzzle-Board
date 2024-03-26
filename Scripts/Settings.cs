@@ -6,7 +6,7 @@ namespace Bipolar.PuzzleBoard
 {
     public interface IPieceTypeProvider
     {
-        public PieceType GetPieceType();
+        public IPieceType GetPieceType();
     }
 
     [CreateAssetMenu(menuName = CreateAssetsPath.Root + "Settings")]
@@ -14,14 +14,14 @@ namespace Bipolar.PuzzleBoard
     {
         [SerializeField]
         private PieceType[] possiblePieceTypes;
-        public IReadOnlyList<PieceType> PieceTypes => possiblePieceTypes;
+        public IReadOnlyList<IPieceType> PieceTypes => possiblePieceTypes;
 
-        public PieceType GetPieceType()
+        public IPieceType GetPieceType()
         {
             return PieceTypes[Random.Range(0, PieceTypes.Count)];
         }
 
-        public PieceType GetPieceTypeExcept(PieceType exception)
+        public IPieceType GetPieceTypeExcept(IPieceType exception)
         {
             int index = Random.Range(1, PieceTypes.Count);
             if (PieceTypes[index] == exception)
@@ -30,8 +30,8 @@ namespace Bipolar.PuzzleBoard
             return PieceTypes[index];
         }
 
-        private readonly List<PieceType> tempAvailableTypes = new List<PieceType>();
-        public PieceType GetPieceTypeExcept(IEnumerable<PieceType> exceptions)
+        private readonly List<IPieceType> tempAvailableTypes = new List<IPieceType>();
+        public IPieceType GetPieceTypeExcept(IEnumerable<IPieceType> exceptions)
         {
             tempAvailableTypes.Clear();
             foreach (var type in PieceTypes)

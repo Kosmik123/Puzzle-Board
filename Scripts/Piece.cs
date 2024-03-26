@@ -2,23 +2,18 @@
 
 namespace Bipolar.PuzzleBoard
 {
-    public class Piece : MonoBehaviour
+    public abstract class Piece : MonoBehaviour
     {
-        public event System.Action<PieceType> OnTypeChanged;
+        public event System.Action<IPieceType> OnTypeChanged;
         public event System.Action<Piece> OnCleared;
 
-        [SerializeField]
-        private PieceType type;
-        public PieceType Type
+        public virtual IPieceType Type 
         {
-            get => type;
-            set
+            get => default;
+            set 
             {
-                type = value;
-                if (type && gameObject.scene.buildIndex >= 0) 
-                    gameObject.name = $"Piece ({type.name})";
-                OnTypeChanged?.Invoke(type);
-            }
+                OnTypeChanged?.Invoke(value);
+            } 
         }
 
         private bool isCleared = false;
@@ -29,7 +24,7 @@ namespace Bipolar.PuzzleBoard
             {
                 isCleared = value;
                 if (isCleared)
-                    Invoke(nameof(CallClearedEvent), 0);            
+                    Invoke(nameof(CallClearedEvent), 0);
             }
         }
 
@@ -38,9 +33,27 @@ namespace Bipolar.PuzzleBoard
             OnCleared?.Invoke(this);
         }
 
-        private void OnValidate()
+        protected virtual void OnValidate()
         {
-            Type = type;
+            Type = Type;
+        }
+    }
+
+    public abstract class Piece<T> : Piece
+        where T : Object, IPieceType
+    {
+        [SerializeField]
+        private T type;
+        public override IPieceType Type
+        {
+            get => type;
+            set
+            {
+                type = value as T;
+                if (type)
+                    gameObject.name = $"Piece ({type.name})";
+                base.Type = type;
+            }
         }
     }
 }

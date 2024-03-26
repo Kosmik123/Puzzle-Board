@@ -10,28 +10,28 @@ namespace Bipolar.PuzzleBoard
         [SerializeField]
         private Board board;
 
-        private readonly HashSet<PieceType> forbiddenTokens = new HashSet<PieceType>();
+        private readonly HashSet<IPieceType> forbiddenPieceTypes = new HashSet<IPieceType>();
         
-        public override PieceType GetPieceType(int x, int y)
+        public override IPieceType GetPieceType(int x, int y)
         {
-            forbiddenTokens.Clear();
-            Piece token = board.GetPiece(x - 1, y);
-            if (token)
-                forbiddenTokens.Add(token.Type);
+            forbiddenPieceTypes.Clear();
+            var piece = board.GetPiece(x - 1, y);
+            if (piece)
+                forbiddenPieceTypes.Add(piece.Type);
 
-            token = board.GetPiece(x + 1, y);
-            if (token)
-                forbiddenTokens.Add(token.Type);
+            piece = board.GetPiece(x + 1, y);
+            if (piece)
+                forbiddenPieceTypes.Add(piece.Type);
 
-            token = board.GetPiece(x, y - 1);
-            if (token)
-                forbiddenTokens.Add(token.Type);
+            piece = board.GetPiece(x, y - 1);
+            if (piece)
+                forbiddenPieceTypes.Add(piece.Type);
 
-            token = board.GetPiece(x, y + 1);
-            if (token)
-                forbiddenTokens.Add(token.Type);
+            piece = board.GetPiece(x, y + 1);
+            if (piece)
+                forbiddenPieceTypes.Add(piece.Type);
 
-            return settings.GetPieceTypeExcept(forbiddenTokens);
+            return settings.GetPieceTypeExcept(forbiddenPieceTypes);
         }
     }
 }
