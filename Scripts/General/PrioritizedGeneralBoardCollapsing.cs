@@ -104,7 +104,7 @@ namespace Bipolar.PuzzleBoard.General
             foreach (var direction in directions)
             {
                 var targetCoord = coord + direction;
-                if (Board.Contains(targetCoord) == false)
+                if (Board.ContainsCoord(targetCoord) == false)
                     continue;
 
                 if (Board[targetCoord] == null)
@@ -151,7 +151,7 @@ namespace Bipolar.PuzzleBoard.General
                 {
                     var direction = directions[i];
                     var targetCoord = coord + direction;
-                    if (Board.Contains(targetCoord))
+                    if (Board.ContainsCoord(targetCoord))
                     {
                         var startPosition = Board.CoordToWorld(coord);
                         var endPosition = Board.CoordToWorld(targetCoord);

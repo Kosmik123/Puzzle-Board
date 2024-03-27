@@ -87,7 +87,7 @@ namespace Bipolar.PuzzleBoard.General
                 bool hasJumpTarget = gameObject;
                 while (TilemapContainsCoord(Board.ShapeTilemap, targetCoord))
                 {
-                    if (Board.Contains(targetCoord))
+                    if (Board.ContainsCoord(targetCoord))
                     {
                         hasJumpTarget = true;
                         break;

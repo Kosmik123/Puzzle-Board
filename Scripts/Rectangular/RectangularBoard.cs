@@ -59,7 +59,7 @@ namespace Bipolar.PuzzleBoard.Rectangular
         public override Vector3 CoordToWorld(Vector2 coord) => base.CoordToWorld(coord) - localCenter;
         public override Vector2Int WorldToCoord(Vector3 worldPosition) => base.WorldToCoord(worldPosition + localCenter);
 
-        public override bool Contains(int xCoord, int yCoord)
+        public override bool ContainsCoord(int xCoord, int yCoord)
         {
             if (xCoord < 0 || yCoord < 0)
                 return false;

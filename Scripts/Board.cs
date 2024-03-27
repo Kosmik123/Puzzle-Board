@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Bipolar.PuzzleBoard
 {
@@ -7,8 +6,8 @@ namespace Bipolar.PuzzleBoard
     {
         Grid Grid { get; }
         Piece this[Vector2Int coord] { get; }
-        bool Contains(Vector2Int coord);
-        bool Contains(int x, int y);
+        bool ContainsCoord(Vector2Int coord);
+        bool ContainsCoord(int x, int y);
         Vector3 CoordToWorld(Vector2 coord);
         Vector3 CoordToWorld(float x, float y);
         Piece GetPiece(Vector2Int coord);
@@ -39,8 +38,8 @@ namespace Bipolar.PuzzleBoard
 
         public abstract Piece this[Vector2Int coord] { get; set; }
 
-        public bool Contains(Vector2Int coord) => Contains(coord.x, coord.y);
-        public abstract bool Contains(int x, int y);
+        public bool ContainsCoord(Vector2Int coord) => ContainsCoord(coord.x, coord.y);
+        public abstract bool ContainsCoord(int x, int y);
 
         public Vector3 CoordToWorld(float x, float y) => CoordToWorld(new Vector2(x, y));
 
@@ -73,7 +72,7 @@ namespace Bipolar.PuzzleBoard
         public Piece GetPiece(int x, int y) => GetPiece(new Vector2Int(x, y));
         public Piece GetPiece(Vector2Int coord)
         {
-            if (Contains(coord) == false)
+            if (ContainsCoord(coord) == false)
                 return null;
 
             var piece = this[coord];

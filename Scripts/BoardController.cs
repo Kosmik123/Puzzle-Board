@@ -9,7 +9,7 @@ namespace Bipolar.PuzzleBoard
 
     public delegate void PieceCoordChangeEventHandler(Piece piece, Vector2Int newCoord);
 
-    [DisallowMultipleComponent, RequireComponent(typeof(Board), typeof(BoardCollapsing<>))]
+    [DisallowMultipleComponent, RequireComponent(typeof(IModifiableBoard), typeof(BoardCollapsing<>))]
     public class BoardController : MonoBehaviour
     {
         public event System.Action OnPiecesColapsed
@@ -94,7 +94,8 @@ namespace Bipolar.PuzzleBoard
             private readonly System.Func<Vector2Int, Piece> getFunction;
             private readonly System.Action<Vector2Int, Piece> setFunction;
 
-            public BoardControllerPiecesIndexable(System.Func<Vector2Int, Piece> getFunction, System.Action<Vector2Int, Piece> setFunction)
+            public BoardControllerPiecesIndexable(System.Func<Vector2Int, Piece> getFunction,
+                System.Action<Vector2Int, Piece> setFunction)
             {
                 this.getFunction = getFunction;
                 this.setFunction = setFunction;

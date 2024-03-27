@@ -67,7 +67,7 @@ namespace Bipolar.PuzzleBoard.General
             }
         }
 
-        public override bool Contains(int x, int y)
+        public override bool ContainsCoord(int x, int y)
         {
             return shapeTilemap.cellBounds.Contains(new Vector3Int(x, y, shapeTilemap.cellBounds.z))
                 && piecesByCoords.ContainsKey(new Vector2Int(x, y));

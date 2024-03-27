@@ -19,7 +19,7 @@ namespace Bipolar.PuzzleBoard
         {
             var pressWorldPosition = eventData.pointerPressRaycast.worldPosition;
             var pressedPieceCoord = board.WorldToCoord(pressWorldPosition);
-            if (board.Contains(pressedPieceCoord) == false)
+            if (board.ContainsCoord(pressedPieceCoord) == false)
                 return;
 
             var releaseWorldPosition = eventData.pointerCurrentRaycast.worldPosition;
