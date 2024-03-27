@@ -11,18 +11,29 @@ namespace Bipolar.PuzzleBoard
         [SerializeField]
         private SpriteRenderer spriteRenderer;
 
+        protected virtual void Reset()
+        {
+            piece = GetComponentInParent<Piece>();
+            spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+        }
+
         private void OnEnable()
         {
             piece.OnTypeChanged += Piece_OnInitialized;       
         }
 
-        private void Piece_OnInitialized(IPieceType type)
+        private void Piece_OnInitialized(IPieceType pieceType)
         {
-            if (type is PieceType pieceType)
+            if (pieceType is ISpritePieceType spritePieceType)
+            {
+                spriteRenderer.sprite = spritePieceType.Sprite;
+                spriteRenderer.color = spritePieceType.Color;
+            }
+            else if (settings)
             {
                 spriteRenderer.color = settings.GetPieceColor(pieceType);
                 var sprite = settings.GetPieceSprite(pieceType);
-                if (sprite != null)
+                if (sprite)
                     spriteRenderer.sprite = sprite;
             }
         }

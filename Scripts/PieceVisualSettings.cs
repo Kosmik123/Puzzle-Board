@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Bipolar.PuzzleBoard
 {
@@ -15,34 +14,37 @@ namespace Bipolar.PuzzleBoard
             public Sprite sprite;
         }
 
-        [SerializeField, FormerlySerializedAs("tokenVisualMappings")]
+        [SerializeField]
         private PieceVisualMapping[] pieceVisualMappings;
 
-        private Dictionary<PieceType, Color> pieceVisualColors;
-        private Dictionary<PieceType, Sprite> pieceVisualSprites;
+        [SerializeField]
+        private Sprite defaultSprite;
 
-        public Color GetPieceColor(PieceType type)
+        private Dictionary<IPieceType, Color> pieceVisualColors;
+        private Dictionary<IPieceType, Sprite> pieceVisualSprites;
+
+        public Color GetPieceColor(IPieceType type)
         {
             if (pieceVisualColors == null)
             {
-                pieceVisualColors = new Dictionary<PieceType, Color>();
+                pieceVisualColors = new Dictionary<IPieceType, Color>();
                 foreach (var mapping in pieceVisualMappings)
                     pieceVisualColors[mapping.type] = mapping.color;
             }
 
-            return pieceVisualColors[type];
+            return pieceVisualColors.TryGetValue(type, out var color) ? color : Color.white;
         }
 
-        public Sprite GetPieceSprite(PieceType type)
+        public Sprite GetPieceSprite(IPieceType type)
         {
             if (pieceVisualSprites == null)
             {
-                pieceVisualSprites = new Dictionary<PieceType, Sprite>();
+                pieceVisualSprites = new Dictionary<IPieceType, Sprite>();
                 foreach (var mapping in pieceVisualMappings)
                     pieceVisualSprites[mapping.type] = mapping.sprite;
             }
 
-            return pieceVisualSprites[type];
+            return pieceVisualSprites.TryGetValue(type, out var sprite) ? sprite : defaultSprite;
         }
     }
 }
