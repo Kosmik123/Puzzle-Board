@@ -35,7 +35,6 @@ namespace Bipolar.PuzzleBoard.General
             get => piecesByCoords[coord];
             set => piecesByCoords[coord] = value; 
         }
-        public override IReadOnlyCollection<Piece> Pieces => piecesByCoords.Values;
 
         private void Reset()
         {

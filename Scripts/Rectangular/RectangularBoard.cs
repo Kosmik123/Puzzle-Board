@@ -35,17 +35,6 @@ namespace Bipolar.PuzzleBoard.Rectangular
             set => pieces [coord.x, coord.y] = value;
         }
 
-        private PiecesCollection piecesCollection;
-        public override IReadOnlyCollection<Piece> Pieces
-        {
-            get
-            {
-                if (piecesCollection.IsValid == false)
-                    piecesCollection = new PiecesCollection(this);
-                return piecesCollection;
-            }
-        }
-
         protected override void Awake()
         {
             base.Awake();

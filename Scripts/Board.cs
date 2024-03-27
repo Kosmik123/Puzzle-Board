@@ -6,7 +6,6 @@ namespace Bipolar.PuzzleBoard
     public interface IBoard
     {
         Grid Grid { get; }
-        IReadOnlyCollection<Piece> Pieces { get; }
         Piece this[Vector2Int coord] { get; }
         bool Contains(Vector2Int coord);
         bool Contains(int x, int y);
@@ -38,8 +37,6 @@ namespace Bipolar.PuzzleBoard
         protected virtual void Awake()
         { }
 
-        public abstract IReadOnlyCollection<Piece> Pieces { get; }
-
         public abstract Piece this[Vector2Int coord] { get; set; }
 
         public bool Contains(Vector2Int coord) => Contains(coord.x, coord.y);
@@ -59,9 +56,11 @@ namespace Bipolar.PuzzleBoard
             {
                 case GridLayout.CellLayout.Hexagon:
                     break;
+
                 case GridLayout.CellLayout.Rectangle:
                     worldPosition += 0.5f * (Grid.cellSize + Grid.cellGap);
                     break;
+
                 default: 
                     worldPosition.y += 0.5f * (Grid.cellSize.y + Grid.cellGap.y);
                     break;
