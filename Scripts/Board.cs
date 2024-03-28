@@ -22,7 +22,6 @@ namespace Bipolar.PuzzleBoard
         { }
 
         public abstract bool ContainsCoord(Vector2Int coord);
-        public abstract bool ContainsCoord(int x, int y);
         public abstract Piece GetPiece(int x, int y);
         public abstract Piece GetPiece(Vector2Int coord);
 
@@ -59,6 +58,7 @@ namespace Bipolar.PuzzleBoard
         where TData : BoardData
     {
         protected TData boardData;
+        public TData Data;
 
         public sealed override Piece this[Vector2Int coord]
         {
@@ -66,7 +66,6 @@ namespace Bipolar.PuzzleBoard
             set => boardData[coord] = value;
         }
 
-        public override bool ContainsCoord(int x, int y) => boardData.ContainsCoord(x, y);
         public override bool ContainsCoord(Vector2Int coord) => boardData.ContainsCoord(coord);
 
         public override Piece GetPiece(int x, int y) => GetPiece(new Vector2Int(x, y));

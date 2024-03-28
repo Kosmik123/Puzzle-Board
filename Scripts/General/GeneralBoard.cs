@@ -60,10 +60,10 @@ namespace Bipolar.PuzzleBoard.General
             boardData = new GeneralBoardData(includedCoords);
         }
 
-        public override bool ContainsCoord(int x, int y)
+        public override bool ContainsCoord(Vector2Int coord)
         {
-            return shapeTilemap.cellBounds.Contains(new Vector3Int(x, y, shapeTilemap.cellBounds.z))
-                && base.ContainsCoord(x, y);
+            return shapeTilemap.cellBounds.Contains(new Vector3Int(coord.x, coord.y, shapeTilemap.cellBounds.z))
+                && base.ContainsCoord(coord);
         }
 
         public override Vector3 CoordToWorld(Vector2 coord)
