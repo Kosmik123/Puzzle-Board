@@ -112,23 +112,5 @@ namespace Bipolar.PuzzleBoard.Rectangular
                 }
             }
         }
-
-        public struct PiecesCollection : IReadOnlyCollection<Piece>
-        {
-            private readonly RectangularBoard board;
-
-            public bool IsValid => board != null;
-            public int Count => board.Dimensions.x * board.Dimensions.y;
-
-            public PiecesCollection(RectangularBoard board) => this.board = board;
-
-            public IEnumerator<Piece> GetEnumerator()
-            {
-                foreach (var piece in board.pieces)
-                    yield return piece;
-            }
-
-            IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
-        }
     }
 }

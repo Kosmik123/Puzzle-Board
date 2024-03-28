@@ -66,9 +66,9 @@ namespace Bipolar.PuzzleBoard.Rectangular
 
         private int CollapseTokensInLine(int lineIndex)
         {
-            int lineSize = Board.Dimensions[collapseAxis]; // to samo
+            int lineSize = Board.Dimensions[collapseAxis];
 
-            int startCellIndex = CollapseDirection[collapseAxis] > 0 ? -1 : 0; // odwrócony warunek
+            int startCellIndex = CollapseDirection[collapseAxis] > 0 ? -1 : 0; 
             int lineCollapseDirection = CollapseDirection[collapseAxis] == 0 ? 1 : -CollapseDirection[collapseAxis];
 
             int nonExistingPiecesCount = 0;
@@ -90,27 +90,6 @@ namespace Bipolar.PuzzleBoard.Rectangular
                     piecesMovementManager.StartPieceMovement(piece, targetCoord, 0.3f);
                 }
             });
-
-            //for (int i = 0; i < lineSize; i++)
-            //{
-            //    var coord = Vector2Int.zero;
-            //    coord[iterationAxis] = lineIndex;
-            //    coord[collapseAxis] = (startCellIndex + i * lineCollapseDirection + lineSize) % lineSize;
-
-            //    var piece = Board.GetPiece(coord);
-            //    if (piece == null || piece.IsCleared)
-            //    {
-            //        nonExistingPiecesCount++;
-            //    }
-            //    else if (nonExistingPiecesCount > 0)
-            //    {
-            //        var offsetToMove = CollapseDirection * nonExistingPiecesCount;
-            //        var targetCoord = coord + offsetToMove;
-            //        Board[coord] = null;
-            //        Board[targetCoord] = piece;
-            //        piecesMovementManager.StartPieceMovement(piece, targetCoord, 0.3f);
-            //    }
-            //}
 
             return nonExistingPiecesCount;
         }
@@ -137,18 +116,6 @@ namespace Bipolar.PuzzleBoard.Rectangular
                 newPiece.transform.position = Board.CoordToWorld(spawnCoord);
                 piecesMovementManager.StartPieceMovement(newPiece, coord, 0.3f);
             });
-
-            //for (int i = 0; i < count; i++)
-            //{
-            //    var coord = Vector2Int.zero;
-            //    coord[iterationAxis] = lineIndex;
-            //    coord[collapseAxis] = (startCellIndex + i * refillingDirection + lineSize) % lineSize;
-
-            //    var newPiece = CreatePiece(coord);
-            //    var spawnCoord = coord + spawnOffset;
-            //    newPiece.transform.position = Board.CoordToWorld(spawnCoord);
-            //    piecesMovementManager.StartPieceMovement(newPiece, coord, 0.3f);
-            //}
         }
 
         private void OnValidate()
