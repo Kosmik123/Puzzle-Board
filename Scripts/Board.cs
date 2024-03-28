@@ -2,18 +2,6 @@
 
 namespace Bipolar.PuzzleBoard
 {
-    public abstract class Board<TData> : Board 
-        where TData : BoardData
-    {
-        protected TData boardData;
-
-        public override Piece this[Vector2Int coord]
-        {
-            get => boardData[coord];
-            set => boardData[coord] = value;
-        }
-    }
-
     [DisallowMultipleComponent, RequireComponent(typeof(Grid))]
     public abstract class Board : MonoBehaviour, IModifiableBoard
     {
@@ -33,8 +21,10 @@ namespace Bipolar.PuzzleBoard
         protected virtual void Awake()
         { }
 
-        public bool ContainsCoord(Vector2Int coord) => ContainsCoord(coord.x, coord.y);
+        public abstract bool ContainsCoord(Vector2Int coord);
         public abstract bool ContainsCoord(int x, int y);
+        public abstract Piece GetPiece(int x, int y);
+        public abstract Piece GetPiece(Vector2Int coord);
 
         public Vector3 CoordToWorld(float x, float y) => CoordToWorld(new Vector2(x, y));
 
@@ -63,9 +53,24 @@ namespace Bipolar.PuzzleBoard
             var coord = Grid.WorldToCell(worldPosition);
             return (Vector2Int)coord;
         }
+    }
 
-        public Piece GetPiece(int x, int y) => GetPiece(new Vector2Int(x, y));
-        public Piece GetPiece(Vector2Int coord)
+    public abstract class Board<TData> : Board
+        where TData : BoardData
+    {
+        protected TData boardData;
+
+        public sealed override Piece this[Vector2Int coord]
+        {
+            get => boardData[coord];
+            set => boardData[coord] = value;
+        }
+
+        public override bool ContainsCoord(int x, int y) => boardData.ContainsCoord(x, y);
+        public override bool ContainsCoord(Vector2Int coord) => boardData.ContainsCoord(coord);
+
+        public override Piece GetPiece(int x, int y) => GetPiece(new Vector2Int(x, y));
+        public override Piece GetPiece(Vector2Int coord)
         {
             if (ContainsCoord(coord) == false)
                 return null;
