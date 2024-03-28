@@ -3,23 +3,6 @@ using UnityEngine;
 
 namespace Bipolar.PuzzleBoard
 {
-    [System.Serializable]
-    public abstract class BoardData
-    {
-        public abstract Piece this[Vector2Int coord] { get; set; }
-    }
-
-    [System.Serializable]
-    public class GeneralBoardData : BoardData
-    {
-        private readonly Dictionary<Vector2Int, Piece> piecesByCoords = new Dictionary<Vector2Int, Piece>();
-        public override Piece this[Vector2Int coord]
-        {
-            get => piecesByCoords[coord];
-            set => piecesByCoords[coord] = value;
-        }
-    }
-
     [DisallowMultipleComponent, RequireComponent(typeof(Grid))]
     public abstract class Board : MonoBehaviour, IModifiableBoard
     {

@@ -29,11 +29,12 @@ namespace Bipolar.PuzzleBoard.General
             }
         }
 
-        private readonly Dictionary<Vector2Int, Piece> piecesByCoords = new Dictionary<Vector2Int, Piece>();
+        private GeneralBoardData boardData;
+
         public override Piece this[Vector2Int coord] 
         { 
-            get => piecesByCoords[coord];
-            set => piecesByCoords[coord] = value; 
+            get => boardData[coord];
+            set => boardData[coord] = value; 
         }
 
         private void Reset()
@@ -61,16 +62,16 @@ namespace Bipolar.PuzzleBoard.General
                     if (tile != null)
                     {
                         includedCoords.Add(coord);
-                        piecesByCoords.Add(coord, null);
                     }
                 }
             }
+            boardData = new GeneralBoardData(includedCoords);
         }
 
         public override bool ContainsCoord(int x, int y)
         {
             return shapeTilemap.cellBounds.Contains(new Vector3Int(x, y, shapeTilemap.cellBounds.z))
-                && piecesByCoords.ContainsKey(new Vector2Int(x, y));
+                && boardData.ContainsCoord(new Vector2Int(x, y));
         }
 
         public override Vector3 CoordToWorld(Vector2 coord)
