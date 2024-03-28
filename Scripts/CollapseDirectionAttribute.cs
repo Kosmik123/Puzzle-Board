@@ -60,7 +60,7 @@ namespace Bipolar.PuzzleBoard
             if (board == null)
                 return false;
 
-            var gridLayout = board.Grid.cellLayout;
+            var gridLayout = board.Data.Layout;
             if (options == null || options.Length <= 0 || layout != gridLayout)
             {
                 layout = gridLayout;

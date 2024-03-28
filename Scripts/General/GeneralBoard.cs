@@ -34,10 +34,9 @@ namespace Bipolar.PuzzleBoard.General
             shapeTilemap = GetComponentInChildren<Tilemap>();
         }
 
-        protected override void Awake()
+        protected override void CreateBoardData()
         {
-            if (includedCoords == null)
-                CreateBoardShape();
+            CreateBoardShape();
         }
 
         [ContextMenu("Refresh")]
@@ -57,7 +56,7 @@ namespace Bipolar.PuzzleBoard.General
                     }
                 }
             }
-            boardData = new GeneralBoardData(includedCoords);
+            boardData = new GeneralBoardData(includedCoords, Grid.cellLayout);
         }
 
         public override bool ContainsCoord(Vector2Int coord)

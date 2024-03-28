@@ -1,6 +1,4 @@
-﻿using PlasticPipe.PlasticProtocol.Messages;
-using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Bipolar.PuzzleBoard.Rectangular
 {

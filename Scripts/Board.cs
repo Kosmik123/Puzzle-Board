@@ -17,10 +17,8 @@ namespace Bipolar.PuzzleBoard
         }
 
         public abstract Piece this[Vector2Int coord] { get; set; }
-
-        protected virtual void Awake()
-        { }
-
+        public abstract BoardData Data { get; }
+        
         public abstract bool ContainsCoord(Vector2Int coord);
         public abstract Piece GetPiece(int x, int y);
         public abstract Piece GetPiece(Vector2Int coord);
@@ -52,13 +50,24 @@ namespace Bipolar.PuzzleBoard
             var coord = Grid.WorldToCell(worldPosition);
             return (Vector2Int)coord;
         }
+
+        protected virtual void Awake()
+        { }
     }
 
     public abstract class Board<TData> : Board
         where TData : BoardData
     {
-        protected TData boardData;
-        public TData Data;
+        protected TData boardData = null;
+        public override BoardData Data
+        {
+            get
+            {
+                if (boardData == null)
+                    CreateBoardData();
+                return boardData;
+            }
+        }
 
         public sealed override Piece this[Vector2Int coord]
         {
@@ -79,5 +88,13 @@ namespace Bipolar.PuzzleBoard
                 return null;
             return piece;
         }
+
+        protected override void Awake()
+        {
+            base.Awake();
+            CreateBoardData();
+        }
+
+        protected abstract void CreateBoardData();
     }
 }

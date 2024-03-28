@@ -15,7 +15,7 @@ namespace Bipolar.PuzzleBoard
             set => piecesArray[coord.x, coord.y] = value;
         }
 
-        public RectangularBoardData (int width, int height)
+        public RectangularBoardData (int width, int height, GridLayout.CellLayout layout) : base(layout)
         {
             this.width = width;
             this.height = height;

@@ -4,7 +4,7 @@ namespace Bipolar.PuzzleBoard
 {
     public interface IBoard
     {
-        Grid Grid { get; }
+        BoardData Data { get; }
         Piece this[Vector2Int coord] { get; }
         bool ContainsCoord(Vector2Int coord);
         Vector3 CoordToWorld(Vector2 coord);

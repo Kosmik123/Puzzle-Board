@@ -14,7 +14,7 @@ namespace Bipolar.PuzzleBoard.General
             set => piecesByCoords[coord] = value;
         }
 
-        public GeneralBoardData(IEnumerable<Vector2Int> coords)
+        public GeneralBoardData(IEnumerable<Vector2Int> coords, GridLayout.CellLayout layout) : base(layout)
         {
             foreach (var coord in coords)
                 piecesByCoords.Add(coord, null);
