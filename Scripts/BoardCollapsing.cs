@@ -10,7 +10,7 @@ namespace Bipolar.PuzzleBoard
         public abstract void Collapse();
     }
 
-    [DisallowMultipleComponent, RequireComponent(typeof(Board))]
+    [DisallowMultipleComponent, RequireComponent(typeof(Board<>))]
     public abstract class BoardCollapsing<TBoard> : BoardCollapsing
         where TBoard : IModifiableBoard
     {

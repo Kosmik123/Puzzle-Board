@@ -1,8 +1,19 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Bipolar.PuzzleBoard
 {
+    public abstract class Board<TData> : Board 
+        where TData : BoardData
+    {
+        protected TData boardData;
+
+        public override Piece this[Vector2Int coord]
+        {
+            get => boardData[coord];
+            set => boardData[coord] = value;
+        }
+    }
+
     [DisallowMultipleComponent, RequireComponent(typeof(Grid))]
     public abstract class Board : MonoBehaviour, IModifiableBoard
     {
@@ -17,10 +28,10 @@ namespace Bipolar.PuzzleBoard
             }
         }
 
+        public abstract Piece this[Vector2Int coord] { get; set; }
+
         protected virtual void Awake()
         { }
-
-        public abstract Piece this[Vector2Int coord] { get; set; }
 
         public bool ContainsCoord(Vector2Int coord) => ContainsCoord(coord.x, coord.y);
         public abstract bool ContainsCoord(int x, int y);

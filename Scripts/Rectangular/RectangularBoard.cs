@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Bipolar.PuzzleBoard.Rectangular
@@ -9,7 +7,7 @@ namespace Bipolar.PuzzleBoard.Rectangular
         Vector2Int Dimensions { get; set; }
     }
 
-    public class RectangularBoard : Board, IRectangularBoard
+    public class RectangularBoard : Board<RectangularBoardData>, IRectangularBoard
     {
         public event System.Action<Vector2Int> OnDimensionsChanged;
 
@@ -27,13 +25,6 @@ namespace Bipolar.PuzzleBoard.Rectangular
         }
 
         private Vector3 localCenter;
-
-        private RectangularBoardData boardData;
-        public override Piece this[Vector2Int coord]
-        {
-            get => boardData[coord];
-            set => boardData[coord] = value;
-        }
 
         protected override void Awake()
         {
