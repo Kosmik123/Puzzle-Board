@@ -1,22 +1,23 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 namespace Bipolar.PuzzleBoard
 {
-    public interface IBoard
+    [System.Serializable]
+    public abstract class BoardData
     {
-        Grid Grid { get; }
-        Piece this[Vector2Int coord] { get; }
-        bool ContainsCoord(Vector2Int coord);
-        bool ContainsCoord(int x, int y);
-        Vector3 CoordToWorld(Vector2 coord);
-        Vector3 CoordToWorld(float x, float y);
-        Piece GetPiece(Vector2Int coord);
-        Piece GetPiece(int x, int y);
+        public abstract Piece this[Vector2Int coord] { get; set; }
     }
 
-    public interface IModifiableBoard : IBoard
+    [System.Serializable]
+    public class GeneralBoardData : BoardData
     {
-        new Piece this[Vector2Int coord] { get; set; }
+        private readonly Dictionary<Vector2Int, Piece> piecesByCoords = new Dictionary<Vector2Int, Piece>();
+        public override Piece this[Vector2Int coord]
+        {
+            get => piecesByCoords[coord];
+            set => piecesByCoords[coord] = value;
+        }
     }
 
     [DisallowMultipleComponent, RequireComponent(typeof(Grid))]

@@ -28,17 +28,17 @@ namespace Bipolar.PuzzleBoard.Rectangular
 
         private Vector3 localCenter;
 
-        private Piece[,] pieces;
+        private RectangularBoardData boardData;
         public override Piece this[Vector2Int coord]
         {
-            get => pieces [coord.x, coord.y];
-            set => pieces [coord.x, coord.y] = value;
+            get => boardData[coord];
+            set => boardData[coord] = value;
         }
 
         protected override void Awake()
         {
             base.Awake();
-            pieces = new Piece[dimensions.x, dimensions.y];
+            boardData = new RectangularBoardData(dimensions.x, dimensions.y);
             CalculateOtherDimensions();
         }
 
