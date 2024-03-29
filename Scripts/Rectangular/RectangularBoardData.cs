@@ -22,6 +22,13 @@ namespace Bipolar.PuzzleBoard
             piecesArray = new Piece[width, height];
         }
 
+        public RectangularBoardData (RectangularBoardData source) : base(source.Layout) 
+        {
+            width = source.width;
+            height = source.height;
+            piecesArray = (Piece[,])source.piecesArray.Clone();
+        }
+
         public override bool ContainsCoord(int xCoord, int yCoord)
         {
             if (xCoord < 0 || yCoord < 0)

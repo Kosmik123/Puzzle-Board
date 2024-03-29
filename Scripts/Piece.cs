@@ -2,16 +2,18 @@
 
 namespace Bipolar.PuzzleBoard
 {
-    public abstract class Piece : MonoBehaviour
+    public class Piece : MonoBehaviour
     {
         public event System.Action<IPieceType> OnTypeChanged;
         public event System.Action<Piece> OnCleared;
 
+        private IPieceType pieceType;
         public virtual IPieceType Type 
         {
-            get => default;
+            get => pieceType;
             set 
             {
+                pieceType = value;
                 OnTypeChanged?.Invoke(value);
             } 
         }

@@ -32,7 +32,7 @@ namespace Bipolar.PuzzleBoard
                     pieceVisualColors[mapping.type] = mapping.color;
             }
 
-            return pieceVisualColors.TryGetValue(type, out var color) ? color : Color.white;
+            return type != null && pieceVisualColors.TryGetValue(type, out var color) ? color : Color.white;
         }
 
         public Sprite GetPieceSprite(IPieceType type)
@@ -44,7 +44,7 @@ namespace Bipolar.PuzzleBoard
                     pieceVisualSprites[mapping.type] = mapping.sprite;
             }
 
-            return pieceVisualSprites.TryGetValue(type, out var sprite) ? sprite : defaultSprite;
+            return type != null && pieceVisualSprites.TryGetValue(type, out var sprite) ? sprite : defaultSprite;
         }
     }
 }
