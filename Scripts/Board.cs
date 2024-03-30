@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
 namespace Bipolar.PuzzleBoard
 {
@@ -53,6 +55,9 @@ namespace Bipolar.PuzzleBoard
 
         protected virtual void Awake()
         { }
+
+        public abstract IEnumerator<Vector2Int> GetEnumerator();
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
     }
 
     public abstract class Board<TData> : Board

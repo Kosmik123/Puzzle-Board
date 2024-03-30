@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Bipolar.PuzzleBoard.Rectangular
@@ -48,7 +49,7 @@ namespace Bipolar.PuzzleBoard.Rectangular
                 topRight = Vector3.Scale(upForward, topRight);
                 topRight += Vector3.Scale(right, Grid.CellToLocalInterpolated(lastCellCoord + Vector3.one / 2));
             }
-            localCenter = Vector3.Scale(topRight / 2, transform.lossyScale); 
+            localCenter = Vector3.Scale(topRight / 2, transform.lossyScale);
         }
 
         public override Vector3 CoordToWorld(Vector2 coord) => base.CoordToWorld(coord) - localCenter;
@@ -72,7 +73,7 @@ namespace Bipolar.PuzzleBoard.Rectangular
                 {
                     Vector3 position = CoordToWorld(i, j);
                     Vector3 cubeSize = Vector3.Scale(Grid.cellSize, transform.lossyScale);
-                    bool isEven = (i + j) % 2  == 0;
+                    bool isEven = (i + j) % 2 == 0;
                     switch (Grid.cellLayout)
                     {
                         case GridLayout.CellLayout.Rectangle:
@@ -97,6 +98,13 @@ namespace Bipolar.PuzzleBoard.Rectangular
                     }
                 }
             }
+        }
+
+        public override IEnumerator<Vector2Int> GetEnumerator()
+        {
+            for (int y = 0; y < dimensions.y; y++)
+                for (int x = 0; x < dimensions.x; x++)
+                    yield return new Vector2Int(x, y);
         }
     }
 }

@@ -1,8 +1,9 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 namespace Bipolar.PuzzleBoard
 {
-    public interface IBoard
+    public interface IBoard : IEnumerable<Vector2Int>
     {
         BoardData Data { get; }
         Piece this[Vector2Int coord] { get; }

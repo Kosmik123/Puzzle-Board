@@ -86,5 +86,11 @@ namespace Bipolar.PuzzleBoard.General
             foreach (var coord in Coords)
                 Gizmos.DrawSphere(CoordToWorld(coord), 0.3f);
         }
+
+        public override IEnumerator<Vector2Int> GetEnumerator()
+        {
+            foreach (var coord in Coords)
+                yield return coord;
+        }
     }
 }
