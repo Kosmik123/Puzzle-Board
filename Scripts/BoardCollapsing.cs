@@ -22,14 +22,6 @@ namespace Bipolar.PuzzleBoard
             set => piecesSpawner = value;
         }
 
-        [SerializeField]
-        private PieceTypeProvider pieceTypeProvider;
-        public PieceTypeProvider PieceTypeProvider
-        {
-            get => pieceTypeProvider;
-            set => pieceTypeProvider = value;
-        }
-
         private TBoard _board;
         public TBoard Board
         {
@@ -44,7 +36,6 @@ namespace Bipolar.PuzzleBoard
         protected Piece CreatePiece(Vector2Int coord)
         {
             var piece = PiecesSpawner.SpawnPiece();
-            piece.Type = PieceTypeProvider.GetPieceType(coord.x, coord.y);
             Board[coord] = piece;
             return piece;
         }

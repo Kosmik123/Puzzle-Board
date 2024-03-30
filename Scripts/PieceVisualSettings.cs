@@ -9,7 +9,7 @@ namespace Bipolar.PuzzleBoard
         [System.Serializable]
         public class PieceVisualMapping
         {
-            public PieceType type;
+            public PieceColor type;
             public Color color = Color.white;
             public Sprite sprite;
         }
@@ -20,31 +20,31 @@ namespace Bipolar.PuzzleBoard
         [SerializeField]
         private Sprite defaultSprite;
 
-        private Dictionary<IPieceType, Color> pieceVisualColors;
-        private Dictionary<IPieceType, Sprite> pieceVisualSprites;
+        private Dictionary<IPieceColor, Color> pieceVisualColors;
+        private Dictionary<IPieceColor, Sprite> pieceVisualSprites;
 
-        public Color GetPieceColor(IPieceType type)
+        public Color GetPieceColor(IPieceColor pieceColor)
         {
             if (pieceVisualColors == null)
             {
-                pieceVisualColors = new Dictionary<IPieceType, Color>();
+                pieceVisualColors = new Dictionary<IPieceColor, Color>();
                 foreach (var mapping in pieceVisualMappings)
                     pieceVisualColors[mapping.type] = mapping.color;
             }
 
-            return type != null && pieceVisualColors.TryGetValue(type, out var color) ? color : Color.white;
+            return pieceColor != null && pieceVisualColors.TryGetValue(pieceColor, out var color) ? color : Color.white;
         }
 
-        public Sprite GetPieceSprite(IPieceType type)
+        public Sprite GetPieceSprite(IPieceColor pieceColor)
         {
             if (pieceVisualSprites == null)
             {
-                pieceVisualSprites = new Dictionary<IPieceType, Sprite>();
+                pieceVisualSprites = new Dictionary<IPieceColor, Sprite>();
                 foreach (var mapping in pieceVisualMappings)
                     pieceVisualSprites[mapping.type] = mapping.sprite;
             }
 
-            return type != null && pieceVisualSprites.TryGetValue(type, out var sprite) ? sprite : defaultSprite;
+            return pieceColor != null && pieceVisualSprites.TryGetValue(pieceColor, out var sprite) ? sprite : defaultSprite;
         }
     }
 }

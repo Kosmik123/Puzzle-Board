@@ -2,12 +2,12 @@
 
 namespace Bipolar.PuzzleBoard
 {
-    public class RandomPieceTypeProvider : PieceTypeProvider
+    public class RandomPieceTypeProvider : PiecesColorProvider
     {
         [SerializeField]
         private Settings settings;
 
-        public override IPieceType GetPieceType(int x, int y)
+        public override IPieceColor GetPieceColor(int x, int y)
         {
             return settings.GetPieceType();
         }

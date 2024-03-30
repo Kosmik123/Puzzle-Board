@@ -4,17 +4,17 @@ namespace Bipolar.PuzzleBoard
 {
     public class Piece : MonoBehaviour
     {
-        public event System.Action<IPieceType> OnTypeChanged;
+        public event System.Action<IPieceColor> OnColorChanged;
         public event System.Action<Piece> OnCleared;
 
-        private IPieceType pieceType;
-        public virtual IPieceType Type 
+        private IPieceColor pieceColor;
+        public virtual IPieceColor Color 
         {
-            get => pieceType;
+            get => pieceColor;
             set 
             {
-                pieceType = value;
-                OnTypeChanged?.Invoke(value);
+                pieceColor = value;
+                OnColorChanged?.Invoke(value);
             } 
         }
 
@@ -37,24 +37,24 @@ namespace Bipolar.PuzzleBoard
 
         protected virtual void OnValidate()
         {
-            Type = Type;
+            Color = Color;
         }
     }
 
     public abstract class Piece<T> : Piece
-        where T : Object, IPieceType
+        where T : Object, IPieceColor
     {
         [SerializeField]
-        private T type;
-        public override IPieceType Type
+        private T color;
+        public override IPieceColor Color
         {
-            get => type;
+            get => color;
             set
             {
-                type = value as T;
-                if (type)
-                    gameObject.name = $"Piece ({type.name})";
-                base.Type = type;
+                color = value as T;
+                if (color)
+                    gameObject.name = $"Piece ({color.name})";
+                base.Color = color;
             }
         }
     }

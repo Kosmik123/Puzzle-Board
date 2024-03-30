@@ -2,10 +2,10 @@
 
 namespace Bipolar.PuzzleBoard
 {
-    public interface IPieceType
+    public interface IPieceColor
     { }
 
-    public interface ISpritePieceType : IPieceType
+    public interface IVisualPieceColor : IPieceColor
     {
         Sprite Sprite { get; }
         Color Color { get; }

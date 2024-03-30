@@ -19,20 +19,20 @@ namespace Bipolar.PuzzleBoard
 
         private void OnEnable()
         {
-            piece.OnTypeChanged += Piece_OnInitialized;       
+            piece.OnColorChanged += Piece_OnInitialized;       
         }
 
-        private void Piece_OnInitialized(IPieceType pieceType)
+        private void Piece_OnInitialized(IPieceColor pieceColor)
         {
-            if (pieceType is ISpritePieceType spritePieceType)
+            if (pieceColor is IVisualPieceColor spritePieceType)
             {
                 spriteRenderer.sprite = spritePieceType.Sprite;
                 spriteRenderer.color = spritePieceType.Color;
             }
             else if (settings)
             {
-                spriteRenderer.color = settings.GetPieceColor(pieceType);
-                var sprite = settings.GetPieceSprite(pieceType);
+                spriteRenderer.color = settings.GetPieceColor(pieceColor);
+                var sprite = settings.GetPieceSprite(pieceColor);
                 if (sprite)
                     spriteRenderer.sprite = sprite;
             }
@@ -40,7 +40,7 @@ namespace Bipolar.PuzzleBoard
 
         private void OnDisable()
         {
-            piece.OnTypeChanged -= Piece_OnInitialized;       
+            piece.OnColorChanged -= Piece_OnInitialized;       
         }
     }
 }

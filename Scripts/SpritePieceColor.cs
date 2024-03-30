@@ -2,8 +2,8 @@
 
 namespace Bipolar.PuzzleBoard
 {
-    [CreateAssetMenu(menuName = CreateAssetsPath.Root + "Sprite Piece Type")]
-    public class SpritePieceType : PieceType, ISpritePieceType
+    [CreateAssetMenu(menuName = CreateAssetsPath.Root + "Sprite Piece Color")]
+    public class SpritePieceColor : PieceColor, IVisualPieceColor
     {
         [SerializeField]
         private Sprite sprite;

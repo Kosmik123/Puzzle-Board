@@ -1,5 +1,5 @@
 ﻿namespace Bipolar.PuzzleBoard
 {
-    public class DefaultPiece : Piece<PieceType>
+    public class DefaultPiece : Piece<PieceColor>
     { }
 }
