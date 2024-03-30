@@ -8,7 +8,7 @@ namespace Bipolar.PuzzleBoard.Rectangular
         Vector2Int Dimensions { get; }
     }
 
-    public class RectangularBoard : Board<RectangularBoardData>, IRectangularBoard
+    public class RectangularBoard : Board<RectangularBoardState>, IRectangularBoard
     {
         public event System.Action<Vector2Int> OnDimensionsChanged;
 
@@ -24,8 +24,10 @@ namespace Bipolar.PuzzleBoard.Rectangular
                 OnDimensionsChanged?.Invoke(dimensions);
             }
         }
-
         private Vector3 localCenter;
+
+
+        private readonly Piece[,] pieces;
 
         protected override void Awake()
         {
@@ -35,7 +37,7 @@ namespace Bipolar.PuzzleBoard.Rectangular
 
         protected override void CreateBoardData()
         {
-            boardData = new RectangularBoardData(dimensions.x, dimensions.y, Grid.cellLayout);
+            boardData = new RectangularBoardState(dimensions.x, dimensions.y, Grid.cellLayout);
         }
 
         private void CalculateOtherDimensions()

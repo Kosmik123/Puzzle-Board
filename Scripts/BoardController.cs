@@ -47,7 +47,7 @@ namespace Bipolar.PuzzleBoard
         {
             get
             {
-                if (_board == null)
+                if (_board == null && this)
                     _board = GetComponent<Board>();
                 return _board;
             }

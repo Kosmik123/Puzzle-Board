@@ -3,7 +3,7 @@
 namespace Bipolar.PuzzleBoard
 {
     [System.Serializable]
-    public class RectangularBoardData : BoardData
+    public class RectangularBoardState : BoardState
     {
         private readonly int width;
         private readonly int height;
@@ -15,14 +15,14 @@ namespace Bipolar.PuzzleBoard
             set => piecesArray[coord.x, coord.y] = value;
         }
 
-        public RectangularBoardData (int width, int height, GridLayout.CellLayout layout) : base(layout)
+        public RectangularBoardState (int width, int height, GridLayout.CellLayout layout) : base(layout)
         {
             this.width = width;
             this.height = height;
             piecesArray = new Piece[width, height];
         }
 
-        public RectangularBoardData (RectangularBoardData source) : base(source.Layout) 
+        public RectangularBoardState (RectangularBoardState source) : base(source.Layout) 
         {
             width = source.width;
             height = source.height;
@@ -34,7 +34,7 @@ namespace Bipolar.PuzzleBoard
             if (xCoord < 0 || yCoord < 0)
                 return false;
 
-            if (xCoord >= width || yCoord >= height)
+            if (xCoord >= piecesArray.GetLength(0) || yCoord >= piecesArray.GetLength(1))
                 return false;
 
             return true;

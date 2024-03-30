@@ -19,7 +19,7 @@ namespace Bipolar.PuzzleBoard
         }
 
         public abstract Piece this[Vector2Int coord] { get; set; }
-        public abstract BoardData Data { get; }
+        public abstract BoardState BoardState { get; }
         
         public abstract bool ContainsCoord(Vector2Int coord);
         public abstract Piece GetPiece(int x, int y);
@@ -61,10 +61,10 @@ namespace Bipolar.PuzzleBoard
     }
 
     public abstract class Board<TData> : Board
-        where TData : BoardData
+        where TData : BoardState
     {
         protected TData boardData = null;
-        public override BoardData Data
+        public override BoardState BoardState
         {
             get
             {

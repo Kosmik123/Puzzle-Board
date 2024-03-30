@@ -11,7 +11,7 @@ namespace Bipolar.PuzzleBoard.General
         void CreateBoardShape();
     }
 
-    public class GeneralBoard : Board<GeneralBoardData>, IGeneralBoard
+    public class GeneralBoard : Board<GeneralBoardState>, IGeneralBoard
     {
         [SerializeField, Tooltip("Provides board shape")]
         [FormerlySerializedAs("tilemap")]
@@ -56,7 +56,7 @@ namespace Bipolar.PuzzleBoard.General
                     }
                 }
             }
-            boardData = new GeneralBoardData(includedCoords, Grid.cellLayout);
+            boardData = new GeneralBoardState(includedCoords, Grid.cellLayout);
         }
 
         public override bool ContainsCoord(Vector2Int coord)
