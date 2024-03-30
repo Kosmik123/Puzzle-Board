@@ -5,11 +5,11 @@ namespace Bipolar.PuzzleBoard
     public class RandomPieceTypeProvider : PiecesColorProvider
     {
         [SerializeField]
-        private Settings settings;
+        private PieceColorSettings settings;
 
         public override IPieceColor GetPieceColor(int x, int y)
         {
-            return settings.GetPieceType();
+            return settings.GetPieceColor();
         }
     }
 }

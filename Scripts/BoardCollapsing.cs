@@ -15,8 +15,8 @@ namespace Bipolar.PuzzleBoard
         where TBoard : IModifiableBoard
     {
         [SerializeField]
-        private PiecesSpawner piecesSpawner;
-        public PiecesSpawner PiecesSpawner
+        private PiecesProvider piecesSpawner;
+        public PiecesProvider PiecesSpawner
         {
             get => piecesSpawner;
             set => piecesSpawner = value;
@@ -35,7 +35,7 @@ namespace Bipolar.PuzzleBoard
 
         protected Piece CreatePiece(Vector2Int coord)
         {
-            var piece = PiecesSpawner.SpawnPiece();
+            var piece = PiecesSpawner.SpawnPiece(coord.x, coord.y);
             Board[coord] = piece;
             return piece;
         }

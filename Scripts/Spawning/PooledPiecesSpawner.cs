@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Bipolar.PuzzleBoard.Spawning
 {
-    public class PooledPiecesSpawner : PiecesSpawner
+    public class PooledPiecesSpawner : PiecesProvider
     {
         [SerializeField]
         private Piece piecePrototype;
@@ -12,7 +12,7 @@ namespace Bipolar.PuzzleBoard.Spawning
 
         private Stack<Piece> piecesPool = new Stack<Piece>();
 
-        protected override Piece Spawn()
+        protected override Piece Spawn(int x, int y)
         {
             var spawnedPiece = piecesPool.Count > 0 ? piecesPool.Pop() : CreateNewPiece();
             spawnedPiece.IsCleared = false;
@@ -25,12 +25,6 @@ namespace Bipolar.PuzzleBoard.Spawning
             var piece = Instantiate(piecePrototype, piecesContainer);
             piece.OnCleared += Release;
             return piece;
-        }
-
-        private async void ReleaseAfterFrame(Piece piece)
-        {
-            await System.Threading.Tasks.Task.Delay(10);
-            Release(piece);
         }
 
         private void Release(Piece piece)
