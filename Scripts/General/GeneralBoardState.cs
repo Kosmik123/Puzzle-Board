@@ -20,6 +20,13 @@ namespace Bipolar.PuzzleBoard.General
                 piecesByCoords.Add(coord, null);
         }
 
+        private GeneralBoardState(GeneralBoardState source) : base(source.Layout)
+        {
+            piecesByCoords = source.piecesByCoords;
+        }
+
         public override bool ContainsCoord(int x, int y) => piecesByCoords.ContainsKey(new Vector2Int(x, y));
+
+        public override BoardState Clone() => new GeneralBoardState(this);
     }
 }

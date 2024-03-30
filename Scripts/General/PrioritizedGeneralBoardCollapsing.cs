@@ -39,7 +39,7 @@ namespace Bipolar.PuzzleBoard.General
 
         private void ExtractDirectionsFromTilemap(Tilemap tilemap)
         {
-            bool isBoardHexagonal = Board.BoardState.Layout == GridLayout.CellLayout.Hexagon;
+            bool isBoardHexagonal = Board.Layout == GridLayout.CellLayout.Hexagon;
             var bounds = tilemap.cellBounds;
             for (int y = bounds.yMin; y < bounds.yMax; y++)
             {

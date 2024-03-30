@@ -18,8 +18,9 @@ namespace Bipolar.PuzzleBoard
             }
         }
 
+
         public abstract Piece this[Vector2Int coord] { get; set; }
-        public abstract BoardState BoardState { get; }
+        public GridLayout.CellLayout Layout => Grid.cellLayout;
         
         public abstract bool ContainsCoord(Vector2Int coord);
         public abstract Piece GetPiece(int x, int y);
@@ -58,21 +59,14 @@ namespace Bipolar.PuzzleBoard
 
         public abstract IEnumerator<Vector2Int> GetEnumerator();
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+
+        public abstract BoardState GetBoardState();
     }
 
     public abstract class Board<TData> : Board
         where TData : BoardState
     {
         protected TData boardData = null;
-        public override BoardState BoardState
-        {
-            get
-            {
-                if (boardData == null)
-                    CreateBoardData();
-                return boardData;
-            }
-        }
 
         public sealed override Piece this[Vector2Int coord]
         {
@@ -81,6 +75,8 @@ namespace Bipolar.PuzzleBoard
         }
 
         public override bool ContainsCoord(Vector2Int coord) => boardData.ContainsCoord(coord);
+
+        public override BoardState GetBoardState() => boardData.Clone();
 
         public override Piece GetPiece(int x, int y) => GetPiece(new Vector2Int(x, y));
         public override Piece GetPiece(Vector2Int coord)

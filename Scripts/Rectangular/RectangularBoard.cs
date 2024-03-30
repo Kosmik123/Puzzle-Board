@@ -26,9 +26,6 @@ namespace Bipolar.PuzzleBoard.Rectangular
         }
         private Vector3 localCenter;
 
-
-        private readonly Piece[,] pieces;
-
         protected override void Awake()
         {
             base.Awake();

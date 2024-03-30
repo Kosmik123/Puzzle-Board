@@ -3,15 +3,17 @@ using UnityEngine;
 
 namespace Bipolar.PuzzleBoard
 {
-    public interface IBoard : IEnumerable<Vector2Int>
+    public interface IBoardState
     {
-        BoardState BoardState { get; }
         Piece this[Vector2Int coord] { get; }
+        GridLayout.CellLayout Layout { get; }
         bool ContainsCoord(Vector2Int coord);
+    }
+
+    public interface IBoard : IBoardState, IEnumerable<Vector2Int>
+    {
         Vector3 CoordToWorld(Vector2 coord);
         Vector3 CoordToWorld(float x, float y);
-        Piece GetPiece(Vector2Int coord);
-        Piece GetPiece(int x, int y);
     }
 
     public interface IModifiableBoard : IBoard

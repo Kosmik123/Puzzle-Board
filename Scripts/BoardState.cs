@@ -3,7 +3,7 @@
 namespace Bipolar.PuzzleBoard
 {
     [System.Serializable]
-    public abstract class BoardState
+    public abstract class BoardState : IBoardState
     {
         public abstract Piece this[Vector2Int coord] { get; set; }
         public GridLayout.CellLayout Layout { get; private set; }
@@ -14,5 +14,7 @@ namespace Bipolar.PuzzleBoard
         {
             Layout = layout;
         }
+
+        public abstract BoardState Clone();
     }
 }

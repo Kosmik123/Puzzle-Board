@@ -41,7 +41,7 @@ namespace Bipolar.PuzzleBoard.General
             var tempTargetCoordsDict = new Dictionary<Vector2Int, Vector2Int>();
             var tempSourceCoordsDict = new Dictionary<Vector2Int, Vector2Int>();
 
-            bool isBoardHexagonal = Board.BoardState.Layout == GridLayout.CellLayout.Hexagon;
+            bool isBoardHexagonal = Board.Layout == GridLayout.CellLayout.Hexagon;
             foreach (var coord in Board.Coords)
             {
                 HandleCoordCreation(coord, isBoardHexagonal, startingCoords, endingCoords,

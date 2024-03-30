@@ -60,12 +60,12 @@ namespace Bipolar.PuzzleBoard
             if (board == null)
                 return false;
 
-            var gridLayout = board.BoardState.Layout;
-            if (options == null || options.Length <= 0 || layout != gridLayout)
+            var boardLayout = board.Layout;
+            if (options == null || options.Length <= 0 || layout != boardLayout)
             {
-                layout = gridLayout;
+                layout = boardLayout;
                 optionsList.Clear();
-                switch (gridLayout)
+                switch (boardLayout)
                 {
                     case GridLayout.CellLayout.Rectangle:
                         optionsList.Add(left);

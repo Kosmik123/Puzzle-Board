@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Xml.Schema;
+using UnityEngine;
 
 namespace Bipolar.PuzzleBoard
 {
@@ -22,7 +23,7 @@ namespace Bipolar.PuzzleBoard
             piecesArray = new Piece[width, height];
         }
 
-        public RectangularBoardState (RectangularBoardState source) : base(source.Layout) 
+        private RectangularBoardState (RectangularBoardState source) : base(source.Layout) 
         {
             width = source.width;
             height = source.height;
@@ -39,5 +40,7 @@ namespace Bipolar.PuzzleBoard
 
             return true;
         }
+
+        public override BoardState Clone() => new RectangularBoardState(this);
     }
 }
