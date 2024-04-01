@@ -31,32 +31,6 @@ namespace Bipolar.PuzzleBoard
             float distance = Vector3.Distance(piece.transform.position, target);
             float speed = distance / duration;
             pieceMovements[piece] = (target, speed);
-
-            //if (pieceMovementCoroutines.TryGetValue(piece, out var existingCoroutine))
-            //    StopCoroutine(existingCoroutine);
-
-            //var movementCoroutine = StartCoroutine(MovementCo(piece, board.CoordToWorld(targetCoord), duration));
-            //pieceMovementCoroutines[piece] = movementCoroutine;
-        }
-
-        private IEnumerator MovementCo(Piece piece, Vector3 target, float duration)
-        {
-            Vector3 startPosition = piece.transform.position;
-            Vector3 targetPosition = target;
-            float moveProgress = 0;
-            float progressSpeed = 1f / duration;
-            while (moveProgress < 1)
-            {
-                moveProgress += progressSpeed * Time.deltaTime;
-                piece.transform.position = Vector3.Lerp(startPosition, targetPosition, moveProgress);
-                yield return null;
-            }
-            piece.transform.position = targetPosition;
-
-            pieceMovementCoroutines.Remove(piece);
-            OnPieceMovementEnded?.Invoke(piece);
-            if (ArePiecesMoving == false)
-                OnAllPiecesMovementStopped?.Invoke();
         }
 
         private List<Piece> stoppedPieces = new List<Piece>();
