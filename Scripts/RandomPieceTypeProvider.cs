@@ -1,15 +1,17 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 namespace Bipolar.PuzzleBoard
 {
     public class RandomPieceTypeProvider : PiecesColorProvider
     {
         [SerializeField]
-        private PieceColorSettings settings;
+        protected PieceColorsList pieceColorsList;
 
         public override IPieceColor GetPieceColor(int x, int y)
         {
-            return settings.GetPieceColor();
+            var randomIndex = Random.Range(0, pieceColorsList.Count);
+            return pieceColorsList[randomIndex];
         }
     }
 }

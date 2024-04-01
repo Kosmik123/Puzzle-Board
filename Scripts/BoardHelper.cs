@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 namespace Bipolar.PuzzleBoard
 {
@@ -21,5 +22,27 @@ namespace Bipolar.PuzzleBoard
             }
             return direction;
         }
+
+        public static readonly Vector2Int[] defaultBoardDirections =
+{
+            Vector2Int.right,
+            Vector2Int.up,
+            Vector2Int.left,
+            Vector2Int.down
+        };
+
+        public static readonly Vector2Int[] hexagonalBoardDirections =
+        {
+            Vector2Int.right,
+            Vector2Int.up + Vector2Int.right,
+            Vector2Int.up + Vector2Int.left,
+            Vector2Int.left,
+            Vector2Int.down + Vector2Int.left,
+            Vector2Int.down + Vector2Int.right,
+        };
+
+        public static IReadOnlyList<Vector2Int> GetDirections(GridLayout.CellLayout layout) => layout == GridLayout.CellLayout.Hexagon
+            ? (IReadOnlyList<Vector2Int>)hexagonalBoardDirections
+            : defaultBoardDirections;
     }
 }

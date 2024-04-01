@@ -59,7 +59,6 @@ namespace Bipolar.PuzzleBoard
                 OnAllPiecesMovementStopped?.Invoke();
         }
 
-        [SerializeField]
         private List<Piece> stoppedPieces = new List<Piece>();
         private void LateUpdate()
         {

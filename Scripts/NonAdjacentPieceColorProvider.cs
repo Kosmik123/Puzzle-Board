@@ -1,17 +1,24 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace Bipolar.PuzzleBoard
 {
-    public class NonAdjacentPieceColorProvider : PiecesColorProvider
+    public class NonAdjacentPieceColorProvider : RandomPieceTypeProvider
     {
         [SerializeField]
-        private PieceColorSettings settings;
-        [SerializeField]
         private Board board;
+        [SerializeField]
+        private bool avoidAdjacentPieceColors;
+        public bool AvoidAdjacentPieceColors
+        {
+            get => avoidAdjacentPieceColors;
+            set => avoidAdjacentPieceColors = value;
+        }
 
         private readonly HashSet<IPieceColor> forbiddenPieceColors = new HashSet<IPieceColor>();
-        
+        private readonly List<IPieceColor> tempAvailableColors = new List<IPieceColor>();
+
         protected virtual void Reset()
         {
             board = FindObjectOfType<Board>();
@@ -19,24 +26,34 @@ namespace Bipolar.PuzzleBoard
 
         public override IPieceColor GetPieceColor(int x, int y)
         {
+            if (avoidAdjacentPieceColors == false)
+                base.GetPieceColor(x, y);
+
             forbiddenPieceColors.Clear();
-            var piece = board.GetPiece(x - 1, y);
-            if (piece)
-                forbiddenPieceColors.Add(piece.Color);
+            var coord = new Vector2Int(x, y);
+            bool isHexagonal = board.Layout == GridLayout.CellLayout.Hexagon;
 
-            piece = board.GetPiece(x + 1, y);
-            if (piece)
-                forbiddenPieceColors.Add(piece.Color);
+            var directions = BoardHelper.GetDirections(board.Layout);
+            for (int i = 0; i < directions.Count; i++)
+            {
+                var otherCoord = coord + BoardHelper.GetCorrectedDirection(coord, directions[i], isHexagonal);
+                var piece = board.GetPiece(otherCoord);
+                if (piece)
+                    forbiddenPieceColors.Add(piece.Color);
+            }
 
-            piece = board.GetPiece(x, y - 1);
-            if (piece)
-                forbiddenPieceColors.Add(piece.Color);
+            tempAvailableColors.Clear();
+            foreach (var color in pieceColorsList)
+                if (forbiddenPieceColors.Contains(color) == false)
+                    tempAvailableColors.Add(color);
 
-            piece = board.GetPiece(x, y + 1);
-            if (piece)
-                forbiddenPieceColors.Add(piece.Color);
+            if (tempAvailableColors.Count <= 0)
+            {
+                Debug.LogWarning("Couldn't find not adjacent piece color");
+                return base.GetPieceColor(x, y);
+            }
 
-            return settings.GetPieceColorExcept(forbiddenPieceColors);
+            return tempAvailableColors[Random.Range(0, tempAvailableColors.Count)];
         }
     }
 }
