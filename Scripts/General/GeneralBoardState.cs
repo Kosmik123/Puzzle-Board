@@ -28,5 +28,11 @@ namespace Bipolar.PuzzleBoard.General
         public override bool ContainsCoord(int x, int y) => piecesByCoords.ContainsKey(new Vector2Int(x, y));
 
         public override BoardState Clone() => new GeneralBoardState(this);
+
+        public override IEnumerator<Vector2Int> GetEnumerator()
+        {
+            foreach (var coord in piecesByCoords.Keys)
+                yield return coord;
+        }
     }
 }

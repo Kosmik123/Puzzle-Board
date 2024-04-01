@@ -18,7 +18,6 @@ namespace Bipolar.PuzzleBoard
             }
         }
 
-
         public abstract Piece this[Vector2Int coord] { get; set; }
         public GridLayout.CellLayout Layout => Grid.cellLayout;
         

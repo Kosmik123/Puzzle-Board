@@ -1,4 +1,4 @@
-﻿using System.Xml.Schema;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 namespace Bipolar.PuzzleBoard
@@ -35,12 +35,19 @@ namespace Bipolar.PuzzleBoard
             if (xCoord < 0 || yCoord < 0)
                 return false;
 
-            if (xCoord >= piecesArray.GetLength(0) || yCoord >= piecesArray.GetLength(1))
+            if (xCoord >= width || yCoord >= height)
                 return false;
 
             return true;
         }
 
         public override BoardState Clone() => new RectangularBoardState(this);
+
+        public override IEnumerator<Vector2Int> GetEnumerator()
+        {
+            for (int y = 0; y < height; y++)
+                for (int x = 0; x < width; x++)
+                    yield return new Vector2Int(x, y);
+        }
     }
 }

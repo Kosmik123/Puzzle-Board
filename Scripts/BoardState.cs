@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
 namespace Bipolar.PuzzleBoard
 {
@@ -16,5 +18,8 @@ namespace Bipolar.PuzzleBoard
         }
 
         public abstract BoardState Clone();
+
+        public abstract IEnumerator<Vector2Int> GetEnumerator();
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
     }
 }
