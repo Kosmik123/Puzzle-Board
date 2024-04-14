@@ -4,11 +4,11 @@ using UnityEngine;
 namespace Bipolar.PuzzleBoard.General
 {
     [System.Serializable]
-    public class GeneralBoardState : BoardState
+    public class GeneralBoardState : Board
     {
-        private readonly Dictionary<Vector2Int, Piece> piecesByCoords = new Dictionary<Vector2Int, Piece>();
+        private readonly Dictionary<Vector2Int, PieceComponent> piecesByCoords = new Dictionary<Vector2Int, PieceComponent>();
 
-        public override Piece this[Vector2Int coord]
+        public override PieceComponent this[Vector2Int coord]
         {
             get => piecesByCoords[coord];
             set => piecesByCoords[coord] = value;
@@ -27,7 +27,7 @@ namespace Bipolar.PuzzleBoard.General
 
         public override bool ContainsCoord(int x, int y) => piecesByCoords.ContainsKey(new Vector2Int(x, y));
 
-        public override BoardState Clone() => new GeneralBoardState(this);
+        public override Board Clone() => new GeneralBoardState(this);
 
         public override IEnumerator<Vector2Int> GetEnumerator()
         {

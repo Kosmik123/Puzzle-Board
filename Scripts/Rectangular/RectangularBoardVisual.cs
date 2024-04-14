@@ -5,7 +5,7 @@ namespace Bipolar.PuzzleBoard.Rectangular
     public abstract class RectangularBoardVisual : MonoBehaviour
     {
         [SerializeField]
-        protected RectangularBoard board;
+        protected RectangularBoardComponent board;
         [SerializeField]
         protected SpriteRenderer spriteRenderer;
     
@@ -13,7 +13,7 @@ namespace Bipolar.PuzzleBoard.Rectangular
         
         protected virtual void Reset()
         {
-            board = FindObjectOfType<RectangularBoard>();
+            board = FindObjectOfType<RectangularBoardComponent>();
             spriteRenderer = FindObjectOfType<SpriteRenderer>();
         }
 

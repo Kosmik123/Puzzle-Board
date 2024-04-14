@@ -2,8 +2,8 @@
 
 namespace Bipolar.PuzzleBoard.Rectangular
 {
-    [RequireComponent(typeof(RectangularBoard))]
-    public class OneDirectionRectangularBoardCollapsing : BoardCollapsing<RectangularBoard>
+    [RequireComponent(typeof(RectangularBoardComponent))]
+    public class OneDirectionRectangularBoardCollapsing : BoardCollapsing<RectangularBoardComponent>
     {
         public override event System.Action OnPiecesColapsed;
 

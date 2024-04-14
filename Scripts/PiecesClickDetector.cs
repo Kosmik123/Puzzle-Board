@@ -8,11 +8,11 @@ namespace Bipolar.PuzzleBoard
         public event System.Action<Vector2Int> OnPieceClicked;
 
         [SerializeField]
-        private Board board;
+        private BoardComponent board;
 
         protected virtual void Reset()
         {
-            board = FindObjectOfType<Board>();
+            board = FindObjectOfType<BoardComponent>();
         }
 
         public void OnPointerClick(PointerEventData eventData)

@@ -1,9 +1,8 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Bipolar.PuzzleBoard
 {
-    public class RandomPieceTypeProvider : PiecesColorProvider
+    public class RandomPieceColorProvider : PiecesColorProvider
     {
         [SerializeField]
         protected PieceColorsList pieceColorsList;

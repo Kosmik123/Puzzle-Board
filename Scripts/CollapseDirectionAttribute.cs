@@ -55,7 +55,7 @@ namespace Bipolar.PuzzleBoard
             var collapsing = property.serializedObject.targetObject;
             var collapsingType = collapsing.GetType();
             var boardPropertyInfo = collapsingType.GetProperty("Board", BindingFlags.Instance | BindingFlags.Public);
-            var board = boardPropertyInfo.GetValue(collapsing) as Board;
+            var board = boardPropertyInfo.GetValue(collapsing) as BoardComponent;
             if (board == null)
                 return false;
 

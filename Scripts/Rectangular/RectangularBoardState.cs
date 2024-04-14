@@ -4,13 +4,13 @@ using UnityEngine;
 namespace Bipolar.PuzzleBoard
 {
     [System.Serializable]
-    public class RectangularBoardState : BoardState
+    public class RectangularBoardState : Board
     {
         private readonly int width;
         private readonly int height;
-        private readonly Piece[,] piecesArray;
+        private readonly PieceComponent[,] piecesArray;
 
-        public override Piece this[Vector2Int coord]
+        public override PieceComponent this[Vector2Int coord]
         {
             get => piecesArray[coord.x, coord.y];
             set => piecesArray[coord.x, coord.y] = value;
@@ -20,14 +20,14 @@ namespace Bipolar.PuzzleBoard
         {
             this.width = width;
             this.height = height;
-            piecesArray = new Piece[width, height];
+            piecesArray = new PieceComponent[width, height];
         }
 
         private RectangularBoardState (RectangularBoardState source) : base(source.Layout) 
         {
             width = source.width;
             height = source.height;
-            piecesArray = (Piece[,])source.piecesArray.Clone();
+            piecesArray = (PieceComponent[,])source.piecesArray.Clone();
         }
 
         public override bool ContainsCoord(int xCoord, int yCoord)
@@ -41,7 +41,7 @@ namespace Bipolar.PuzzleBoard
             return true;
         }
 
-        public override BoardState Clone() => new RectangularBoardState(this);
+        public override Board Clone() => new RectangularBoardState(this);
 
         public override IEnumerator<Vector2Int> GetEnumerator()
         {

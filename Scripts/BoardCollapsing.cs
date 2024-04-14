@@ -10,13 +10,13 @@ namespace Bipolar.PuzzleBoard
         public abstract void Collapse();
     }
 
-    [DisallowMultipleComponent, RequireComponent(typeof(Board<>))]
+    [DisallowMultipleComponent, RequireComponent(typeof(BoardComponent<>))]
     public abstract class BoardCollapsing<TBoard> : BoardCollapsing
-        where TBoard : IModifiableBoard
+        where TBoard : IBoardComponent
     {
         [SerializeField]
-        private PiecesProvider piecesSpawner;
-        public PiecesProvider PiecesSpawner
+        private PiecesSpawner piecesSpawner;
+        public PiecesSpawner PiecesSpawner
         {
             get => piecesSpawner;
             set => piecesSpawner = value;
@@ -33,7 +33,7 @@ namespace Bipolar.PuzzleBoard
             }
         }
 
-        protected Piece CreatePiece(Vector2Int coord)
+        protected PieceComponent CreatePiece(Vector2Int coord)
         {
             var piece = PiecesSpawner.SpawnPiece(coord.x, coord.y);
             Board[coord] = piece;

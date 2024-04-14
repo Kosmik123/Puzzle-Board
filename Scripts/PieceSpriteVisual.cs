@@ -7,19 +7,19 @@ namespace Bipolar.PuzzleBoard
         [SerializeField]
         private PieceVisualSettings settings;
         [SerializeField] 
-        private Piece piece;
+        private PieceComponent pieceComponent;
         [SerializeField]
         private SpriteRenderer spriteRenderer;
 
         protected virtual void Reset()
         {
-            piece = GetComponentInParent<Piece>();
+            pieceComponent = GetComponentInParent<PieceComponent>();
             spriteRenderer = GetComponentInChildren<SpriteRenderer>();
         }
 
         private void OnEnable()
         {
-            piece.OnColorChanged += Piece_OnInitialized;       
+            pieceComponent.OnColorChanged += Piece_OnInitialized; 
         }
 
         private void Piece_OnInitialized(IPieceColor pieceColor)
@@ -40,7 +40,7 @@ namespace Bipolar.PuzzleBoard
 
         private void OnDisable()
         {
-            piece.OnColorChanged -= Piece_OnInitialized;       
+            pieceComponent.OnColorChanged -= Piece_OnInitialized;       
         }
     }
 }

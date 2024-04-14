@@ -4,10 +4,10 @@ using UnityEngine;
 
 namespace Bipolar.PuzzleBoard
 {
-    public class NonAdjacentPieceColorProvider : RandomPieceTypeProvider
+    public class NonAdjacentPieceColorProvider : RandomPieceColorProvider
     {
         [SerializeField]
-        private Board board;
+        private BoardComponent board;
         [SerializeField]
         private bool avoidAdjacentPieceColors;
         public bool AvoidAdjacentPieceColors
@@ -21,7 +21,7 @@ namespace Bipolar.PuzzleBoard
 
         protected virtual void Reset()
         {
-            board = FindObjectOfType<Board>();
+            board = FindObjectOfType<BoardComponent>();
         }
 
         public override IPieceColor GetPieceColor(int x, int y)

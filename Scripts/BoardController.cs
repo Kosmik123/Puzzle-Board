@@ -5,12 +5,12 @@ namespace Bipolar.PuzzleBoard
 {
     public interface IPiecesIndexable
     {
-        Piece this[Vector2Int coord] { get; set; }
+        PieceComponent this[Vector2Int coord] { get; set; }
     }
 
-    public delegate void PieceCoordChangeEventHandler(Piece piece, Vector2Int newCoord);
+    public delegate void PieceCoordChangeEventHandler(PieceComponent piece, Vector2Int newCoord);
 
-    [DisallowMultipleComponent, RequireComponent(typeof(IModifiableBoard), typeof(BoardCollapsing<>))]
+    [DisallowMultipleComponent, RequireComponent(typeof(IBoardComponent), typeof(BoardCollapsing<>))]
     public class BoardController : MonoBehaviour
     {
         public event System.Action OnPiecesColapsed
@@ -43,13 +43,13 @@ namespace Bipolar.PuzzleBoard
         public bool IsCollapsing => BoardCollapsing.IsCollapsing;
         public void Collapse() => BoardCollapsing.Collapse();
 
-        protected Board _board;
-        public Board Board
+        protected BoardComponent _board;
+        public BoardComponent Board
         {
             get
             {
                 if (_board == null && this)
-                    _board = GetComponent<Board>();
+                    _board = GetComponent<BoardComponent>();
                 return _board;
             }
         }
@@ -81,7 +81,7 @@ namespace Bipolar.PuzzleBoard
 
         protected virtual void Awake()
         {
-            _board = GetComponent<Board>();
+            _board = GetComponent<BoardComponent>();
         }
 
         protected virtual void Start()
@@ -125,17 +125,17 @@ namespace Bipolar.PuzzleBoard
 
         public class BoardControllerPiecesIndexable : IPiecesIndexable
         {
-            private readonly System.Func<Vector2Int, Piece> getFunction;
-            private readonly System.Action<Vector2Int, Piece> setFunction;
+            private readonly System.Func<Vector2Int, PieceComponent> getFunction;
+            private readonly System.Action<Vector2Int, PieceComponent> setFunction;
 
-            public BoardControllerPiecesIndexable(System.Func<Vector2Int, Piece> getFunction,
-                System.Action<Vector2Int, Piece> setFunction)
+            public BoardControllerPiecesIndexable(System.Func<Vector2Int, PieceComponent> getFunction,
+                System.Action<Vector2Int, PieceComponent> setFunction)
             {
                 this.getFunction = getFunction;
                 this.setFunction = setFunction;
             }
 
-            public Piece this[Vector2Int coord]
+            public PieceComponent this[Vector2Int coord]
             {
                 get => getFunction(coord);
                 set => setFunction(coord, value);

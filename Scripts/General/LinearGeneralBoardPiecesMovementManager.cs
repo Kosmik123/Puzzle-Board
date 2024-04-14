@@ -23,16 +23,16 @@ namespace Bipolar.PuzzleBoard.General
             }
         }
 
-        private readonly Dictionary<Piece, Coroutine> pieceMovementCoroutines = new Dictionary<Piece, Coroutine>();
+        private readonly Dictionary<PieceComponent, Coroutine> pieceMovementCoroutines = new Dictionary<PieceComponent, Coroutine>();
         public override bool ArePiecesMoving => pieceMovementCoroutines.Count > 0;
 
-        public void StartPieceMovement(Piece piece, CoordsLine line, int fromIndex, int cellDistance)
+        public void StartPieceMovement(PieceComponent piece, CoordsLine line, int fromIndex, int cellDistance)
         {
             var movementCoroutine = StartCoroutine(MovementCo(piece, line, fromIndex, cellDistance));
             pieceMovementCoroutines.Add(piece, movementCoroutine);
         }
 
-        private IEnumerator MovementCo(Piece piece, CoordsLine line, int fromIndex, int cellDistance)
+        private IEnumerator MovementCo(PieceComponent piece, CoordsLine line, int fromIndex, int cellDistance)
         {
             var startIndex = fromIndex;
             for (int i = 1; i <= cellDistance; i++)

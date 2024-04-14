@@ -3,16 +3,16 @@ using UnityEngine;
 
 namespace Bipolar.PuzzleBoard.Spawning
 {
-    public class PooledPiecesSpawner : PiecesProvider
+    public class PooledPiecesSpawner : PiecesSpawner
     {
         [SerializeField]
-        private Piece piecePrototype;
+        private PieceComponent piecePrototype;
         [SerializeField]
         private Transform piecesContainer;
 
-        private Stack<Piece> piecesPool = new Stack<Piece>();
+        private Stack<PieceComponent> piecesPool = new Stack<PieceComponent>();
 
-        protected override Piece Spawn(int x, int y)
+        protected override PieceComponent Spawn(int x, int y)
         {
             var spawnedPiece = piecesPool.Count > 0 ? piecesPool.Pop() : CreateNewPiece();
             spawnedPiece.IsCleared = false;
@@ -20,14 +20,15 @@ namespace Bipolar.PuzzleBoard.Spawning
             return spawnedPiece;
         }
 
-        private Piece CreateNewPiece()
+        private PieceComponent CreateNewPiece()
         {
-            var piece = Instantiate(piecePrototype, piecesContainer);
-            piece.OnCleared += Release;
-            return piece;
+            var pieceComponent = Instantiate(piecePrototype, piecesContainer);
+            pieceComponent.Piece = new Piece();
+            pieceComponent.OnCleared += Release;
+            return pieceComponent;
         }
 
-        private void Release(Piece piece)
+        private void Release(PieceComponent piece)
         {
             piece.gameObject.SetActive(false);
             piecesPool.Push(piece);
