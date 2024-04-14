@@ -21,15 +21,25 @@ namespace Bipolar.PuzzleBoard
 
         protected readonly Dictionary<Piece, PieceComponent> pieceComponents = new Dictionary<Piece, PieceComponent>();
 
-        public abstract Piece this[Vector2Int coord] { get; set; }
         public GridLayout.CellLayout Layout => Grid.cellLayout;
 
         public abstract IBoard Board { get; }
 
         public abstract bool ContainsCoord(Vector2Int coord);
 
-        public virtual PieceComponent GetPiece(int x, int y) => GetPiece(new Vector2Int(x, y));
-        public abstract PieceComponent GetPiece(Vector2Int coord);
+        public PieceComponent GetPiece(int x, int y) => GetPiece(new Vector2Int(x, y));
+        public PieceComponent GetPiece(Vector2Int coord)
+        {
+            if (ContainsCoord(coord) == false)
+                return null;
+
+            var piece = Board[coord];
+            if (piece == null || piece.IsCleared)
+                return null;
+
+            return pieceComponents[piece];
+        }
+
 
         public Vector3 CoordToWorld(float x, float y) => CoordToWorld(new Vector2(x, y));
         public virtual Vector3 CoordToWorld(Vector2 coord)
@@ -67,7 +77,9 @@ namespace Bipolar.PuzzleBoard
 
         public void AddPiece(PieceComponent component)
         {
-            pieceComponents.Add(component.Piece, component);
+            var piece = component.Piece;
+            Board[piece.Coord] = piece;
+            pieceComponents.Add(piece, component);
         }
 
         public void MovePiece(Piece piece, Vector2Int newCoord)
@@ -92,28 +104,9 @@ namespace Bipolar.PuzzleBoard
         protected TBoard board = null;
         public override IBoard Board => board;
 
-
-        public sealed override Piece this[Vector2Int coord]
-        {
-            get => board[coord];
-            set => board[coord] = value;
-        }
-
         public override bool ContainsCoord(Vector2Int coord) => board.ContainsCoord(coord);
 
         public override Board GetBoardState() => board.Clone();
-
-        public override PieceComponent GetPiece(Vector2Int coord)
-        {
-            if (ContainsCoord(coord) == false)
-                return null;
-
-            var piece = this[coord];
-            if (piece == null || piece.IsCleared)
-                return null;
-            
-            return pieceComponents[piece];
-        }
 
         protected override void Awake()
         {

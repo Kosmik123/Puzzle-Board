@@ -37,6 +37,11 @@ namespace Bipolar.PuzzleBoard
             }
         }
 
+        public Piece (int x, int y)
+        {
+            coord = new Vector2Int (x, y);
+        }
+
         public void Validate()
         {
             Color = Color;

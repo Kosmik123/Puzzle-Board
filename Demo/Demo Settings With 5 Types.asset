@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 818dce04659b0a84c9972d251495f9c7, type: 3}
   m_Name: Demo Settings With 5 Types
   m_EditorClassIdentifier: 
-  possiblePieceTypes:
+  possiblePieceColors:
   - {fileID: 11400000, guid: b1cc737ef8a394c4d9a5ec8ff6b8abd7, type: 2}
   - {fileID: 11400000, guid: d8f2a574711d2a345948c2f4d3acd057, type: 2}
   - {fileID: 11400000, guid: 36e3855e1fdb43b4fbc6991f266b2ebd, type: 2}

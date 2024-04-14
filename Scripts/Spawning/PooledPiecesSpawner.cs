@@ -14,16 +14,16 @@ namespace Bipolar.PuzzleBoard.Spawning
 
         protected override PieceComponent Spawn(int x, int y)
         {
-            var spawnedPiece = piecesPool.Count > 0 ? piecesPool.Pop() : CreateNewPiece();
+            var spawnedPiece = piecesPool.Count > 0 ? piecesPool.Pop() : CreateNewPiece(x, y);
             spawnedPiece.IsCleared = false;
             spawnedPiece.gameObject.SetActive(true);
             return spawnedPiece;
         }
 
-        private PieceComponent CreateNewPiece()
+        private PieceComponent CreateNewPiece(int x, int y)
         {
             var pieceComponent = Instantiate(piecePrototype, piecesContainer);
-            pieceComponent.Piece = new Piece();
+            pieceComponent.Piece = new Piece(x, y);
             pieceComponent.OnCleared += Release;
             return pieceComponent;
         }

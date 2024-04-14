@@ -20,7 +20,7 @@ namespace Bipolar.PuzzleBoard.Spawning
         protected override PieceComponent Spawn(int x, int y)
         {
             var pieceComponent = Instantiate(piecePrototype, piecesContainter);
-            pieceComponent.Piece = new Piece();
+            pieceComponent.Piece = new Piece(x, y);
             pieceComponent.Color = PieceColorProvider.GetPieceColor(x, y);
             pieceComponent.IsCleared = false;
             pieceComponent.OnCleared += piece => Destroy(piece.gameObject);

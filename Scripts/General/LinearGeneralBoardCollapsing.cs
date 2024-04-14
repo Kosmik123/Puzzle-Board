@@ -179,8 +179,8 @@ namespace Bipolar.PuzzleBoard.General
                 else if (nonExistingPiecesCount > 0)
                 {
                     var targetCoord = line.Coords[index + nonExistingPiecesCount];
-                    Board[coord] = null;
-                    Board[targetCoord] = piece.Piece;
+                   // Board[coord] = null;
+                   // Board[targetCoord] = piece.Piece;
                     piecesMovementManager.StartPieceMovement(piece, line, index, nonExistingPiecesCount);
                 }
             }

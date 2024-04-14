@@ -2,7 +2,7 @@
 
 namespace Bipolar.PuzzleBoard
 {
-
+    [SelectionBase]
     public class PieceComponent : MonoBehaviour
     {
         public event System.Action<IPieceColor> OnColorChanged;
@@ -65,6 +65,10 @@ namespace Bipolar.PuzzleBoard
     {
         [SerializeField]
         private T color;
+
+        protected Piece(int x, int y) : base(x, y)
+        { }
+
         public override IPieceColor Color
         {
             get => color;

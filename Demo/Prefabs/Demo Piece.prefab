@@ -41,10 +41,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 364199123074264057}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 63da036d2a5e25b42a2c9fefcf4ccef7, type: 3}
+  m_Script: {fileID: 11500000, guid: ae1da0b1d7102f84385cf1d03ec2f623, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: {fileID: 0}
+  piece:
+    coord: {x: 0, y: 0}
+    isCleared: 0
 --- !u!1 &5975794002758263206
 GameObject:
   m_ObjectHideFlags: 0
@@ -141,5 +143,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   settings: {fileID: 11400000, guid: f6b2a9bac945b3d449dacd053a414ee6, type: 2}
-  piece: {fileID: 2079220035156610610}
+  pieceComponent: {fileID: 2079220035156610610}
   spriteRenderer: {fileID: 1261141259085145868}

@@ -87,7 +87,7 @@ namespace Bipolar.PuzzleBoard.General
             piecesMovementManager.OnPieceMovementEnded += PiecesMovementManager_OnPieceMovementEnded;
             foreach (var coord in Board.Coords)
             {
-                if (Board[coord] == null)
+                if (Board.GetPiece(coord) == null)
                     continue;
 
                 TryCollapsePieceFromCoord(coord);
@@ -96,7 +96,7 @@ namespace Bipolar.PuzzleBoard.General
 
         private bool TryCollapsePieceFromCoord(Vector2Int coord)
         {
-            var piece = Board[coord];
+            var piece = Board.GetPiece(coord);
             var directions = GetDirections(coord);
             if (directions == null)
                 return false;
@@ -107,10 +107,10 @@ namespace Bipolar.PuzzleBoard.General
                 if (Board.ContainsCoord(targetCoord) == false)
                     continue;
 
-                if (Board[targetCoord] == null)
+                if (Board.GetPiece(targetCoord) == null)
                 {
-                    Board[coord] = null;
-                    Board[targetCoord] = piece;
+                    //Board[coord] = null;
+                    //Board[targetCoord] = piece;
                    // collapsingPiecesCoords.Add(piece, targetCoord);
                     //piecesMovementManager.StartPieceMovement(piece, targetCoord);
                     return true;
