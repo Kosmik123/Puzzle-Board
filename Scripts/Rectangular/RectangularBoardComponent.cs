@@ -9,7 +9,7 @@ namespace Bipolar.PuzzleBoard.Rectangular
     }
 
     [AddComponentMenu("Board Puzzles/Rectangular Board")]
-    public class RectangularBoardComponent : BoardComponent<RectangularBoardState>, IRectangularBoard
+    public class RectangularBoardComponent : BoardComponent<RectangularBoard>, IRectangularBoard
     {
         public event System.Action<Vector2Int> OnDimensionsChanged;
 
@@ -35,7 +35,7 @@ namespace Bipolar.PuzzleBoard.Rectangular
 
         protected override void CreateBoardData()
         {
-            board = new RectangularBoardState(dimensions.x, dimensions.y, Grid.cellLayout);
+            board = new RectangularBoard(dimensions.x, dimensions.y, Grid.cellLayout);
         }
 
         private void CalculateOtherDimensions()

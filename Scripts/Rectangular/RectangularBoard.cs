@@ -4,30 +4,30 @@ using UnityEngine;
 namespace Bipolar.PuzzleBoard
 {
     [System.Serializable]
-    public class RectangularBoardState : Board
+    public class RectangularBoard : Board
     {
         private readonly int width;
         private readonly int height;
-        private readonly PieceComponent[,] piecesArray;
+        private readonly Piece[,] piecesArray;
 
-        public override PieceComponent this[Vector2Int coord]
+        public override Piece this[Vector2Int coord]
         {
             get => piecesArray[coord.x, coord.y];
             set => piecesArray[coord.x, coord.y] = value;
         }
 
-        public RectangularBoardState (int width, int height, GridLayout.CellLayout layout) : base(layout)
+        public RectangularBoard (int width, int height, GridLayout.CellLayout layout) : base(layout)
         {
             this.width = width;
             this.height = height;
-            piecesArray = new PieceComponent[width, height];
+            piecesArray = new Piece[width, height];
         }
 
-        private RectangularBoardState (RectangularBoardState source) : base(source.Layout) 
+        private RectangularBoard (RectangularBoard source) : base(source.Layout) 
         {
             width = source.width;
             height = source.height;
-            piecesArray = (PieceComponent[,])source.piecesArray.Clone();
+            piecesArray = (Piece[,])source.piecesArray.Clone();
         }
 
         public override bool ContainsCoord(int xCoord, int yCoord)
@@ -41,7 +41,7 @@ namespace Bipolar.PuzzleBoard
             return true;
         }
 
-        public override Board Clone() => new RectangularBoardState(this);
+        public override Board Clone() => new RectangularBoard(this);
 
         public override IEnumerator<Vector2Int> GetEnumerator()
         {

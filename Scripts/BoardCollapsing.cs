@@ -36,7 +36,7 @@ namespace Bipolar.PuzzleBoard
         protected PieceComponent CreatePiece(Vector2Int coord)
         {
             var piece = PiecesSpawner.SpawnPiece(coord.x, coord.y);
-            Board[coord] = piece;
+            Board.AddPiece(piece);
             return piece;
         }
     }

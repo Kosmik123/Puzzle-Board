@@ -5,8 +5,8 @@ using UnityEngine.Tilemaps;
 
 namespace Bipolar.PuzzleBoard.General
 {
-    [RequireComponent(typeof(GeneralBoard))]
-    public class PrioritizedGeneralBoardCollapsing : BoardCollapsing<GeneralBoard>
+    [RequireComponent(typeof(GeneralBoardComponent))]
+    public class PrioritizedGeneralBoardCollapsing : BoardCollapsing<GeneralBoardComponent>
     {
         public override event Action OnPiecesColapsed;
         
@@ -111,8 +111,8 @@ namespace Bipolar.PuzzleBoard.General
                 {
                     Board[coord] = null;
                     Board[targetCoord] = piece;
-                    collapsingPiecesCoords.Add(piece, targetCoord);
-                    piecesMovementManager.StartPieceMovement(piece, targetCoord);
+                   // collapsingPiecesCoords.Add(piece, targetCoord);
+                    //piecesMovementManager.StartPieceMovement(piece, targetCoord);
                     return true;
                 }
             }

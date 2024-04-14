@@ -1,95 +1,37 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Serialization;
-using UnityEngine.Tilemaps;
 
 namespace Bipolar.PuzzleBoard.General
 {
-    public interface IGeneralBoard : IReadOnlyBoardComponent
+    [System.Serializable]
+    public class GeneralBoard : Board
     {
-        IReadOnlyList<Vector2Int> Coords { get; }
-        void CreateBoardShape();
-    }
+        private readonly Dictionary<Vector2Int, Piece> piecesByCoords = new Dictionary<Vector2Int, Piece>();
 
-    public class GeneralBoard : BoardComponent<GeneralBoardState>, IGeneralBoard
-    {
-        [SerializeField, Tooltip("Provides board shape")]
-        [FormerlySerializedAs("tilemap")]
-        private Tilemap shapeTilemap;
-        public Tilemap ShapeTilemap => shapeTilemap;
-
-        private List<Vector2Int> includedCoords;
-        public IReadOnlyList<Vector2Int> Coords
+        public override Piece this[Vector2Int coord]
         {
-            get
-            {
-                if (includedCoords == null) 
-                    CreateBoardShape();
-                return includedCoords;
-            }
+            get => piecesByCoords[coord];
+            set => piecesByCoords[coord] = value;
         }
 
-        private void Reset()
+        public GeneralBoard(IEnumerable<Vector2Int> coords, GridLayout.CellLayout layout) : base(layout)
         {
-            shapeTilemap = GetComponentInChildren<Tilemap>();
+            foreach (var coord in coords)
+                piecesByCoords.Add(coord, null);
         }
 
-        protected override void CreateBoardData()
+        private GeneralBoard(GeneralBoard source) : base(source.Layout)
         {
-            CreateBoardShape();
+            piecesByCoords = source.piecesByCoords;
         }
 
-        [ContextMenu("Refresh")]
-        public void CreateBoardShape()
-        {
-            includedCoords = new List<Vector2Int>();
-            var coordBounds = shapeTilemap.cellBounds;
-            for (int y = coordBounds.yMin; y <= coordBounds.yMax; y++)
-            {
-                for (int x = coordBounds.xMin; x <= coordBounds.xMax; x++)
-                {
-                    var coord = new Vector2Int(x, y);
-                    var tile = shapeTilemap.GetTile((Vector3Int)coord);
-                    if (tile != null)
-                    {
-                        includedCoords.Add(coord);
-                    }
-                }
-            }
-            board = new GeneralBoardState(includedCoords, Grid.cellLayout);
-        }
+        public override bool ContainsCoord(int x, int y) => piecesByCoords.ContainsKey(new Vector2Int(x, y));
 
-        public override bool ContainsCoord(Vector2Int coord)
-        {
-            return shapeTilemap.cellBounds.Contains(new Vector3Int(coord.x, coord.y, shapeTilemap.cellBounds.z))
-                && base.ContainsCoord(coord);
-        }
-
-        public override Vector3 CoordToWorld(Vector2 coord)
-        {
-            Vector3 cellPosition = base.CoordToWorld(coord);
-            return cellPosition + Grid.Swizzle(Grid.cellSwizzle, shapeTilemap.tileAnchor);
-        }
-
-        public override Vector2Int WorldToCoord(Vector3 worldPosition)
-        {
-            worldPosition -= shapeTilemap.tileAnchor;
-            return base.WorldToCoord(worldPosition);
-        }
-
-        private void OnDrawGizmosSelected()
-        {
-            if (includedCoords == null)
-                return;
-
-            Gizmos.color = 0.7f * Color.white;
-            foreach (var coord in Coords)
-                Gizmos.DrawSphere(CoordToWorld(coord), 0.3f);
-        }
+        public override Board Clone() => new GeneralBoard(this);
 
         public override IEnumerator<Vector2Int> GetEnumerator()
         {
-            foreach (var coord in Coords)
+            foreach (var coord in piecesByCoords.Keys)
                 yield return coord;
         }
     }

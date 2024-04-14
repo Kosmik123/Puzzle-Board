@@ -85,8 +85,8 @@ namespace Bipolar.PuzzleBoard.Rectangular
                 {
                     var offsetToMove = CollapseDirection * nonExistingPiecesCount;
                     var targetCoord = coord + offsetToMove;
-                    Board[coord] = null;
-                    Board[targetCoord] = piece;
+                    Board.Board[coord] = null;
+                    Board.Board[targetCoord] = piece.Piece;
                     piecesMovementManager.StartPieceMovement(piece, targetCoord, 0.3f);
                 }
             });

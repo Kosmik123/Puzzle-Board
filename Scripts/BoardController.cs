@@ -32,8 +32,8 @@ namespace Bipolar.PuzzleBoard
         {
             get
             {
-                if (_boardCollapsing == null && Board != null)
-                    _boardCollapsing = Board.GetComponent<BoardCollapsing>();
+                if (_boardCollapsing == null && BoardComponent != null)
+                    _boardCollapsing = BoardComponent.GetComponent<BoardCollapsing>();
                 return _boardCollapsing;
             }
         }
@@ -43,14 +43,14 @@ namespace Bipolar.PuzzleBoard
         public bool IsCollapsing => BoardCollapsing.IsCollapsing;
         public void Collapse() => BoardCollapsing.Collapse();
 
-        protected BoardComponent _board;
-        public BoardComponent Board
+        protected BoardComponent _boardComponent;
+        public BoardComponent BoardComponent
         {
             get
             {
-                if (_board == null && this)
-                    _board = GetComponent<BoardComponent>();
-                return _board;
+                if (_boardComponent == null && this)
+                    _boardComponent = GetComponent<BoardComponent>();
+                return _boardComponent;
             }
         }
 
@@ -63,17 +63,17 @@ namespace Bipolar.PuzzleBoard
         }
 
         private BoardControllerPiecesIndexable piecesIndexable;
-        public IPiecesIndexable Pieces
+        private IPiecesIndexable Pieces
         {
             get
             {
                 piecesIndexable ??= new BoardControllerPiecesIndexable(
-                    getFunction: (coord) => Board[coord],
+                    getFunction: (coord) => BoardComponent.GetPiece(coord),
                     setFunction: (coord, piece) =>
                     {
                         if (piece)
                             piecesMovementManager.StartPieceMovement(piece, coord);
-                        Board[coord] = piece;
+                        BoardComponent.AddPiece(piece);
                     });
                 return piecesIndexable;
             }
@@ -81,7 +81,7 @@ namespace Bipolar.PuzzleBoard
 
         protected virtual void Awake()
         {
-            _board = GetComponent<BoardComponent>();
+            _boardComponent = GetComponent<BoardComponent>();
         }
 
         protected virtual void Start()
@@ -103,7 +103,7 @@ namespace Bipolar.PuzzleBoard
         public void ShufflePieces()
         {
             shuffledCoords.Clear();
-            foreach (var coord in Board)
+            foreach (var coord in BoardComponent)
             {
                 if (Random.value > 0.5f)
                 {
@@ -115,7 +115,7 @@ namespace Bipolar.PuzzleBoard
                 }
             }
 
-            foreach (var coord in Board)
+            foreach (var coord in BoardComponent)
             {
                 var randomCoord = shuffledCoords.First;
                 shuffledCoords.RemoveFirst();

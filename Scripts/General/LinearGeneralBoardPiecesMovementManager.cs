@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Bipolar.PuzzleBoard.General
 {
-    [RequireComponent(typeof(GeneralBoard))]
+    [RequireComponent(typeof(GeneralBoardComponent))]
     public class LinearGeneralBoardPiecesMovementManager : PiecesMovementManager
     {
         public override event System.Action OnAllPiecesMovementStopped;
@@ -12,13 +12,13 @@ namespace Bipolar.PuzzleBoard.General
         [SerializeField]
         private float piecesMovementSpeed = 8f;
 
-        private GeneralBoard _board;
-        public GeneralBoard Board
+        private GeneralBoardComponent _board;
+        public GeneralBoardComponent Board
         {
             get
             {
                 if (_board == null && this)
-                    _board = GetComponent<GeneralBoard>();
+                    _board = GetComponent<GeneralBoardComponent>();
                 return _board;
             }
         }

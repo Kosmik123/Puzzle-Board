@@ -1,13 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
 namespace Bipolar.PuzzleBoard.General
 {
-    [RequireComponent(typeof(GeneralBoard))]
-    public class LinearGeneralBoardCollapsing : BoardCollapsing<GeneralBoard>
+    [RequireComponent(typeof(GeneralBoardComponent))]
+    public class LinearGeneralBoardCollapsing : BoardCollapsing<GeneralBoardComponent>
     {
         public override event System.Action OnPiecesColapsed;
 
@@ -181,7 +180,7 @@ namespace Bipolar.PuzzleBoard.General
                 {
                     var targetCoord = line.Coords[index + nonExistingPiecesCount];
                     Board[coord] = null;
-                    Board[targetCoord] = piece;
+                    Board[targetCoord] = piece.Piece;
                     piecesMovementManager.StartPieceMovement(piece, line, index, nonExistingPiecesCount);
                 }
             }
