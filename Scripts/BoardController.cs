@@ -69,11 +69,11 @@ namespace Bipolar.PuzzleBoard
             {
                 piecesIndexable ??= new BoardControllerPiecesIndexable(
                     getFunction: (coord) => BoardComponent.GetPiece(coord),
-                    setFunction: (coord, piece) =>
+                    setFunction: (coord, pieceComponent) =>
                     {
-                        if (piece)
-                            piecesMovementManager.StartPieceMovement(piece, coord);
-                        BoardComponent.AddPiece(piece);
+                        if (pieceComponent)
+                            piecesMovementManager.StartPieceMovement(pieceComponent, coord);
+                        BoardComponent.Board[coord] = pieceComponent.Piece;
                     });
                 return piecesIndexable;
             }

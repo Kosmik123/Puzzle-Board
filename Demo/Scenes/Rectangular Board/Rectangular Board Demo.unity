@@ -313,7 +313,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   piecesSpawner: {fileID: 920731293}
   piecesMovementManager: {fileID: 747890986}
-  collapseDirection: {x: -1, y: 0}
+  collapseDirection: {x: 0, y: -1}
 --- !u!114 &747890984
 MonoBehaviour:
   m_ObjectHideFlags: 0
