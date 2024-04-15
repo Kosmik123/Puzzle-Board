@@ -73,7 +73,7 @@ namespace Bipolar.PuzzleBoard
 
         public abstract IEnumerator<Vector2Int> GetEnumerator();
 
-        public abstract Board GetBoardState();
+        public abstract IBoard GetBoardState();
 
         public void AddPiece(PieceComponent component)
         {
@@ -101,12 +101,12 @@ namespace Bipolar.PuzzleBoard
     public abstract class BoardComponent<TBoard> : BoardComponent // Proxy Pattern
         where TBoard : Board
     {
-        protected TBoard board = null;
+        protected TBoard board;
         public override IBoard Board => board;
 
         public override bool ContainsCoord(Vector2Int coord) => board.ContainsCoord(coord);
 
-        public override Board GetBoardState() => board.Clone();
+        public override IBoard GetBoardState() => board.Clone();
 
         protected override void Awake()
         {

@@ -17,7 +17,7 @@ namespace Bipolar.PuzzleBoard.Rectangular
         {
             var tilesSize = new Vector2(dimensions.x / tilesScale.x, dimensions.y / tilesScale.y);
             var oneOverParentScale = GetInverseParentScale();
-            var rendererScale = Vector3.Scale(board.Grid.cellSize + board.Grid.cellGap, board.transform.lossyScale);
+            var rendererScale = Vector3.Scale(boardComponent.Grid.cellSize + boardComponent.Grid.cellGap, boardComponent.transform.lossyScale);
             rendererScale.Scale(tilesScale);
 
             spriteRenderer.transform.localScale = Vector3.Scale(oneOverParentScale, rendererScale);

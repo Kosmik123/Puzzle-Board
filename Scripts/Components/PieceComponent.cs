@@ -8,6 +8,8 @@ namespace Bipolar.PuzzleBoard
         public event System.Action<IPieceColor> OnColorChanged;
         public event System.Action<PieceComponent> OnCleared;
 
+        private IReadOnlyBoard containerBoard;
+
         [SerializeField]
         private Piece piece;
         public Piece Piece

@@ -3,10 +3,17 @@ using UnityEngine;
 
 namespace Bipolar.PuzzleBoard.General
 {
+    public interface IGeneralBoard : IBoard
+    {
+        IReadOnlyCollection<Vector2Int> Coords { get; }
+    }
+
     [System.Serializable]
-    public class GeneralBoard : Board
+    public class GeneralBoard : Board, IGeneralBoard
     {
         private readonly Dictionary<Vector2Int, Piece> piecesByCoords = new Dictionary<Vector2Int, Piece>();
+
+        public IReadOnlyCollection<Vector2Int> Coords => piecesByCoords.Keys;
 
         public override Piece this[Vector2Int coord]
         {
@@ -22,7 +29,8 @@ namespace Bipolar.PuzzleBoard.General
 
         private GeneralBoard(GeneralBoard source) : base(source.Layout)
         {
-            piecesByCoords = source.piecesByCoords;
+            foreach (var coordAndPiece in source.piecesByCoords)
+                piecesByCoords.Add(coordAndPiece.Key, coordAndPiece.Value);
         }
 
         public override bool ContainsCoord(int x, int y) => piecesByCoords.ContainsKey(new Vector2Int(x, y));

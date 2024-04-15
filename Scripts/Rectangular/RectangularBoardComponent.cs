@@ -3,13 +3,13 @@ using UnityEngine;
 
 namespace Bipolar.PuzzleBoard.Rectangular
 {
-    public interface IRectangularBoard : IReadOnlyBoardComponent
+    public interface IRectangularBoardComponent : IReadOnlyBoardComponent
     {
         Vector2Int Dimensions { get; }
     }
 
     [AddComponentMenu("Board Puzzles/Rectangular Board")]
-    public class RectangularBoardComponent : BoardComponent<RectangularBoard>, IRectangularBoard
+    public class RectangularBoardComponent : BoardComponent<RectangularBoard>, IRectangularBoardComponent
     {
         public event System.Action<Vector2Int> OnDimensionsChanged;
 

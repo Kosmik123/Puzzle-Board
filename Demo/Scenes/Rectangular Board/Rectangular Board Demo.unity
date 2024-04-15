@@ -308,12 +308,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 747890980}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a3ec4dc730e3cf94b9c2fb91952bd498, type: 3}
+  m_Script: {fileID: 11500000, guid: 88ef87ba7c83a434db59f520a85b5fe7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  strategyCreator: {fileID: 11400000, guid: 47b13222152e5f74d847b1d0a10a71f3, type: 2}
   piecesSpawner: {fileID: 920731293}
-  piecesMovementManager: {fileID: 747890986}
-  collapseDirection: {x: 0, y: -1}
 --- !u!114 &747890984
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -383,7 +382,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a649e7c0ee43c1498b6a79ba0dbd16e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  board: {fileID: 747890984}
+  boardComponent: {fileID: 747890984}
   spriteRenderer: {fileID: 900972496}
   tilesScale: {x: 1, y: 1}
 --- !u!212 &900972496

@@ -52,10 +52,13 @@ namespace Bipolar.PuzzleBoard
             if (property.propertyType != SerializedPropertyType.Vector2Int)
                 return false;
 
-            var collapsing = property.serializedObject.targetObject;
-            var collapsingType = collapsing.GetType();
-            var boardPropertyInfo = collapsingType.GetProperty("Board", BindingFlags.Instance | BindingFlags.Public);
-            var board = boardPropertyInfo.GetValue(collapsing) as BoardComponent;
+            var collapser = property.serializedObject.targetObject;
+            var collapserType = collapser.GetType();
+            var boardComponentPropertyInfo = collapserType.GetProperty(nameof(BoardComponent), BindingFlags.Instance | BindingFlags.Public);
+            if (boardComponentPropertyInfo == null)
+                return false;
+
+            var board = boardComponentPropertyInfo.GetValue(collapser) as BoardComponent;
             if (board == null)
                 return false;
 

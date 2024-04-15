@@ -10,16 +10,16 @@ namespace Bipolar.PuzzleBoard
 
     public delegate void PieceCoordChangeEventHandler(PieceComponent piece, Vector2Int newCoord);
 
-    [DisallowMultipleComponent, RequireComponent(typeof(IBoardComponent), typeof(BoardCollapsing<>))]
+    [DisallowMultipleComponent, RequireComponent(typeof(IBoardComponent), typeof(BoardCollapseController<,>))]
     public class BoardController : MonoBehaviour
     {
         public event System.Action OnPiecesColapsed
         {
-            add => BoardCollapsing.OnPiecesColapsed += value;
+            add => BoardCollapseController.OnPiecesColapsed += value;
             remove
             {
-                if (BoardCollapsing)
-                    BoardCollapsing.OnPiecesColapsed -= value;
+                if (BoardCollapseController)
+                    BoardCollapseController.OnPiecesColapsed -= value;
             }
         }
 
@@ -27,21 +27,23 @@ namespace Bipolar.PuzzleBoard
         protected DefaultPiecesMovementManager piecesMovementManager;
         public PiecesMovementManager PiecesMovementManager => piecesMovementManager;
 
-        private BoardCollapsing _boardCollapsing;
-        public BoardCollapsing BoardCollapsing
+        private BoardCollapseController _boardCollapseController;
+        public BoardCollapseController BoardCollapseController
         {
             get
             {
-                if (_boardCollapsing == null && BoardComponent != null)
-                    _boardCollapsing = BoardComponent.GetComponent<BoardCollapsing>();
-                return _boardCollapsing;
+                if (_boardCollapseController == null && BoardComponent != null)
+                    _boardCollapseController = BoardComponent.GetComponent<BoardCollapseController>();
+                return _boardCollapseController;
             }
         }
 
         public bool ArePiecesMoving => piecesMovementManager.ArePiecesMoving;
 
-        public bool IsCollapsing => BoardCollapsing.IsCollapsing;
-        public void Collapse() => BoardCollapsing.Collapse();
+        public bool IsCollapsing => BoardCollapseController.IsCollapsing;
+
+        [ContextMenu("Collapse")]
+        public void Collapse() => BoardCollapseController.Collapse();
 
         protected BoardComponent _boardComponent;
         public BoardComponent BoardComponent

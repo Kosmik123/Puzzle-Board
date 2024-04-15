@@ -6,7 +6,7 @@ using UnityEngine.Tilemaps;
 namespace Bipolar.PuzzleBoard.General
 {
     [RequireComponent(typeof(GeneralBoardComponent))]
-    public class PrioritizedGeneralBoardCollapsing : BoardCollapsing<GeneralBoardComponent>
+    public class PrioritizedGeneralBoardCollapsing : BoardCollapseController<GeneralBoardComponent, GeneralBoard>
     {
         public override event Action OnPiecesColapsed;
         
@@ -39,7 +39,7 @@ namespace Bipolar.PuzzleBoard.General
 
         private void ExtractDirectionsFromTilemap(Tilemap tilemap)
         {
-            bool isBoardHexagonal = Board.Layout == GridLayout.CellLayout.Hexagon;
+            bool isBoardHexagonal = BoardComponent.Layout == GridLayout.CellLayout.Hexagon;
             var bounds = tilemap.cellBounds;
             for (int y = bounds.yMin; y < bounds.yMax; y++)
             {
@@ -85,9 +85,9 @@ namespace Bipolar.PuzzleBoard.General
         public override void Collapse()
         {
             piecesMovementManager.OnPieceMovementEnded += PiecesMovementManager_OnPieceMovementEnded;
-            foreach (var coord in Board.Coords)
+            foreach (var coord in BoardComponent.Coords)
             {
-                if (Board.GetPiece(coord) == null)
+                if (BoardComponent.GetPiece(coord) == null)
                     continue;
 
                 TryCollapsePieceFromCoord(coord);
@@ -96,7 +96,7 @@ namespace Bipolar.PuzzleBoard.General
 
         private bool TryCollapsePieceFromCoord(Vector2Int coord)
         {
-            var piece = Board.GetPiece(coord);
+            var piece = BoardComponent.GetPiece(coord);
             var directions = GetDirections(coord);
             if (directions == null)
                 return false;
@@ -104,10 +104,10 @@ namespace Bipolar.PuzzleBoard.General
             foreach (var direction in directions)
             {
                 var targetCoord = coord + direction;
-                if (Board.ContainsCoord(targetCoord) == false)
+                if (BoardComponent.ContainsCoord(targetCoord) == false)
                     continue;
 
-                if (Board.GetPiece(targetCoord) == null)
+                if (BoardComponent.GetPiece(targetCoord) == null)
                 {
                     //Board[coord] = null;
                     //Board[targetCoord] = piece;
@@ -151,10 +151,10 @@ namespace Bipolar.PuzzleBoard.General
                 {
                     var direction = directions[i];
                     var targetCoord = coord + direction;
-                    if (Board.ContainsCoord(targetCoord))
+                    if (BoardComponent.ContainsCoord(targetCoord))
                     {
-                        var startPosition = Board.CoordToWorld(coord);
-                        var endPosition = Board.CoordToWorld(targetCoord);
+                        var startPosition = BoardComponent.CoordToWorld(coord);
+                        var endPosition = BoardComponent.CoordToWorld(targetCoord);
                         Gizmos.DrawLine(startPosition, endPosition);
                     }
                 }

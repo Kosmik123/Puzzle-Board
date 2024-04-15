@@ -3,12 +3,19 @@ using UnityEngine;
 
 namespace Bipolar.PuzzleBoard
 {
+    public interface IRectangularBoard : IBoard
+    {
+        Vector2Int Dimensions { get; }
+    }
+
     [System.Serializable]
-    public class RectangularBoard : Board
+    public class RectangularBoard : Board, IRectangularBoard
     {
         private readonly int width;
         private readonly int height;
         private readonly Piece[,] piecesArray;
+
+        public Vector2Int Dimensions => new Vector2Int(width, height);
 
         public override Piece this[Vector2Int coord]
         {
