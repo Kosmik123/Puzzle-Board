@@ -4,7 +4,7 @@ using UnityEngine;
 namespace Bipolar.PuzzleBoard
 {
     [RequireComponent(typeof(RectangularBoardComponent))]
-    public class RectangularBoardCollapseController : BoardCollapseController<RectangularBoardComponent, RectangularBoard>
+    public class OneDirectionRectangularBoardCollapseController : BoardCollapseController<OneDirectionRectangularBoardCollapseStrategy, RectangularBoard>
     {
         public override event System.Action OnPiecesColapsed;
 

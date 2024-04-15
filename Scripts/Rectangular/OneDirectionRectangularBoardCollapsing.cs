@@ -3,7 +3,7 @@
 namespace Bipolar.PuzzleBoard.Rectangular
 {
     [RequireComponent(typeof(RectangularBoardComponent))] // we are slowly deprecating this
-    public /* no more */ abstract  class OneDirectionRectangularBoardCollapsing : BoardCollapseController<RectangularBoardComponent, RectangularBoard>
+    public /* no more */ abstract  class OneDirectionRectangularBoardCollapsing : BoardCollapseController<OneDirectionRectangularBoardCollapseStrategy, RectangularBoard>
     {
         public override event System.Action OnPiecesColapsed;
 
@@ -36,37 +36,37 @@ namespace Bipolar.PuzzleBoard.Rectangular
 
         public override void Collapse()
         {
-            bool colapsed = false;
-            for (int lineIndex = 0; lineIndex < BoardComponent.Dimensions[iterationAxis]; lineIndex++)
-            {
-                int emptyCellsCount = CollapseTokensInLine(lineIndex);
-                if (emptyCellsCount > 0)
-                {
-                    colapsed = true;
-                    RefillLine(lineIndex, emptyCellsCount);
-                }
-            }
+            //bool colapsed = false;
+            //for (int lineIndex = 0; lineIndex < BoardComponent.Dimensions[iterationAxis]; lineIndex++)
+            //{
+            //    int emptyCellsCount = CollapseTokensInLine(lineIndex);
+            //    if (emptyCellsCount > 0)
+            //    {
+            //        colapsed = true;
+            //        RefillLine(lineIndex, emptyCellsCount);
+            //    }
+            //}
 
-            if (colapsed)
-                piecesMovementManager.OnAllPiecesMovementStopped += CallCollapseEvent;
+            //if (colapsed)
+            //    piecesMovementManager.OnAllPiecesMovementStopped += CallCollapseEvent;
         }
 
         private void IterateOverCellsInLine(int lineIndex, int count, int startCellIndex, int iterationDirection, System.Action<Vector2Int> action)
         {
-            int lineSize = BoardComponent.Dimensions[collapseAxis];
-            for (int i = 0; i < count; i++)
-            {
-                var coord = Vector2Int.zero;
-                coord[iterationAxis] = lineIndex;
-                coord[collapseAxis] = (startCellIndex + i * iterationDirection + lineSize) % lineSize;
+            //int lineSize = BoardComponent.Dimensions[collapseAxis];
+            //for (int i = 0; i < count; i++)
+            //{
+            //    var coord = Vector2Int.zero;
+            //    coord[iterationAxis] = lineIndex;
+            //    coord[collapseAxis] = (startCellIndex + i * iterationDirection + lineSize) % lineSize;
 
-                action.Invoke(coord);
-            }
+            //    action.Invoke(coord);
+            //}
         }
 
         private int CollapseTokensInLine(int lineIndex)
         {
-            int lineSize = BoardComponent.Dimensions[collapseAxis];
+            int lineSize = 1; // BoardComponent.Dimensions[collapseAxis];
 
             int startCellIndex = RealCollapseDirection[collapseAxis] > 0 ? -1 : 0; 
             int lineCollapseDirection = RealCollapseDirection[collapseAxis] == 0 ? 1 : -RealCollapseDirection[collapseAxis];
@@ -102,7 +102,7 @@ namespace Bipolar.PuzzleBoard.Rectangular
 
         private void RefillLine(int lineIndex, int count)
         {
-            int lineSize = BoardComponent.Dimensions[collapseAxis];
+            int lineSize = 1;// BoardComponent.Dimensions[collapseAxis];
 
             int startCellIndex = RealCollapseDirection[collapseAxis] < 0 ? -1 : 0;
             var spawnOffset = -RealCollapseDirection * count;

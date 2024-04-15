@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 namespace Bipolar.PuzzleBoard
@@ -68,9 +67,6 @@ namespace Bipolar.PuzzleBoard
             return (Vector2Int)coord;
         }
 
-        protected virtual void Awake()
-        { }
-
         public abstract IEnumerator<Vector2Int> GetEnumerator();
 
         public abstract IBoard GetBoardState();
@@ -102,15 +98,27 @@ namespace Bipolar.PuzzleBoard
         where TBoard : Board
     {
         protected TBoard board;
-        public override IBoard Board => board;
+        public override IBoard Board
+        {
+            get
+            {
+                if (board == null)
+                    CreateBoardData();
+                return board;
+            }
+        }
 
         public override bool ContainsCoord(Vector2Int coord) => board.ContainsCoord(coord);
 
         public override IBoard GetBoardState() => board.Clone();
 
-        protected override void Awake()
+        protected virtual void Reset()
         {
-            base.Awake();
+            board = null;
+        }
+
+        protected virtual void Awake()
+        {
             CreateBoardData();
         }
 

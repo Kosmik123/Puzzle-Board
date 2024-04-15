@@ -9,11 +9,10 @@ namespace Bipolar.PuzzleBoard
         private Vector2Int collapseDirection;
         public Vector2Int CollapseDirection => collapseDirection;
 
-
         private int iterationAxis;
         private int collapseAxis;
 
-        public override void Collapse(RectangularBoard board)
+        protected override void Collapse(RectangularBoard board)
         {
 
         }

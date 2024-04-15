@@ -6,7 +6,7 @@ using UnityEngine.Tilemaps;
 namespace Bipolar.PuzzleBoard.General
 {
     [RequireComponent(typeof(GeneralBoardComponent))]
-    public class PrioritizedGeneralBoardCollapsing : BoardCollapseController<GeneralBoardComponent, GeneralBoard>
+    public class PrioritizedGeneralBoardCollapsing : BoardCollapseController<MockGeneralCollapseStrategy, GeneralBoard>
     {
         public override event Action OnPiecesColapsed;
         
@@ -85,7 +85,7 @@ namespace Bipolar.PuzzleBoard.General
         public override void Collapse()
         {
             piecesMovementManager.OnPieceMovementEnded += PiecesMovementManager_OnPieceMovementEnded;
-            foreach (var coord in BoardComponent.Coords)
+            foreach (var coord in BoardComponent.Board)
             {
                 if (BoardComponent.GetPiece(coord) == null)
                     continue;

@@ -4,9 +4,12 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 
 namespace Bipolar.PuzzleBoard.General
-{
+{ 
+    public abstract class MockGeneralCollapseStrategy : BoardCollapseStrategy<GeneralBoard>
+    { }
+
     [RequireComponent(typeof(GeneralBoardComponent))]
-    public class LinearGeneralBoardCollapsing : BoardCollapseController<GeneralBoardComponent, GeneralBoard>
+    public class LinearGeneralBoardCollapsing : BoardCollapseController<MockGeneralCollapseStrategy, GeneralBoard>
     {
         public override event System.Action OnPiecesColapsed;
 
@@ -41,7 +44,7 @@ namespace Bipolar.PuzzleBoard.General
             var tempSourceCoordsDict = new Dictionary<Vector2Int, Vector2Int>();
 
             bool isBoardHexagonal = BoardComponent.Layout == GridLayout.CellLayout.Hexagon;
-            foreach (var coord in BoardComponent.Coords)
+            foreach (var coord in BoardComponent.Board)
             {
                 HandleCoordCreation(coord, isBoardHexagonal, startingCoords, endingCoords,
                     notStartingCoords, notEndingCoords, tempSourceCoordsDict);
@@ -84,7 +87,7 @@ namespace Bipolar.PuzzleBoard.General
             if (tile.Jump)
             {
                 bool hasJumpTarget = gameObject;
-                while (TilemapContainsCoord(BoardComponent.ShapeTilemap, targetCoord))
+                while (TilemapContainsCoord((BoardComponent as GeneralBoardComponent).ShapeTilemap, targetCoord))
                 {
                     if (BoardComponent.ContainsCoord(targetCoord))
                     {
@@ -100,7 +103,7 @@ namespace Bipolar.PuzzleBoard.General
                     return;
                 }
             }
-            else if (BoardComponent.Coords.Contains(targetCoord) == false)
+            else if (BoardComponent.ContainsCoord(targetCoord) == false)
             {
                 endingCoords.Add(coord);
                 return;
@@ -137,7 +140,7 @@ namespace Bipolar.PuzzleBoard.General
             return new CoordsLine(coordsList);
         }
 
-        private bool TryGetTile(Vector2Int coord, out DirectionTile tile) => DirectionTileHelper.TryGetTile(coord, BoardComponent.ShapeTilemap, out tile);
+        private bool TryGetTile(Vector2Int coord, out DirectionTile tile) => DirectionTileHelper.TryGetTile(coord, (BoardComponent as GeneralBoardComponent).ShapeTilemap, out tile);
 
         public override void Collapse()
         {
@@ -159,7 +162,7 @@ namespace Bipolar.PuzzleBoard.General
         private int IndexOfCoordInBoard(Vector2Int checkedCoord)
         {
             int index = -1;
-            foreach (var coord in BoardComponent.Coords)
+            foreach (var coord in BoardComponent.Board)
             {
                 index++;
                 if (coord == checkedCoord)
@@ -227,7 +230,7 @@ namespace Bipolar.PuzzleBoard.General
 
         private void OnDrawGizmosSelected()
         {
-            if (Lines != null && BoardComponent.Coords.Count > 0)
+            if (Lines != null && (BoardComponent as GeneralBoardComponent).Coords.Count > 0)
                 foreach (var line in Lines)
                     GizmosDrawLine(line);
 

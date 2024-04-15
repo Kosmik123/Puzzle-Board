@@ -1,80 +1,99 @@
-﻿using UnityEngine;
+﻿using UnityEditor;
+using UnityEngine;
 
 namespace Bipolar.PuzzleBoard
 {
-    public abstract class BoardCollapseStrategyCreator<TBoard> : ScriptableObject
+    public abstract class BoardCollapseStrategyWrapper<TBoard> : MonoBehaviour
         where TBoard : IBoard
     {
+        [SerializeReference]
+        private BoardCollapseStrategy strategy;
+        public BoardCollapseStrategy<TBoard> Strategy => (BoardCollapseStrategy<TBoard>)strategy;
+        
         public abstract System.Type StrategyType { get; }
-        public System.Type BoardType => typeof(TBoard); 
-        public abstract BoardCollapseStrategy<TBoard> CreateStrategy();
+        protected abstract BoardCollapseStrategy<TBoard> CreateStrategy();
+
+        private void Reset()
+        {
+            strategy = CreateStrategy();
+        }
+
+        private void OnValidate()
+        {
+            strategy ??= CreateStrategy();
+        }
     }
 
-    public class BoardCollapseStrategyCreator<TStrategy, TBoard> : BoardCollapseStrategyCreator<TBoard>
+    public class BoardCollapseStrategyWrapper<TStrategy, TBoard> : BoardCollapseStrategyWrapper<TBoard>
         where TStrategy : BoardCollapseStrategy<TBoard>, new()
         where TBoard : IBoard
     {
         public override System.Type StrategyType => typeof(TStrategy);
-        public override BoardCollapseStrategy<TBoard> CreateStrategy() => new TStrategy();
+        protected override BoardCollapseStrategy<TBoard> CreateStrategy() => new TStrategy();
     }
 
     [System.Serializable]
-    public abstract class BoardCollapseStrategy<TBoard>
+    public abstract class BoardCollapseStrategy
+    {
+        public abstract void Collapse(IBoard board);
+    }
+
+    [System.Serializable]
+    public abstract class BoardCollapseStrategy<TBoard> : BoardCollapseStrategy
         where TBoard : IBoard
     {
-        public abstract void Collapse(TBoard board);
+        public sealed override void Collapse(IBoard board) => Collapse((TBoard)board);   
+        protected abstract void Collapse(TBoard board);   
     }
 
     [System.Serializable]
     public class BoardCollapser<TBoard>
         where TBoard : IBoard
     {
-        private TBoard board;
+        private readonly TBoard board;
+        private readonly BoardCollapseStrategy<TBoard> strategy;
 
-        public BoardCollapser(TBoard board)
+        public BoardCollapser(TBoard board, BoardCollapseStrategy<TBoard> strategy)
         {
             this.board = board;    
+            this.strategy = strategy;
         }
 
-        private BoardCollapseStrategy<TBoard> strategy;
+        public void Collapse()
+        {
+
+        }
     }
 
     public abstract class BoardCollapseController : MonoBehaviour
     {
         public abstract event System.Action OnPiecesColapsed;
 
+        public abstract System.Type BoardType { get; }
         public abstract bool IsCollapsing { get; }
         public abstract void Collapse();
     }
 
     [DisallowMultipleComponent, RequireComponent(typeof(BoardComponent<>))]
-    public abstract class BoardCollapseController<TBoardComponent, TBoard> : BoardCollapseController
-        where TBoardComponent : BoardComponent<TBoard>
+    public abstract class BoardCollapseController<TStrategy, TBoard> : BoardCollapseController
         where TBoard : Board
+        where TStrategy : BoardCollapseStrategy<TBoard>
     {
-        [SerializeField]
-        private BoardCollapseStrategyCreator<TBoard> strategyCreator;
-
-        [SerializeField]
-        private BoardCollapseStrategy<TBoard> _strategy;
-        public BoardCollapseStrategy<TBoard> Strategy
-        {
-            get
-            {
-                _strategy ??= strategyCreator.CreateStrategy();
-                return _strategy;
-            }
-        }
-
         private BoardCollapser<TBoard> _collapser;
         public BoardCollapser<TBoard> Collapser
         {
             get
             {
-                _collapser ??= new BoardCollapser<TBoard>((TBoard)BoardComponent.Board);
+                _collapser ??= CreateNewCollapser();
                 return _collapser;
             }
         }
+
+        [SerializeReference, HideInInspector]
+        private BoardCollapseStrategy strategy;
+        public BoardCollapseStrategy<TBoard> Strategy => (BoardCollapseStrategy<TBoard>)strategy;
+
+        private BoardCollapser<TBoard> CreateNewCollapser() => new BoardCollapser<TBoard>((TBoard)BoardComponent.Board, Strategy);
 
         [SerializeField]
         private PiecesSpawner piecesSpawner;
@@ -84,21 +103,20 @@ namespace Bipolar.PuzzleBoard
             set => piecesSpawner = value;
         }
 
-        private TBoardComponent _boardComponent;
-        public TBoardComponent BoardComponent
+        private BoardComponent<TBoard> _boardComponent;
+        public BoardComponent<TBoard> BoardComponent
         {
             get
             {
                 if (_boardComponent == null)
-                    _boardComponent = GetComponent<TBoardComponent>();
+                    _boardComponent = GetComponent<BoardComponent<TBoard>>();
                 return _boardComponent;
             }
         }
 
-        public override void Collapse()
-        {
-           // Collapser.Collapse((TBoard)BoardComponent.Board);
-        }
+        public override System.Type BoardType => typeof(TBoard);
+
+        public override void Collapse() => Collapser.Collapse();
 
         protected PieceComponent CreatePiece(Vector2Int coord)
         {
@@ -107,15 +125,22 @@ namespace Bipolar.PuzzleBoard
             return piece;
         }
 
+        private void Awake()
+        {
+            _collapser = CreateNewCollapser();
+        }
+
         private void OnValidate()
         {
-            if (strategyCreator)
+            if (Strategy != null)
             {
-                if (_strategy == null || _strategy.GetType() != strategyCreator.StrategyType)
-                {
-                    _strategy = strategyCreator.CreateStrategy();
-                }
+                _collapser ??= CreateNewCollapser();
             }
+            else
+            {
+                _collapser = null;
+            }
+
         }
     }
 }
