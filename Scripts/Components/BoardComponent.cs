@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Codice.CM.Client.Differences;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Bipolar.PuzzleBoard
@@ -58,7 +59,7 @@ namespace Bipolar.PuzzleBoard
                     worldPosition += 0.5f * (Grid.cellSize + Grid.cellGap);
                     break;
 
-                default: 
+                default:
                     worldPosition.y += 0.5f * (Grid.cellSize.y + Grid.cellGap.y);
                     break;
             }
@@ -80,16 +81,17 @@ namespace Bipolar.PuzzleBoard
 
         public void MovePiece(Piece piece, Vector2Int newCoord)
         {
-            if (Board.ContainsCoord(newCoord) == false)
+            var board = Board;
+            if (board.ContainsCoord(newCoord) == false)
                 return;
 
-            if (Board[newCoord] != null)
+            if (board[newCoord] != null)
             {
                 Debug.LogError("Trying to move Piece to occupied coord");
                 return;
             }
 
-            Board[newCoord] = piece;
+            board[newCoord] = piece;
             piece.Coord = newCoord;
         }
     }
@@ -98,14 +100,13 @@ namespace Bipolar.PuzzleBoard
         where TBoard : Board
     {
         protected TBoard board;
-        public override IBoard Board
+        public override IBoard Board => GetBoard();
+
+        public TBoard GetBoard()
         {
-            get
-            {
-                if (board == null)
-                    CreateBoardData();
-                return board;
-            }
+            if (board == null)
+                CreateBoardData();
+            return board;
         }
 
         public override bool ContainsCoord(Vector2Int coord) => board.ContainsCoord(coord);

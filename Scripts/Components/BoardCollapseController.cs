@@ -1,84 +1,23 @@
-﻿using UnityEditor;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Bipolar.PuzzleBoard
 {
-    public abstract class BoardCollapseStrategyWrapper<TBoard> : MonoBehaviour
-        where TBoard : IBoard
-    {
-        [SerializeReference]
-        private BoardCollapseStrategy strategy;
-        public BoardCollapseStrategy<TBoard> Strategy => (BoardCollapseStrategy<TBoard>)strategy;
-        
-        public abstract System.Type StrategyType { get; }
-        protected abstract BoardCollapseStrategy<TBoard> CreateStrategy();
-
-        private void Reset()
-        {
-            strategy = CreateStrategy();
-        }
-
-        private void OnValidate()
-        {
-            strategy ??= CreateStrategy();
-        }
-    }
-
-    public class BoardCollapseStrategyWrapper<TStrategy, TBoard> : BoardCollapseStrategyWrapper<TBoard>
-        where TStrategy : BoardCollapseStrategy<TBoard>, new()
-        where TBoard : IBoard
-    {
-        public override System.Type StrategyType => typeof(TStrategy);
-        protected override BoardCollapseStrategy<TBoard> CreateStrategy() => new TStrategy();
-    }
-
-    [System.Serializable]
-    public abstract class BoardCollapseStrategy
-    {
-        public abstract void Collapse(IBoard board);
-    }
-
-    [System.Serializable]
-    public abstract class BoardCollapseStrategy<TBoard> : BoardCollapseStrategy
-        where TBoard : IBoard
-    {
-        public sealed override void Collapse(IBoard board) => Collapse((TBoard)board);   
-        protected abstract void Collapse(TBoard board);   
-    }
-
-    [System.Serializable]
-    public class BoardCollapser<TBoard>
-        where TBoard : IBoard
-    {
-        private readonly TBoard board;
-        private readonly BoardCollapseStrategy<TBoard> strategy;
-
-        public BoardCollapser(TBoard board, BoardCollapseStrategy<TBoard> strategy)
-        {
-            this.board = board;    
-            this.strategy = strategy;
-        }
-
-        public void Collapse()
-        {
-
-        }
-    }
-
     public abstract class BoardCollapseController : MonoBehaviour
     {
         public abstract event System.Action OnPiecesColapsed;
 
         public abstract System.Type BoardType { get; }
-        public abstract bool IsCollapsing { get; }
+        public bool IsCollapsing { get; protected set; }
         public abstract void Collapse();
     }
 
     [DisallowMultipleComponent, RequireComponent(typeof(BoardComponent<>))]
-    public abstract class BoardCollapseController<TStrategy, TBoard> : BoardCollapseController
+    public class BoardCollapseController<TStrategy, TBoard> : BoardCollapseController
         where TBoard : Board
         where TStrategy : BoardCollapseStrategy<TBoard>
     {
+        public sealed override event System.Action OnPiecesColapsed;
+
         private BoardCollapser<TBoard> _collapser;
         public BoardCollapser<TBoard> Collapser
         {
@@ -89,11 +28,14 @@ namespace Bipolar.PuzzleBoard
             }
         }
 
-        [SerializeReference, HideInInspector]
-        private BoardCollapseStrategy strategy;
-        public BoardCollapseStrategy<TBoard> Strategy => (BoardCollapseStrategy<TBoard>)strategy;
+        [SerializeField]
+        private TStrategy strategy;
+        public TStrategy Strategy => strategy;
 
-        private BoardCollapser<TBoard> CreateNewCollapser() => new BoardCollapser<TBoard>((TBoard)BoardComponent.Board, Strategy);
+        private BoardCollapser<TBoard> CreateNewCollapser() => new BoardCollapser<TBoard>(
+            BoardComponent.GetBoard(),
+            Strategy, 
+            pieceFactory: null);
 
         [SerializeField]
         private PiecesSpawner piecesSpawner;
@@ -114,9 +56,14 @@ namespace Bipolar.PuzzleBoard
             }
         }
 
-        public override System.Type BoardType => typeof(TBoard);
+        public sealed override System.Type BoardType => typeof(TBoard);
 
-        public override void Collapse() => Collapser.Collapse();
+        private void Awake()
+        {
+            _collapser = CreateNewCollapser();
+        }
+
+        public sealed override void Collapse() => Collapser.Collapse();
 
         protected PieceComponent CreatePiece(Vector2Int coord)
         {
@@ -125,22 +72,16 @@ namespace Bipolar.PuzzleBoard
             return piece;
         }
 
-        private void Awake()
+        private void CallCollapseEvent()
         {
-            _collapser = CreateNewCollapser();
+            // piecesMovementManager.OnAllPiecesMovementStopped -= CallCollapseEvent;
+            OnPiecesColapsed?.Invoke();
         }
+
 
         private void OnValidate()
         {
-            if (Strategy != null)
-            {
-                _collapser ??= CreateNewCollapser();
-            }
-            else
-            {
-                _collapser = null;
-            }
-
+            _collapser ??= CreateNewCollapser();
         }
     }
 }

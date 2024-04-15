@@ -5,9 +5,5 @@ namespace Bipolar.PuzzleBoard
 {
     [RequireComponent(typeof(RectangularBoardComponent))]
     public class OneDirectionRectangularBoardCollapseController : BoardCollapseController<OneDirectionRectangularBoardCollapseStrategy, RectangularBoard>
-    {
-        public override event System.Action OnPiecesColapsed;
-
-        public override bool IsCollapsing => false;
-    }
+    { }
 }

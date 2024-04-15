@@ -268,7 +268,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6204207786967965947, guid: dbd2584779f7fef4f9bf8e83e62ba315, type: 3}
   m_PrefabInstance: {fileID: 6204207786489006547}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 6204207786489006548}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 22e29c0c61c8507458964a852f22146c, type: 3}
@@ -455,10 +455,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 6204207786967965940, guid: dbd2584779f7fef4f9bf8e83e62ba315, type: 3}
-      propertyPath: strategy
-      value: Bipolar.PuzzleBoard Bipolar.PuzzleBoard.OneDirectionRectangularBoardCollapseStrategy
-      objectReference: {fileID: 0}
     - target: {fileID: 6204207786967965942, guid: dbd2584779f7fef4f9bf8e83e62ba315, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -507,5 +503,29 @@ PrefabInstance:
       propertyPath: m_Name
       value: Board
       objectReference: {fileID: 0}
+    - target: {fileID: 6204207786967965946, guid: dbd2584779f7fef4f9bf8e83e62ba315, type: 3}
+      propertyPath: m_CellLayout
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dbd2584779f7fef4f9bf8e83e62ba315, type: 3}
+--- !u!1 &6204207786489006548 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6204207786967965943, guid: dbd2584779f7fef4f9bf8e83e62ba315, type: 3}
+  m_PrefabInstance: {fileID: 6204207786489006547}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &6204207786489006549
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6204207786489006548}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 88ef87ba7c83a434db59f520a85b5fe7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  strategy:
+    collapseDirection: {x: -1, y: 0}
+  piecesSpawner: {fileID: 920731293}

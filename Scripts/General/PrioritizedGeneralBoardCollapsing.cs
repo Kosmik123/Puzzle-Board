@@ -8,8 +8,6 @@ namespace Bipolar.PuzzleBoard.General
     [RequireComponent(typeof(GeneralBoardComponent))]
     public class PrioritizedGeneralBoardCollapsing : BoardCollapseController<MockGeneralCollapseStrategy, GeneralBoard>
     {
-        public override event Action OnPiecesColapsed;
-        
         [SerializeField]
         private Tilemap[] directionsTilemaps;
 
@@ -20,8 +18,6 @@ namespace Bipolar.PuzzleBoard.General
 
         [SerializeField]
         private DefaultPiecesMovementManager piecesMovementManager;
-
-        public override bool IsCollapsing => throw new NotImplementedException();
 
         private void Awake()
         {
@@ -82,17 +78,17 @@ namespace Bipolar.PuzzleBoard.General
         }
 
         private readonly Queue<Vector2Int> emptyCoords = new Queue<Vector2Int>();
-        public override void Collapse()
-        {
-            piecesMovementManager.OnPieceMovementEnded += PiecesMovementManager_OnPieceMovementEnded;
-            foreach (var coord in BoardComponent.Board)
-            {
-                if (BoardComponent.GetPiece(coord) == null)
-                    continue;
+        //public override void Collapse()
+        //{
+        //    piecesMovementManager.OnPieceMovementEnded += PiecesMovementManager_OnPieceMovementEnded;
+        //    foreach (var coord in BoardComponent.Board)
+        //    {
+        //        if (BoardComponent.GetPiece(coord) == null)
+        //            continue;
 
-                TryCollapsePieceFromCoord(coord);
-            }
-        }
+        //        TryCollapsePieceFromCoord(coord);
+        //    }
+        //}
 
         private bool TryCollapsePieceFromCoord(Vector2Int coord)
         {
@@ -133,7 +129,7 @@ namespace Bipolar.PuzzleBoard.General
             if (collapsingPiecesCoords.Count <= 0)
             {
                 piecesMovementManager.OnPieceMovementEnded -= PiecesMovementManager_OnPieceMovementEnded;
-                OnPiecesColapsed?.Invoke();
+                // OnPiecesColapsed?.Invoke();
             }
         }
 

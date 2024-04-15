@@ -2,6 +2,11 @@
 
 namespace Bipolar.PuzzleBoard
 {
+    public interface IPieceFactory
+    {
+        public Piece CreatePiece(int x, int y);
+    }
+
     [System.Serializable]
     public class Piece
     {

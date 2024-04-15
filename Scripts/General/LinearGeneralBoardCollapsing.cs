@@ -11,8 +11,6 @@ namespace Bipolar.PuzzleBoard.General
     [RequireComponent(typeof(GeneralBoardComponent))]
     public class LinearGeneralBoardCollapsing : BoardCollapseController<MockGeneralCollapseStrategy, GeneralBoard>
     {
-        public override event System.Action OnPiecesColapsed;
-
         [SerializeField]
         private LinearGeneralBoardPiecesMovementManager piecesMovementManager;
 
@@ -22,7 +20,7 @@ namespace Bipolar.PuzzleBoard.General
         private CoordsLine[] lines;
         public IReadOnlyList<CoordsLine> Lines => lines;
 
-        public override bool IsCollapsing => piecesMovementManager.ArePiecesMoving;
+        //public override bool IsCollapsing => piecesMovementManager.ArePiecesMoving;
 
         private void Awake()
         {
@@ -142,22 +140,22 @@ namespace Bipolar.PuzzleBoard.General
 
         private bool TryGetTile(Vector2Int coord, out DirectionTile tile) => DirectionTileHelper.TryGetTile(coord, (BoardComponent as GeneralBoardComponent).ShapeTilemap, out tile);
 
-        public override void Collapse()
-        {
-            bool collapsed = false;
-            foreach (var line in Lines)
-            {
-                int emptyCellsCount = CollapseTokensInLine(line);
-                if (emptyCellsCount > 0)
-                {
-                    collapsed = true;
-                    RefillLine(line, emptyCellsCount);
-                }
-            }
+        //public override void Collapse()
+        //{
+        //    bool collapsed = false;
+        //    foreach (var line in Lines)
+        //    {
+        //        int emptyCellsCount = CollapseTokensInLine(line);
+        //        if (emptyCellsCount > 0)
+        //        {
+        //            collapsed = true;
+        //            RefillLine(line, emptyCellsCount);
+        //        }
+        //    }
 
-            if (collapsed)
-                piecesMovementManager.OnAllPiecesMovementStopped += CallCollapseEvent;
-        }
+        //    if (collapsed)
+        //        piecesMovementManager.OnAllPiecesMovementStopped += CallCollapseEvent;
+        //}
 
         private int IndexOfCoordInBoard(Vector2Int checkedCoord)
         {
@@ -225,7 +223,7 @@ namespace Bipolar.PuzzleBoard.General
         private void CallCollapseEvent()
         {
             piecesMovementManager.OnAllPiecesMovementStopped -= CallCollapseEvent;
-            OnPiecesColapsed?.Invoke();
+            // OnPiecesColapsed?.Invoke();
         }
 
         private void OnDrawGizmosSelected()

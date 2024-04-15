@@ -5,8 +5,6 @@ namespace Bipolar.PuzzleBoard.Rectangular
     [RequireComponent(typeof(RectangularBoardComponent))] // we are slowly deprecating this
     public /* no more */ abstract  class OneDirectionRectangularBoardCollapsing : BoardCollapseController<OneDirectionRectangularBoardCollapseStrategy, RectangularBoard>
     {
-        public override event System.Action OnPiecesColapsed;
-
         [SerializeField]
         protected DefaultPiecesMovementManager piecesMovementManager;
 
@@ -22,7 +20,7 @@ namespace Bipolar.PuzzleBoard.Rectangular
         private int iterationAxis;
         private int collapseAxis;
 
-        public override bool IsCollapsing => piecesMovementManager.ArePiecesMoving;
+       // public override bool IsCollapsing => piecesMovementManager.ArePiecesMoving;
 
         protected virtual void Reset()
         {
@@ -34,8 +32,8 @@ namespace Bipolar.PuzzleBoard.Rectangular
             CalculateAxes();
         }
 
-        public override void Collapse()
-        {
+        //public override void Collapse()
+        //{
             //bool colapsed = false;
             //for (int lineIndex = 0; lineIndex < BoardComponent.Dimensions[iterationAxis]; lineIndex++)
             //{
@@ -49,7 +47,7 @@ namespace Bipolar.PuzzleBoard.Rectangular
 
             //if (colapsed)
             //    piecesMovementManager.OnAllPiecesMovementStopped += CallCollapseEvent;
-        }
+       // }
 
         private void IterateOverCellsInLine(int lineIndex, int count, int startCellIndex, int iterationDirection, System.Action<Vector2Int> action)
         {
@@ -97,7 +95,7 @@ namespace Bipolar.PuzzleBoard.Rectangular
         private void CallCollapseEvent()
         {
             piecesMovementManager.OnAllPiecesMovementStopped -= CallCollapseEvent;
-            OnPiecesColapsed?.Invoke();
+            //OnPiecesColapsed?.Invoke();
         }
 
         private void RefillLine(int lineIndex, int count)
