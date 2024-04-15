@@ -2,9 +2,38 @@
 
 namespace Bipolar.PuzzleBoard
 {
+    public interface IPieceCreatedCollapseEventArgs : ICollapseEventArgs
+    {
+        Piece Piece { get; }
+    }
+
     [System.Serializable]
     public class OneDirectionRectangularBoardCollapseStrategy : BoardCollapseStrategy<RectangularBoard>
     {
+        public readonly struct  PieceCollapsedEventArgs : ICollapseEventArgs
+        {
+            public readonly Piece Piece;
+            public readonly Vector2Int FromCoord;
+
+            public PieceCollapsedEventArgs(Piece piece, Vector2Int fromCoord)
+            {
+                Piece = piece;
+                FromCoord = fromCoord;
+            }
+        }
+        
+        public readonly struct PieceCreatedEventArgs : IPieceCreatedCollapseEventArgs
+        {
+            public readonly Piece Piece { get; } 
+
+            public PieceCreatedEventArgs(Piece piece)
+            {
+                Piece = piece;
+            }
+        }
+
+        public override event CollapseEventHandler OnCollapsed;
+
         [SerializeField, CollapseDirection]
         private Vector2Int collapseDirection;
         public Vector2Int CollapseDirection => collapseDirection;
@@ -19,7 +48,7 @@ namespace Bipolar.PuzzleBoard
             bool colapsed = false;
             for (int lineIndex = 0; lineIndex < board.Dimensions[iterationAxis]; lineIndex++)
             {
-                int emptyCellsCount = CollapseTokensInLine(lineIndex, board);
+                int emptyCellsCount = CollapsePiecesInLine(lineIndex, board);
                 if (emptyCellsCount > 0)
                 {
                     colapsed = true;
@@ -29,7 +58,7 @@ namespace Bipolar.PuzzleBoard
             return colapsed;
         }
 
-        private int CollapseTokensInLine(int lineIndex, RectangularBoard board)
+        private int CollapsePiecesInLine(int lineIndex, RectangularBoard board)
         {
             int lineSize = board.Dimensions[collapseAxis];
 
@@ -52,6 +81,7 @@ namespace Bipolar.PuzzleBoard
                     var targetCoord = coord + offsetToMove;
                     board[coord] = null;
                     board[targetCoord] = piece;
+                    OnCollapsed?.Invoke(this, new PieceCollapsedEventArgs(piece, coord));
                 }
             });
 
@@ -67,7 +97,9 @@ namespace Bipolar.PuzzleBoard
 
             IterateOverCellsInLine(board, lineIndex, count, startCellIndex, refillingDirection, (coord) =>
             {
-                board[coord] = (pieceFactory?.CreatePiece(coord.x, coord.y));
+                var piece = pieceFactory?.CreatePiece(coord.x, coord.y);
+                board[coord] = piece;
+                OnCollapsed?.Invoke(this, new PieceCreatedEventArgs(piece));
             });
         }
 
@@ -76,7 +108,7 @@ namespace Bipolar.PuzzleBoard
             int lineSize = board.Dimensions[collapseAxis];
             for (int i = 0; i < count; i++)
             {
-                var coord = Vector2Int.zero;
+                Vector2Int coord = default;
                 coord[iterationAxis] = lineIndex;
                 coord[collapseAxis] = (startCellIndex + i * iterationDirection + lineSize) % lineSize;
 

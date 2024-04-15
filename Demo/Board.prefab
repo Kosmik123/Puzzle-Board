@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 6204207786967965945}
   - component: {fileID: 6204207786967965941}
   - component: {fileID: 4506840563404074097}
+  - component: {fileID: 7758087442484927953}
   m_Layer: 0
   m_Name: Board
   m_TagString: Untagged
@@ -43,7 +44,7 @@ Grid:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6204207786967965943}
   m_Enabled: 1
-  m_CellSize: {x: 1, y: 1, z: 1}
+  m_CellSize: {x: 1.2, y: 1.2, z: 1}
   m_CellGap: {x: 0, y: 0, z: 0}
   m_CellLayout: 0
   m_CellSwizzle: 0
@@ -72,7 +73,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1055898b4f8c115418b201d1242ea1fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  board: {fileID: 0}
+  board: {fileID: 6204207786967965947}
   defaultMovementDuration: 0.2
 --- !u!114 &6204207786967965941
 MonoBehaviour:
@@ -100,6 +101,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88ef87ba7c83a434db59f520a85b5fe7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  strategy:
-    collapseDirection: {x: 0, y: -1}
   piecesSpawner: {fileID: 0}
+  pieceFactory: {fileID: 0}
+  _boardComponent: {fileID: 6204207786967965947}
+  strategy:
+    collapseDirection: {x: 0, y: 1}
+--- !u!114 &7758087442484927953
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6204207786967965943}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eb9284e0c923d3945b8f3090d1e10810, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pieceColorProvider: {fileID: 0}

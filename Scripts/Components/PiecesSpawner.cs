@@ -6,13 +6,13 @@ namespace Bipolar.PuzzleBoard
     {
         public event System.Action<PieceComponent> OnPieceSpawned;
 
-        public PieceComponent SpawnPiece(int xCoord, int yCoord)
+        public PieceComponent SpawnPiece(Piece piece)
         {
-            var piece = Spawn(xCoord, yCoord);
-            OnPieceSpawned?.Invoke(piece);
-            return piece;
+            var pieceComponent = Spawn(piece);
+            OnPieceSpawned?.Invoke(pieceComponent);
+            return pieceComponent;
         }
 
-        protected abstract PieceComponent Spawn(int xCoord, int yCoord);
+        protected abstract PieceComponent Spawn(Piece piece);
     }
 }

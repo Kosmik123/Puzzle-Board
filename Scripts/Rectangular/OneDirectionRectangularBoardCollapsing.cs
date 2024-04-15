@@ -72,22 +72,22 @@ namespace Bipolar.PuzzleBoard.Rectangular
             int nonExistingPiecesCount = 0;
 
 
-            IterateOverCellsInLine(lineIndex, lineSize, startCellIndex, lineCollapseDirection, (coord) =>
-            {
-                var piece = BoardComponent.GetPiece(coord);
-                if (piece == null || piece.IsCleared)
-                {
-                    nonExistingPiecesCount++;
-                }
-                else if (nonExistingPiecesCount > 0)
-                {
-                    var offsetToMove = RealCollapseDirection * nonExistingPiecesCount;
-                    var targetCoord = coord + offsetToMove;
-                    BoardComponent.Board[coord] = null;
-                    BoardComponent.Board[targetCoord] = piece.Piece;
-                    piecesMovementManager.StartPieceMovement(piece, targetCoord, 0.3f);
-                }
-            });
+            //IterateOverCellsInLine(lineIndex, lineSize, startCellIndex, lineCollapseDirection, (coord) =>
+            //{
+            //    var piece = BoardComponent.GetPiece(coord);
+            //    if (piece == null || piece.IsCleared)
+            //    {
+            //        nonExistingPiecesCount++;
+            //    }
+            //    else if (nonExistingPiecesCount > 0)
+            //    {
+            //        var offsetToMove = RealCollapseDirection * nonExistingPiecesCount;
+            //        var targetCoord = coord + offsetToMove;
+            //        BoardComponent.Board[coord] = null;
+            //        BoardComponent.Board[targetCoord] = piece.Piece;
+            //        piecesMovementManager.StartPieceMovement(piece, targetCoord, 0.3f);
+            //    }
+            //});
 
             return nonExistingPiecesCount;
         }
@@ -100,20 +100,20 @@ namespace Bipolar.PuzzleBoard.Rectangular
 
         private void RefillLine(int lineIndex, int count)
         {
-            int lineSize = 1;// BoardComponent.Dimensions[collapseAxis];
+            //int lineSize = 1;// BoardComponent.Dimensions[collapseAxis];
 
-            int startCellIndex = RealCollapseDirection[collapseAxis] < 0 ? -1 : 0;
-            var spawnOffset = -RealCollapseDirection * count;
+            //int startCellIndex = RealCollapseDirection[collapseAxis] < 0 ? -1 : 0;
+            //var spawnOffset = -RealCollapseDirection * count;
 
-            int refillingDirection = RealCollapseDirection[collapseAxis] == 0 ? 1 : RealCollapseDirection[collapseAxis];
+            //int refillingDirection = RealCollapseDirection[collapseAxis] == 0 ? 1 : RealCollapseDirection[collapseAxis];
 
-            IterateOverCellsInLine(lineIndex, count, startCellIndex, refillingDirection, (coord) =>
-            {
-                var newPiece = CreatePiece(coord);
-                var spawnCoord = coord + spawnOffset;
-                newPiece.transform.position = BoardComponent.CoordToWorld(spawnCoord);
-                piecesMovementManager.StartPieceMovement(newPiece, coord, 0.3f);
-            });
+            //IterateOverCellsInLine(lineIndex, count, startCellIndex, refillingDirection, (coord) =>
+            //{
+            //    var newPiece = CreatePiece(coord);
+            //    var spawnCoord = coord + spawnOffset;
+            //    newPiece.transform.position = BoardComponent.CoordToWorld(spawnCoord);
+            //    piecesMovementManager.StartPieceMovement(newPiece, coord, 0.3f);
+            //});
         }
 
         private void OnValidate()

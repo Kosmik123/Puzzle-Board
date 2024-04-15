@@ -200,7 +200,7 @@ namespace Bipolar.PuzzleBoard.General
             for (int i = 0; i < count; i++)
             {
                 var coord = line.Coords[i];
-                var newPiece = CreatePiece(coord);
+                PieceComponent newPiece = null; // CreatePiece(coord);
                 var spawningPosition = firstCellPosition + (Vector3)(creatingDirection * (count - i));
                 newPiece.transform.position = spawningPosition;
                 piecesMovementManager.StartPieceMovement(newPiece, line, -1, i + 1);

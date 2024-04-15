@@ -12,18 +12,18 @@ namespace Bipolar.PuzzleBoard.Spawning
 
         private Stack<PieceComponent> piecesPool = new Stack<PieceComponent>();
 
-        protected override PieceComponent Spawn(int x, int y)
+        protected override PieceComponent Spawn(Piece piece)
         {
-            var spawnedPiece = piecesPool.Count > 0 ? piecesPool.Pop() : CreateNewPiece(x, y);
+            var spawnedPiece = piecesPool.Count > 0 ? piecesPool.Pop() : CreateNewPiece(piece);
             spawnedPiece.IsCleared = false;
             spawnedPiece.gameObject.SetActive(true);
             return spawnedPiece;
         }
 
-        private PieceComponent CreateNewPiece(int x, int y)
+        private PieceComponent CreateNewPiece(Piece piece)
         {
             var pieceComponent = Instantiate(piecePrototype, piecesContainer);
-            pieceComponent.Piece = new Piece(x, y);
+            pieceComponent.Piece = piece;
             pieceComponent.OnCleared += Release;
             return pieceComponent;
         }

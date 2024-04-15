@@ -18,6 +18,29 @@ namespace Bipolar.PuzzleBoard
     {
         public sealed override event System.Action OnPiecesColapsed;
 
+        [SerializeField]
+        private PiecesSpawner piecesSpawner;
+        public PiecesSpawner PiecesSpawner
+        {
+            get => piecesSpawner;
+            set => piecesSpawner = value;
+        }
+
+        [SerializeField]
+        private PieceFactoryWrapper pieceFactory;
+
+        [SerializeField]
+        private BoardComponent<TBoard> _boardComponent;
+        public BoardComponent<TBoard> BoardComponent
+        {
+            get
+            {
+                if (_boardComponent == null)
+                    _boardComponent = GetComponent<BoardComponent<TBoard>>();
+                return _boardComponent;
+            }
+        }
+
         private BoardCollapser<TBoard> _collapser;
         public BoardCollapser<TBoard> Collapser
         {
@@ -30,31 +53,11 @@ namespace Bipolar.PuzzleBoard
 
         [SerializeField]
         private TStrategy strategy;
-        public TStrategy Strategy => strategy;
 
         private BoardCollapser<TBoard> CreateNewCollapser() => new BoardCollapser<TBoard>(
             BoardComponent.GetBoard(),
-            Strategy, 
-            pieceFactory: null);
-
-        [SerializeField]
-        private PiecesSpawner piecesSpawner;
-        public PiecesSpawner PiecesSpawner
-        {
-            get => piecesSpawner;
-            set => piecesSpawner = value;
-        }
-
-        private BoardComponent<TBoard> _boardComponent;
-        public BoardComponent<TBoard> BoardComponent
-        {
-            get
-            {
-                if (_boardComponent == null)
-                    _boardComponent = GetComponent<BoardComponent<TBoard>>();
-                return _boardComponent;
-            }
-        }
+            strategy,
+            pieceFactory ? pieceFactory.PieceFactory : null);
 
         public sealed override System.Type BoardType => typeof(TBoard);
 
@@ -63,21 +66,36 @@ namespace Bipolar.PuzzleBoard
             _collapser = CreateNewCollapser();
         }
 
+        private void OnEnable()
+        {
+            Collapser.OnCollapsed += Collapser_OnCollapsed;
+        }
+
         public sealed override void Collapse() => Collapser.Collapse();
 
-        protected PieceComponent CreatePiece(Vector2Int coord)
+        private void Collapser_OnCollapsed()
         {
-            var piece = PiecesSpawner.SpawnPiece(coord.x, coord.y);
-            BoardComponent.AddPiece(piece);
-            return piece;
+            foreach (var collapseEvent in Collapser.CollapseEvents)
+            {
+                if (collapseEvent is IPieceCreatedCollapseEventArgs createEvent)
+                {
+                    var piece = createEvent.Piece;
+                    var pieceComponent = PiecesSpawner.SpawnPiece(piece);
+                    pieceComponent.transform.position = BoardComponent.CoordToWorld(piece.Coord);
+                    BoardComponent.AddPiece(pieceComponent);
+                }
+            }
         }
 
-        private void CallCollapseEvent()
+        private void OnDisable()
         {
-            // piecesMovementManager.OnAllPiecesMovementStopped -= CallCollapseEvent;
-            OnPiecesColapsed?.Invoke();
+            Collapser.OnCollapsed -= Collapser_OnCollapsed;
         }
 
+        private void OnDestroy()
+        {
+            _collapser?.Dispose();
+        }
 
         private void OnValidate()
         {

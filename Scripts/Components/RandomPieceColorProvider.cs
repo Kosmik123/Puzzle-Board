@@ -2,7 +2,7 @@
 
 namespace Bipolar.PuzzleBoard
 {
-    public class RandomPieceColorProvider : PiecesColorProvider
+    public class RandomPieceColorProvider : PieceColorProvider
     {
         [SerializeField]
         protected PieceColorsList pieceColorsList;

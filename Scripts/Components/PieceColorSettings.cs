@@ -12,7 +12,6 @@ namespace Bipolar.PuzzleBoard
         public override int Count => possiblePieceColors.Length;
 
         public override IPieceColor this[int index] => possiblePieceColors[index];
-
         public override IEnumerator<IPieceColor> GetEnumerator() => (IEnumerator<IPieceColor>)possiblePieceColors.GetEnumerator();
     }
 }

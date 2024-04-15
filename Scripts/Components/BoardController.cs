@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Profiling;
 
 namespace Bipolar.PuzzleBoard
 {
-    public interface IPiecesIndexable
+    public interface IPiecesIndexable // i want to remove that
     {
         PieceComponent this[Vector2Int coord] { get; set; }
     }
@@ -88,8 +89,10 @@ namespace Bipolar.PuzzleBoard
 
         protected virtual void Start()
         {
+            Profiler.BeginSample("Start Example");
             if (collapseOnStart)
                 Collapse();
+            Profiler.EndSample();
         }
 
         private readonly LinkedList<Vector2Int> shuffledCoords = new LinkedList<Vector2Int>();

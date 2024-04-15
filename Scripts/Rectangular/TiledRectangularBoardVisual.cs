@@ -13,6 +13,7 @@ namespace Bipolar.PuzzleBoard.Rectangular
             tilesScale = Vector2.one;
         }
 
+        [ContextMenu("Refresh")]
         protected override void RefreshGraphic(Vector2Int dimensions)
         {
             var tilesSize = new Vector2(dimensions.x / tilesScale.x, dimensions.y / tilesScale.y);

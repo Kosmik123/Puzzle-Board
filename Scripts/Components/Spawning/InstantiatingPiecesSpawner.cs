@@ -10,20 +10,21 @@ namespace Bipolar.PuzzleBoard.Spawning
         private Transform piecesContainter;
 
         [SerializeField]
-        private PiecesColorProvider pieceColorProvider;
-        public PiecesColorProvider PieceColorProvider
+        private PieceColorProvider pieceColorProvider;
+        public PieceColorProvider PieceColorProvider
         {
             get => pieceColorProvider;
             set => pieceColorProvider = value;
         }
 
-        protected override PieceComponent Spawn(int x, int y)
+        protected override PieceComponent Spawn(Piece piece)
         {
             var pieceComponent = Instantiate(piecePrototype, piecesContainter);
-            pieceComponent.Piece = new Piece(x, y);
-            pieceComponent.Color = PieceColorProvider.GetPieceColor(x, y);
+            pieceComponent.Piece = piece;
+            pieceComponent.Color = PieceColorProvider.GetPieceColor(piece.Coord.x, piece.Coord.y);
             pieceComponent.IsCleared = false;
-            pieceComponent.OnCleared += piece => Destroy(piece.gameObject);
+            pieceComponent.OnCleared += clearedPiece => Destroy(clearedPiece.gameObject);
+            pieceComponent.name = $"{piecePrototype.name} ({piece.Color})";
             return pieceComponent;
         }
     }
