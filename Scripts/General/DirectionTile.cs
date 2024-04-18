@@ -4,8 +4,14 @@ using UnityEngine.Tilemaps;
 
 namespace Bipolar.PuzzleBoard.General
 {
+    public interface IDirectionTile
+    {
+        Vector2Int Direction { get; }
+        bool Jump { get; }
+    }
+
     [CreateAssetMenu(menuName = CreateAssetsPath.Root + "General Board Tile")]
-    public class DirectionTile : Tile
+    public class DirectionTile : Tile, IDirectionTile
     {
         [SerializeField]
         private Vector2Int direction;

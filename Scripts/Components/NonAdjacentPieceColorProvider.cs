@@ -8,8 +8,9 @@ namespace Bipolar.PuzzleBoard
     {
         [SerializeField]
         private BoardComponent board;
+
         [SerializeField]
-        private bool avoidAdjacentPieceColors;
+        private bool avoidAdjacentPieceColors = true;
         public bool AvoidAdjacentPieceColors
         {
             get => avoidAdjacentPieceColors;

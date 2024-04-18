@@ -12,8 +12,12 @@ namespace Bipolar.PuzzleBoard
         public bool ContainsCoord(Vector2Int coord) => ContainsCoord(coord.x, coord.y);
         public abstract bool ContainsCoord(int x, int y);
 
+        private readonly bool isInited = false;
+        protected virtual bool IsInited => isInited;
+
         public Board(GridLayout.CellLayout layout)
         {
+            isInited = true;
             Layout = layout;
         }
 
@@ -21,5 +25,25 @@ namespace Bipolar.PuzzleBoard
 
         public abstract IEnumerator<Vector2Int> GetEnumerator();
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+
+#if UNITY_EDITOR
+        public static bool operator !=(Board lhs, Board rhs) => !(lhs == rhs);
+        public static bool operator ==(Board lhs, Board rhs)
+        {
+            bool rightIsNull = rhs is null;
+            bool leftIsNull = lhs is null;
+            if (rightIsNull && leftIsNull)
+                return true;
+
+            if (leftIsNull)
+                return !rhs.IsInited;
+
+            if (rightIsNull)
+                return !lhs.IsInited;
+
+            return lhs.Equals(rhs);
+        }
+#endif
     }
 }
+

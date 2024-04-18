@@ -16,15 +16,15 @@ namespace Bipolar.PuzzleBoard
         where TBoard : Board
         where TStrategy : BoardCollapseStrategy<TBoard>
     {
-        private BoardComponent<TBoard> _board;
+        private BoardComponent<TBoard> _boardComponent;
         public BoardComponent<TBoard> BoardComponent
         { 
             get
             {
-                if (_board == null)
-                    _board = GetComponent<BoardComponent<TBoard>>();    
+                if (_boardComponent == null)
+                    _boardComponent = GetComponent<BoardComponent<TBoard>>();    
                 
-                return _board;
+                return _boardComponent;
             }
         }    
 
@@ -66,13 +66,14 @@ namespace Bipolar.PuzzleBoard
 
         [SerializeField]
         protected TStrategy strategy;
+        public virtual TStrategy Strategy => strategy;
 
         [SerializeField]
         protected PiecesMover<TStrategy, TBoard> mover;
         
         private BoardCollapser<TBoard> CreateNewCollapser() => new BoardCollapser<TBoard>(
             BoardComponent.GetBoard(),
-            strategy,
+            Strategy,
             pieceFactory ? pieceFactory.PieceFactory : null);
 
         public sealed override System.Type BoardType => typeof(TBoard);
@@ -94,7 +95,7 @@ namespace Bipolar.PuzzleBoard
         {
             foreach (var collapseEvent in Collapser.CollapseEvents)
             {
-                mover.HandleCollapseMovemement(strategy, collapseEvent);
+                mover.HandleCollapseMovemement(Strategy, collapseEvent);
             }
         }
 

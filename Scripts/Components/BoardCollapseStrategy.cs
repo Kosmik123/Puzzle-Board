@@ -1,22 +1,5 @@
-﻿using UnityEngine;
-
-namespace Bipolar.PuzzleBoard
-{
-    public interface ICollapseEventArgs
-    { 
-        Piece Piece { get; }
-    }
-
-    public interface IPieceCreatedCollapseEventArgs : ICollapseEventArgs
-    {
-        int IndexInLine { get; }
-    }
-
-    public interface IExistingPieceCollapseEventArgs : ICollapseEventArgs
-    {
-        Vector2Int FromCoord { get; }
-    }
-
+﻿namespace Bipolar.PuzzleBoard
+{ 
     [System.Serializable]
     public abstract class BoardCollapseStrategy<TBoard>
         where TBoard : IBoard

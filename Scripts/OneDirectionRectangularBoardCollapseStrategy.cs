@@ -2,10 +2,24 @@
 
 namespace Bipolar.PuzzleBoard
 {
-    [System.Serializable]
-    public class OneDirectionRectangularBoardCollapseStrategy : BoardCollapseStrategy<RectangularBoard>
+    public abstract class OneDirectionCollapseStrategy<TBoard> : BoardCollapseStrategy<TBoard>
+        where TBoard : IBoard
     {
-        public readonly struct PieceCollapsedEventArgs : IExistingPieceCollapseEventArgs
+        [SerializeField, CollapseDirection]
+        private Vector2Int collapseDirection;
+        public Vector2Int CollapseDirection => collapseDirection;
+
+        protected int iterationAxis;
+        private int collapseAxis;
+        public int CollapseAxis => collapseAxis;
+
+        protected void RecalculateAxes()
+        {
+            collapseAxis = (CollapseDirection.y == 0) ? 0 : 1;
+            iterationAxis = 1 - collapseAxis;
+        }
+
+        public readonly struct PieceCollapsedEventArgs : ICollapseEventArgs
         {
             public readonly Piece Piece { get; }
             public readonly Vector2Int FromCoord { get; }
@@ -21,34 +35,12 @@ namespace Bipolar.PuzzleBoard
                 return $"Piece collapsed from {FromCoord} to {Piece.Coord} event";
             }
         }
+    }
 
-        public readonly struct PieceCreatedEventArgs : IPieceCreatedCollapseEventArgs
-        {
-            public readonly Piece Piece { get; }
-
-            public int IndexInLine { get; }
-
-            public PieceCreatedEventArgs(Piece piece, int indexInLine)
-            {
-                Piece = piece;
-                IndexInLine = indexInLine;
-            }
-
-            public override string ToString()
-            {
-                return $"New piece was created at {Piece.Coord} event";
-            }
-        }
-
+    [System.Serializable]
+    public class OneDirectionRectangularBoardCollapseStrategy : OneDirectionCollapseStrategy<RectangularBoard>
+    {
         public override event CollapseEventHandler OnPieceCollapsed;
-
-        [SerializeField, CollapseDirection]
-        private Vector2Int collapseDirection;
-        public Vector2Int CollapseDirection => collapseDirection;
-
-        private int iterationAxis;
-        private int collapseAxis;
-        public int CollapseAxis => collapseAxis;
 
         public override bool Collapse(RectangularBoard board, IPieceFactory pieceFactory)
         {
@@ -69,10 +61,10 @@ namespace Bipolar.PuzzleBoard
 
         private int CollapsePiecesInLine(int lineIndex, RectangularBoard board)
         {
-            int lineSize = board.Dimensions[collapseAxis];
+            int lineSize = board.Dimensions[CollapseAxis];
 
-            int startCellIndex = CollapseDirection[collapseAxis] > 0 ? -1 : 0;
-            int lineCollapseDirection = CollapseDirection[collapseAxis] == 0 ? 1 : -CollapseDirection[collapseAxis];
+            int startCellIndex = CollapseDirection[CollapseAxis] > 0 ? -1 : 0;
+            int lineCollapseDirection = CollapseDirection[CollapseAxis] == 0 ? 1 : -CollapseDirection[CollapseAxis];
 
             int nonExistingPiecesCount = 0;
 
@@ -99,10 +91,10 @@ namespace Bipolar.PuzzleBoard
 
         private void RefillLine(int lineIndex, int count, RectangularBoard board, IPieceFactory pieceFactory)
         {
-            int startCellIndex = CollapseDirection[collapseAxis] < 0 ? -1 : 0;
+            int startCellIndex = CollapseDirection[CollapseAxis] < 0 ? -1 : 0;
             var spawnOffset = -CollapseDirection * count;
 
-            int refillingDirection = CollapseDirection[collapseAxis] == 0 ? 1 : CollapseDirection[collapseAxis];
+            int refillingDirection = CollapseDirection[CollapseAxis] == 0 ? 1 : CollapseDirection[CollapseAxis];
 
             int indexInLine = 0;
             IterateOverCellsInLine(board, lineIndex, count, startCellIndex, refillingDirection, (coord) =>
@@ -116,21 +108,16 @@ namespace Bipolar.PuzzleBoard
 
         private void IterateOverCellsInLine(RectangularBoard board, int lineIndex, int count, int startCellIndex, int iterationDirection, System.Action<Vector2Int> action)
         {
-            int lineSize = board.Dimensions[collapseAxis];
+            int lineSize = board.Dimensions[CollapseAxis];
             for (int i = 0; i < count; i++)
             {
                 Vector2Int coord = default;
                 coord[iterationAxis] = lineIndex;
-                coord[collapseAxis] = (startCellIndex + i * iterationDirection + lineSize) % lineSize;
+                coord[CollapseAxis] = (startCellIndex + i * iterationDirection + lineSize) % lineSize;
 
                 action.Invoke(coord);
             }
         }
 
-        private void RecalculateAxes()
-        {
-            collapseAxis = (CollapseDirection.y == 0) ? 0 : 1;
-            iterationAxis = 1 - collapseAxis;
-        }
     }
 }

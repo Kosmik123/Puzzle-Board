@@ -15,6 +15,8 @@ namespace Bipolar.PuzzleBoard.General
 
         public IReadOnlyCollection<Vector2Int> Coords => piecesByCoords.Keys;
 
+        protected override bool IsInited => base.IsInited && piecesByCoords != null;
+
         public override Piece this[Vector2Int coord]
         {
             get => piecesByCoords[coord];

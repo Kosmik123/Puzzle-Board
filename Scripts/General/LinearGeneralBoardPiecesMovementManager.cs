@@ -26,18 +26,17 @@ namespace Bipolar.PuzzleBoard.General
         private readonly Dictionary<PieceComponent, Coroutine> pieceMovementCoroutines = new Dictionary<PieceComponent, Coroutine>();
         public override bool ArePiecesMoving => pieceMovementCoroutines.Count > 0;
 
-        public void StartPieceMovement(PieceComponent piece, CoordsLine line, int fromIndex, int cellDistance)
+        public void StartPieceMovement(PieceComponent piece, CoordsLine line, int fromIndex)
         {
-            var movementCoroutine = StartCoroutine(MovementCo(piece, line, fromIndex, cellDistance));
+            var movementCoroutine = StartCoroutine(MovementCo(piece, line, fromIndex));
             pieceMovementCoroutines.Add(piece, movementCoroutine);
         }
 
-        private IEnumerator MovementCo(PieceComponent piece, CoordsLine line, int fromIndex, int cellDistance)
+        private IEnumerator MovementCo(PieceComponent piece, CoordsLine line, int fromIndex)
         {
-            var startIndex = fromIndex;
-            for (int i = 1; i <= cellDistance; i++)
+            for (int startIndex = fromIndex; startIndex < line.Coords.Count - 1; startIndex++)
             {
-                int targetIndex = fromIndex + i;
+                var targetIndex = startIndex + 1;
                 var targetCoord = line.Coords[targetIndex];
 
                 var startPosition = startIndex < 0 ? piece.transform.position : Board.CoordToWorld(line.Coords[startIndex]);
@@ -50,13 +49,14 @@ namespace Bipolar.PuzzleBoard.General
                 while (progress < 1)
                 {
                     piece.transform.position = Vector3.Lerp(startPosition, targetPosition, progress);
-                    yield return waitForFixedUpdate;
-                    progress += Time.fixedDeltaTime * progressSpeed;
+                    yield return null;
+                    progress += Time.deltaTime * progressSpeed;
                 }
                 piece.transform.position = targetPosition;
-                startIndex = targetIndex;
+                if (targetCoord == piece.Piece.Coord)
+                    break;
             }
-
+            
             pieceMovementCoroutines.Remove(piece);
             if (ArePiecesMoving == false)
                 OnAllPiecesMovementStopped?.Invoke();
