@@ -19,10 +19,11 @@ namespace Bipolar.PuzzleBoard
 
         private void OnEnable()
         {
-            pieceComponent.OnColorChanged += Piece_OnInitialized; 
+            pieceComponent.OnColorChanged += RefreshPieceSprite;
+            RefreshPieceSprite(pieceComponent.Color);
         }
 
-        private void Piece_OnInitialized(IPieceColor pieceColor)
+        private void RefreshPieceSprite(IPieceColor pieceColor)
         {
             if (pieceColor is IVisualPieceColor spritePieceType)
             {
@@ -40,7 +41,7 @@ namespace Bipolar.PuzzleBoard
 
         private void OnDisable()
         {
-            pieceComponent.OnColorChanged -= Piece_OnInitialized;       
+            pieceComponent.OnColorChanged -= RefreshPieceSprite;       
         }
     }
 }

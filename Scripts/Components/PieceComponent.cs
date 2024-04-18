@@ -30,7 +30,12 @@ namespace Bipolar.PuzzleBoard
         public IPieceColor Color
         {
             get => piece.Color;
-            set => piece.Color = value;
+            set
+            {
+                piece.Color = value;
+                previousPieceColor = piece.Color;
+                OnColorChanged?.Invoke(piece.Color);
+            }
         }
 
         private bool previousCleared;
@@ -46,8 +51,8 @@ namespace Bipolar.PuzzleBoard
 
             if (previousPieceColor != piece.Color)
             {
-                OnColorChanged?.Invoke(piece.Color);
                 previousPieceColor = piece.Color;
+                OnColorChanged?.Invoke(piece.Color);
             }
         }
 

@@ -15,6 +15,10 @@ namespace Bipolar.PuzzleBoard
         [SerializeField]
         private DefaultPiecesMovementManager piecesMovementManager;
 
+
+        [SerializeField]
+        private bool dontRefillEmptySpaces;
+
         private PieceComponent CreatePiece(Piece piece)
         {
             var pieceComponent = PiecesSpawner.SpawnPiece(piece);
@@ -29,7 +33,7 @@ namespace Bipolar.PuzzleBoard
                 var pieceComponent = BoardComponent.GetPieceComponent(piece);
                 piecesMovementManager.StartPieceMovement(pieceComponent, piece.Coord);
             }
-            else if (collapseEventArgs is IPieceCreatedCollapseEventArgs createEvent)
+            else if (dontRefillEmptySpaces == false && collapseEventArgs is IPieceCreatedCollapseEventArgs createEvent)
             {
                 var piece = createEvent.Piece;
                 var pieceComponent = CreatePiece(piece);
