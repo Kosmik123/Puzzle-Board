@@ -6,9 +6,13 @@ namespace Bipolar.PuzzleBoard
     {
         public event System.Action<PieceComponent> OnPieceSpawned;
 
+        [SerializeField]
+        protected BoardComponent targetBoard;
+
         public PieceComponent SpawnPiece(Piece piece)
         {
             var pieceComponent = Spawn(piece);
+            targetBoard.AddPiece(pieceComponent);
             OnPieceSpawned?.Invoke(pieceComponent);
             return pieceComponent;
         }

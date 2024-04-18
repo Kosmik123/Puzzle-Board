@@ -23,7 +23,11 @@ namespace Bipolar.PuzzleBoard.Spawning
             pieceComponent.Piece = piece;
             pieceComponent.Color = PieceColorProvider.GetPieceColor(piece.Coord.x, piece.Coord.y);
             pieceComponent.IsCleared = false;
-            pieceComponent.OnCleared += clearedPiece => Destroy(clearedPiece.gameObject);
+            pieceComponent.OnCleared += clearedPiece =>
+            {
+                targetBoard.RemovePiece(clearedPiece);
+                Destroy(clearedPiece.gameObject);
+            };
             pieceComponent.name = $"{piecePrototype.name} ({piece.Color})";
             return pieceComponent;
         }

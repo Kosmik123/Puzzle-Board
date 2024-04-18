@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 6204207786967965945}
   - component: {fileID: 6204207786967965941}
   - component: {fileID: 4506840563404074097}
-  - component: {fileID: 7758087442484927953}
+  - component: {fileID: 8915368636875376034}
   m_Layer: 0
   m_Name: Board
   m_TagString: Untagged
@@ -102,11 +102,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   piecesSpawner: {fileID: 0}
+  piecesMovementManager: {fileID: 0}
   pieceFactory: {fileID: 0}
   _boardComponent: {fileID: 6204207786967965947}
   strategy:
-    collapseDirection: {x: 0, y: 1}
---- !u!114 &7758087442484927953
+    collapseDirection: {x: 0, y: -1}
+  mover: {fileID: 0}
+--- !u!114 &8915368636875376034
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -115,7 +117,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 6204207786967965943}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eb9284e0c923d3945b8f3090d1e10810, type: 3}
+  m_Script: {fileID: 11500000, guid: e6b443f7683ddff47926ea2891061b27, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pieceColorProvider: {fileID: 0}

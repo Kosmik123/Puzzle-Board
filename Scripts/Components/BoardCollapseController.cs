@@ -11,20 +11,33 @@ namespace Bipolar.PuzzleBoard
         public abstract void Collapse();
     }
 
+    [RequireComponent(typeof(BoardComponent<>))]
+    public abstract class PiecesMover<TStrategy, TBoard> : MonoBehaviour
+        where TBoard : Board
+        where TStrategy : BoardCollapseStrategy<TBoard>
+    {
+        private BoardComponent<TBoard> _board;
+        public BoardComponent<TBoard> BoardComponent
+        { 
+            get
+            {
+                if (_board == null)
+                    _board = GetComponent<BoardComponent<TBoard>>();    
+                
+                return _board;
+            }
+        }    
+
+        public abstract void HandleCollapseMovemement(TStrategy strategy, ICollapseEventArgs collapseEventArgs);
+    }
+
+
     [DisallowMultipleComponent, RequireComponent(typeof(BoardComponent<>))]
     public class BoardCollapseController<TStrategy, TBoard> : BoardCollapseController
         where TBoard : Board
         where TStrategy : BoardCollapseStrategy<TBoard>
     {
         public sealed override event System.Action OnPiecesColapsed;
-
-        [SerializeField]
-        private PiecesSpawner piecesSpawner;
-        public PiecesSpawner PiecesSpawner
-        {
-            get => piecesSpawner;
-            set => piecesSpawner = value;
-        }
 
         [SerializeField]
         private PieceFactoryWrapper pieceFactory;
@@ -52,8 +65,11 @@ namespace Bipolar.PuzzleBoard
         }
 
         [SerializeField]
-        private TStrategy strategy;
+        protected TStrategy strategy;
 
+        [SerializeField]
+        protected PiecesMover<TStrategy, TBoard> mover;
+        
         private BoardCollapser<TBoard> CreateNewCollapser() => new BoardCollapser<TBoard>(
             BoardComponent.GetBoard(),
             strategy,
@@ -71,19 +87,14 @@ namespace Bipolar.PuzzleBoard
             Collapser.OnCollapsed += Collapser_OnCollapsed;
         }
 
+        [ContextMenu("Collapse")]
         public sealed override void Collapse() => Collapser.Collapse();
 
         private void Collapser_OnCollapsed()
         {
             foreach (var collapseEvent in Collapser.CollapseEvents)
             {
-                if (collapseEvent is IPieceCreatedCollapseEventArgs createEvent)
-                {
-                    var piece = createEvent.Piece;
-                    var pieceComponent = PiecesSpawner.SpawnPiece(piece);
-                    pieceComponent.transform.position = BoardComponent.CoordToWorld(piece.Coord);
-                    BoardComponent.AddPiece(pieceComponent);
-                }
+                mover.HandleCollapseMovemement(strategy, collapseEvent);
             }
         }
 

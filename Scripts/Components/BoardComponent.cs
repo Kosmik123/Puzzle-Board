@@ -40,7 +40,6 @@ namespace Bipolar.PuzzleBoard
             return pieceComponents[piece];
         }
 
-
         public Vector3 CoordToWorld(float x, float y) => CoordToWorld(new Vector2(x, y));
         public virtual Vector3 CoordToWorld(Vector2 coord)
         {
@@ -75,8 +74,20 @@ namespace Bipolar.PuzzleBoard
         public void AddPiece(PieceComponent component)
         {
             var piece = component.Piece;
-            Board[piece.Coord] = piece;
             pieceComponents.Add(piece, component);
+        }
+
+        public void RemovePiece(PieceComponent pieceComponent)
+        {
+            pieceComponents.Remove(pieceComponent.Piece);
+        }
+
+        public PieceComponent GetPieceComponent(Piece piece)
+        {
+            if (pieceComponents.TryGetValue(piece, out var component))
+                return component;
+
+            return null;
         }
 
         public void MovePiece(Piece piece, Vector2Int newCoord)
@@ -96,7 +107,7 @@ namespace Bipolar.PuzzleBoard
         }
     }
 
-    public abstract class BoardComponent<TBoard> : BoardComponent // Proxy Pattern
+    public abstract class BoardComponent<TBoard> : BoardComponent
         where TBoard : Board
     {
         protected TBoard board;

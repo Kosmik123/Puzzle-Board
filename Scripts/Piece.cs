@@ -46,5 +46,7 @@ namespace Bipolar.PuzzleBoard
         {
             Color = Color;
         }
+
+        public static bool Exists(Piece piece) => piece != null && !piece.IsCleared;
     }
 }
