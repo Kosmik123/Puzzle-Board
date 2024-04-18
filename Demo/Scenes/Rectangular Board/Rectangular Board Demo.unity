@@ -503,10 +503,6 @@ PrefabInstance:
       propertyPath: piecesMovementManager
       value: 
       objectReference: {fileID: 6204207786489006551}
-    - target: {fileID: 4506840563404074097, guid: dbd2584779f7fef4f9bf8e83e62ba315, type: 3}
-      propertyPath: strategy.collapseDirection.y
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 6204207786967965942, guid: dbd2584779f7fef4f9bf8e83e62ba315, type: 3}
       propertyPath: m_RootOrder
       value: 0

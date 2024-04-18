@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.Tilemaps;
 
 namespace Bipolar.PuzzleBoard.General
@@ -11,10 +10,10 @@ namespace Bipolar.PuzzleBoard.General
         void CreateBoardShape();
     }
 
+    [AddComponentMenu("Board Puzzles/General Board")]
     public class GeneralBoardComponent : BoardComponent<GeneralBoard>, IGeneralBoardComponent
     {
         [SerializeField, Tooltip("Provides board shape")]
-        [FormerlySerializedAs("tilemap")]
         private Tilemap shapeTilemap;
         public Tilemap ShapeTilemap => shapeTilemap;
 
@@ -36,8 +35,9 @@ namespace Bipolar.PuzzleBoard.General
             set => board[coord] = value;
         }
 
-        private void Reset()
+        protected override void Reset()
         {
+            base.Reset();
             shapeTilemap = GetComponentInChildren<Tilemap>();
         }
 
