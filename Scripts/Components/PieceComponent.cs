@@ -21,10 +21,12 @@ namespace Bipolar.PuzzleBoard.Components
             }
         }
 
+        public Vector2Int Coord => piece.Coord;
+
         public bool IsCleared
         {
             get => piece.IsCleared;
-            set => piece.IsCleared = value;
+            internal set => piece.IsCleared = value;
         }
 
         public IPieceColor Color
@@ -70,7 +72,6 @@ namespace Bipolar.PuzzleBoard.Components
         {
             piece.OnCleared += CallClearedEvent;
         }
-
 
         protected virtual void OnValidate()
         {

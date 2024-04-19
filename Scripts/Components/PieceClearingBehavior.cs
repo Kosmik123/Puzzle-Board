@@ -32,4 +32,19 @@ namespace Bipolar.PuzzleBoard.Components
             Piece.IsCleared = true;
         }
     }
+
+    public static class PieceClearingExtension
+    {
+        public static void Clear(this PieceComponent piece)
+        {
+            if (piece.TryGetComponent<PieceClearingBehavior>(out var pieceClearing))
+            {
+                pieceClearing.Clear();
+            }
+            else
+            {
+                piece.IsCleared = true;
+            }
+        }
+    }
 }
