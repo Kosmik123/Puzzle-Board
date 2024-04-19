@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Bipolar.PuzzleBoard
+namespace Bipolar.PuzzleBoard.Components
 {
     [SelectionBase]
     public class PieceComponent : MonoBehaviour
@@ -12,7 +12,7 @@ namespace Bipolar.PuzzleBoard
 
         [SerializeField]
         private Piece piece;
-        public Piece Piece
+        internal Piece Piece
         {
             get => piece;
             set
@@ -64,26 +64,6 @@ namespace Bipolar.PuzzleBoard
         protected virtual void OnValidate()
         {
             piece?.Validate();
-        }
-    }
-
-    public abstract class Piece<T> : Piece
-        where T : Object, IPieceColor
-    {
-        [SerializeField]
-        private T color;
-
-        protected Piece(int x, int y) : base(x, y)
-        { }
-
-        public override IPieceColor Color
-        {
-            get => color;
-            set
-            {
-                color = value as T;
-                base.Color = color;
-            }
         }
     }
 }

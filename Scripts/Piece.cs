@@ -16,16 +16,6 @@ namespace Bipolar.PuzzleBoard
             }
         }
 
-        private IPieceColor pieceColor;
-        public virtual IPieceColor Color
-        {
-            get => pieceColor;
-            set
-            {
-                pieceColor = value;
-            }
-        }
-
         [SerializeField]
         private bool isCleared = false;
         public bool IsCleared
@@ -36,6 +26,8 @@ namespace Bipolar.PuzzleBoard
                 isCleared = value;
             }
         }
+
+        public virtual IPieceColor Color { get; set; }
 
         public Piece (int x, int y)
         {
@@ -48,5 +40,25 @@ namespace Bipolar.PuzzleBoard
         }
 
         public static bool Exists(Piece piece) => piece != null && !piece.IsCleared;
+    }
+
+    public abstract class Piece<T> : Piece
+        where T : Object, IPieceColor
+    {
+        [SerializeField]
+        private T color;
+
+        protected Piece(int x, int y) : base(x, y)
+        { }
+
+        public override IPieceColor Color
+        {
+            get => color;
+            set
+            {
+                color = value as T;
+                base.Color = color;
+            }
+        }
     }
 }

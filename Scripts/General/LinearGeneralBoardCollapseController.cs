@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using Bipolar.PuzzleBoard.General;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-namespace Bipolar.PuzzleBoard.General
+namespace Bipolar.PuzzleBoard.Components
 {
     public abstract class MockGeneralCollapseStrategy : BoardCollapseStrategy<GeneralBoard>
     { }

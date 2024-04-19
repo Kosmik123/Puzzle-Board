@@ -1,7 +1,6 @@
-﻿using Bipolar.PuzzleBoard.Rectangular;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace Bipolar.PuzzleBoard
+namespace Bipolar.PuzzleBoard.Components
 {
     [RequireComponent(typeof(RectangularBoardComponent))]
     public class OneDirectionRectangularBoardCollapseController : BoardCollapseController<OneDirectionRectangularBoardCollapseStrategy, RectangularBoard>

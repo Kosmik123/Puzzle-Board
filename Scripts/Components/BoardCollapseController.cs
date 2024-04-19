@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Bipolar.PuzzleBoard
+namespace Bipolar.PuzzleBoard.Components
 {
     public abstract class BoardCollapseController : MonoBehaviour
     {
@@ -10,27 +10,6 @@ namespace Bipolar.PuzzleBoard
         public bool IsCollapsing { get; protected set; }
         public abstract void Collapse();
     }
-
-    [RequireComponent(typeof(BoardComponent<>))]
-    public abstract class PiecesMover<TStrategy, TBoard> : MonoBehaviour
-        where TBoard : Board
-        where TStrategy : BoardCollapseStrategy<TBoard>
-    {
-        private BoardComponent<TBoard> _boardComponent;
-        public BoardComponent<TBoard> BoardComponent
-        { 
-            get
-            {
-                if (_boardComponent == null)
-                    _boardComponent = GetComponent<BoardComponent<TBoard>>();    
-                
-                return _boardComponent;
-            }
-        }    
-
-        public abstract void HandleCollapseMovemement(TStrategy strategy, ICollapseEventArgs collapseEventArgs);
-    }
-
 
     [DisallowMultipleComponent, RequireComponent(typeof(BoardComponent<>))]
     public class BoardCollapseController<TStrategy, TBoard> : BoardCollapseController

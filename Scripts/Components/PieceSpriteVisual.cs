@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Bipolar.PuzzleBoard
+namespace Bipolar.PuzzleBoard.Components
 {
     public class PieceSpriteVisual : MonoBehaviour
     {

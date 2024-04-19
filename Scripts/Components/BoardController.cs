@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Profiling;
 
-namespace Bipolar.PuzzleBoard
+namespace Bipolar.PuzzleBoard.Components
 {
     public interface IPiecesIndexable // i want to remove that
     {
@@ -89,10 +88,8 @@ namespace Bipolar.PuzzleBoard
 
         protected virtual void Start()
         {
-            Profiler.BeginSample("Start Example");
             if (collapseOnStart)
                 Collapse();
-            Profiler.EndSample();
         }
 
         private readonly LinkedList<Vector2Int> shuffledCoords = new LinkedList<Vector2Int>();

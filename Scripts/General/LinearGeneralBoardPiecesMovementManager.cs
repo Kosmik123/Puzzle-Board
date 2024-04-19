@@ -1,8 +1,9 @@
-﻿using System.Collections;
+﻿using Bipolar.PuzzleBoard.General;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Bipolar.PuzzleBoard.General
+namespace Bipolar.PuzzleBoard.Components
 {
     [RequireComponent(typeof(GeneralBoardComponent))]
     public class LinearGeneralBoardPiecesMovementManager : PiecesMovementManager
@@ -45,12 +46,11 @@ namespace Bipolar.PuzzleBoard.General
 
                 float progressSpeed = piecesMovementSpeed / realDistance;
 
-                float progress = 0;
-                while (progress < 1)
+                piece.transform.position = startPosition;
+                for (float progress = 0; progress < 1; progress += Time.deltaTime * progressSpeed)
                 {
-                    piece.transform.position = Vector3.Lerp(startPosition, targetPosition, progress);
                     yield return null;
-                    progress += Time.deltaTime * progressSpeed;
+                    piece.transform.position = Vector3.Lerp(startPosition, targetPosition, progress);
                 }
                 piece.transform.position = targetPosition;
                 if (targetCoord == piece.Piece.Coord)

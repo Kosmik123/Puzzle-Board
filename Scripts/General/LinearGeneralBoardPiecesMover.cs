@@ -1,6 +1,7 @@
-﻿using UnityEngine;
+﻿using Bipolar.PuzzleBoard.General;
+using UnityEngine;
 
-namespace Bipolar.PuzzleBoard.General
+namespace Bipolar.PuzzleBoard.Components
 {
     public class LinearGeneralBoardPiecesMover : PiecesMover<LinearGeneralBoardCollapseStrategy, GeneralBoard>
     {

@@ -1,3 +1,4 @@
+using Bipolar.PuzzleBoard.Components;
 using System;
 using System.Collections.Generic;
 using UnityEditor;
