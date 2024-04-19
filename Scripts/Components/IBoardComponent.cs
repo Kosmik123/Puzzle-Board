@@ -11,6 +11,6 @@ namespace Bipolar.PuzzleBoard.Components
 
     public interface IBoardComponent : IReadOnlyBoardComponent
     {
-        void AddPiece(Piece piece);
+        void AddPiece(PieceComponent piece);
     }
 }

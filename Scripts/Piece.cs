@@ -3,7 +3,7 @@
 namespace Bipolar.PuzzleBoard
 {
     [System.Serializable]
-    public class BoardPiece
+    public class Piece
     {
         [SerializeField]
         private Vector2Int coord;
@@ -29,7 +29,7 @@ namespace Bipolar.PuzzleBoard
 
         public virtual IPieceColor Color { get; set; }
 
-        public BoardPiece (int x, int y)
+        public Piece (int x, int y)
         {
             coord = new Vector2Int (x, y);
         }
@@ -39,16 +39,16 @@ namespace Bipolar.PuzzleBoard
             Color = Color;
         }
 
-        public static bool Exists(BoardPiece piece) => piece != null && !piece.IsCleared;
+        public static bool Exists(Piece piece) => piece != null && !piece.IsCleared;
     }
 
-    public abstract class BoardPiece<T> : BoardPiece
+    public abstract class Piece<T> : Piece
         where T : Object, IPieceColor
     {
         [SerializeField]
         private T color;
 
-        protected BoardPiece(int x, int y) : base(x, y)
+        protected Piece(int x, int y) : base(x, y)
         { }
 
         public override IPieceColor Color
@@ -56,7 +56,7 @@ namespace Bipolar.PuzzleBoard
             get => color;
             set
             {
-                color = (T)value;
+                color = value as T;
                 base.Color = color;
             }
         }

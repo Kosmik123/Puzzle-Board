@@ -24,16 +24,16 @@ namespace Bipolar.PuzzleBoard.Components
             }
         }
 
-        private readonly Dictionary<Piece, Coroutine> pieceMovementCoroutines = new Dictionary<Piece, Coroutine>();
+        private readonly Dictionary<PieceComponent, Coroutine> pieceMovementCoroutines = new Dictionary<PieceComponent, Coroutine>();
         public override bool ArePiecesMoving => pieceMovementCoroutines.Count > 0;
 
-        public void StartPieceMovement(Piece piece, CoordsLine line, int fromIndex)
+        public void StartPieceMovement(PieceComponent piece, CoordsLine line, int fromIndex)
         {
             var movementCoroutine = StartCoroutine(MovementCo(piece, line, fromIndex));
             pieceMovementCoroutines.Add(piece, movementCoroutine);
         }
 
-        private IEnumerator MovementCo(Piece piece, CoordsLine line, int fromIndex)
+        private IEnumerator MovementCo(PieceComponent piece, CoordsLine line, int fromIndex)
         {
             for (int startIndex = fromIndex; startIndex < line.Coords.Count - 1; startIndex++)
             {
@@ -53,7 +53,7 @@ namespace Bipolar.PuzzleBoard.Components
                     piece.transform.position = Vector3.Lerp(startPosition, targetPosition, progress);
                 }
                 piece.transform.position = targetPosition;
-                if (targetCoord == piece.Coord)
+                if (targetCoord == piece.Piece.Coord)
                     break;
             }
             

@@ -3,17 +3,22 @@
 namespace Bipolar.PuzzleBoard.Components
 {
     [SelectionBase]
-    public class Piece : MonoBehaviour
+    public class PieceComponent : MonoBehaviour
     {
         public event System.Action<IPieceColor> OnColorChanged;
-        public event System.Action<Piece> OnCleared;
+        public event System.Action<PieceComponent> OnCleared;
+
+        private IReadOnlyBoard containerBoard;
 
         [SerializeField]
-        private BoardPiece piece;
-        internal BoardPiece BoardPiece
+        private Piece piece;
+        internal Piece Piece
         {
             get => piece;
-            set => piece = value;
+            set
+            {
+                piece = value;
+            }
         }
 
         public bool IsCleared
@@ -33,8 +38,6 @@ namespace Bipolar.PuzzleBoard.Components
             }
         }
 
-        public Vector2Int Coord => piece.Coord;
-
         private bool previousCleared;
         private IPieceColor previousPieceColor;
 
@@ -42,8 +45,7 @@ namespace Bipolar.PuzzleBoard.Components
         {
             if (previousCleared != piece.IsCleared)
             {
-                if (piece.IsCleared) 
-                    Invoke(nameof(CallClearedEvent), 0);
+                Invoke(nameof(CallClearedEvent), 0);
                 previousCleared = piece.IsCleared;
             }
 

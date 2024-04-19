@@ -8,10 +8,10 @@ namespace Bipolar.PuzzleBoard.General
         public readonly struct PieceCollapsedEventArgs : ICollapseEventArgs
         {
             public int FromIndex { get; }
-            public BoardPiece Piece { get; }
+            public Piece Piece { get; }
             public CoordsLine Line { get; }
 
-            public PieceCollapsedEventArgs(int fromIndex, BoardPiece piece, CoordsLine line)
+            public PieceCollapsedEventArgs(int fromIndex, Piece piece, CoordsLine line)
             {
                 FromIndex = fromIndex;
                 Piece = piece;
@@ -26,11 +26,11 @@ namespace Bipolar.PuzzleBoard.General
 
         public readonly struct PieceCreatedEventArgs : IPieceCreatedCollapseEventArgs
         {
-            public BoardPiece Piece { get; }
+            public Piece Piece { get; }
             public int CreateIndex { get; }
             public CoordsLine Line { get; }
 
-            public PieceCreatedEventArgs(BoardPiece piece, int createIndex, CoordsLine line)
+            public PieceCreatedEventArgs(Piece piece, int createIndex, CoordsLine line)
             {
                 Piece = piece;
                 CreateIndex = createIndex;

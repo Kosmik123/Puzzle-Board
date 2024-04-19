@@ -5,10 +5,10 @@ namespace Bipolar.PuzzleBoard.Components
 {
     public interface IPiecesIndexable // i want to remove that
     {
-        Piece this[Vector2Int coord] { get; set; }
+        PieceComponent this[Vector2Int coord] { get; set; }
     }
 
-    public delegate void PieceCoordChangeEventHandler(Piece piece, Vector2Int newCoord);
+    public delegate void PieceCoordChangeEventHandler(PieceComponent piece, Vector2Int newCoord);
 
     [DisallowMultipleComponent, RequireComponent(typeof(IBoardComponent), typeof(BoardCollapseController<,>))]
     public class BoardController : MonoBehaviour
@@ -75,7 +75,7 @@ namespace Bipolar.PuzzleBoard.Components
                     {
                         if (pieceComponent)
                             piecesMovementManager.StartPieceMovement(pieceComponent, coord);
-                        BoardComponent.Board[coord] = pieceComponent.BoardPiece;
+                        BoardComponent.Board[coord] = pieceComponent.Piece;
                     });
                 return piecesIndexable;
             }
@@ -127,17 +127,17 @@ namespace Bipolar.PuzzleBoard.Components
 
         public class BoardControllerPiecesIndexable : IPiecesIndexable
         {
-            private readonly System.Func<Vector2Int, Piece> getFunction;
-            private readonly System.Action<Vector2Int, Piece> setFunction;
+            private readonly System.Func<Vector2Int, PieceComponent> getFunction;
+            private readonly System.Action<Vector2Int, PieceComponent> setFunction;
 
-            public BoardControllerPiecesIndexable(System.Func<Vector2Int, Piece> getFunction,
-                System.Action<Vector2Int, Piece> setFunction)
+            public BoardControllerPiecesIndexable(System.Func<Vector2Int, PieceComponent> getFunction,
+                System.Action<Vector2Int, PieceComponent> setFunction)
             {
                 this.getFunction = getFunction;
                 this.setFunction = setFunction;
             }
 
-            public Piece this[Vector2Int coord]
+            public PieceComponent this[Vector2Int coord]
             {
                 get => getFunction(coord);
                 set => setFunction(coord, value);

@@ -4,7 +4,7 @@ namespace Bipolar.PuzzleBoard
 {
     public interface IPieceFactory
     {
-        public BoardPiece CreatePiece(int x, int y);
+        public Piece CreatePiece(int x, int y);
     }
 
     public class PieceFactory : IPieceFactory
@@ -16,9 +16,9 @@ namespace Bipolar.PuzzleBoard
             this.pieceColorProvider = pieceColorProvider;
         }
 
-        public BoardPiece CreatePiece(int x, int y)
+        public Piece CreatePiece(int x, int y)
         {
-            var piece = new BoardPiece(x, y);
+            Piece piece = new Piece(x, y);
             piece.Color = pieceColorProvider.GetPieceColor(x, y);
             return piece; 
         }

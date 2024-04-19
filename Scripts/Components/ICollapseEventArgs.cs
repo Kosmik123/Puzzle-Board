@@ -1,10 +1,11 @@
 ﻿using Bipolar.PuzzleBoard;
+using UnityEngine;
 
 namespace Bipolar.PuzzleBoard
 {
     public interface ICollapseEventArgs
     { 
-        BoardPiece Piece { get; }
+        Piece Piece { get; }
     }
 }
 
@@ -15,10 +16,10 @@ public interface IPieceCreatedCollapseEventArgs : ICollapseEventArgs
 
 public readonly struct PieceCreatedEventArgs : IPieceCreatedCollapseEventArgs
 {
-    public readonly BoardPiece Piece { get; }
+    public readonly Piece Piece { get; }
     public int CreateIndex { get; }
 
-    public PieceCreatedEventArgs(BoardPiece piece, int indexInLine)
+    public PieceCreatedEventArgs(Piece piece, int indexInLine)
     {
         Piece = piece;
         CreateIndex = indexInLine;
