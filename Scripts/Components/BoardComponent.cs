@@ -124,8 +124,7 @@ namespace Bipolar.PuzzleBoard.Components
 
         public TBoard GetBoard()
         {
-            if (board == null)
-                CreateBoardData();
+            board ??= CreateBoard();
             return board;
         }
 
@@ -140,10 +139,10 @@ namespace Bipolar.PuzzleBoard.Components
 
         protected virtual void Awake()
         {
-            CreateBoardData();
+            board ??= CreateBoard();
         }
 
-        protected abstract void CreateBoardData();
+        protected abstract TBoard CreateBoard();
         internal override IBoard GetBoardInternal() => GetBoard();
     }
 }

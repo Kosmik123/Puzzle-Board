@@ -33,10 +33,7 @@ namespace Bipolar.PuzzleBoard.Components
             CalculateOtherDimensions();
         }
 
-        protected override void CreateBoardData()
-        {
-            board = new RectangularBoard(dimensions.x, dimensions.y, Grid.cellLayout);
-        }
+        protected override RectangularBoard CreateBoard() => new RectangularBoard(dimensions.x, dimensions.y, Grid.cellLayout);
 
         private void CalculateOtherDimensions()
         {

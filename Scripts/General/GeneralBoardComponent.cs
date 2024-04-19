@@ -42,9 +42,10 @@ namespace Bipolar.PuzzleBoard.Components
             shapeTilemap = GetComponentInChildren<Tilemap>();
         }
 
-        protected override void CreateBoardData()
+        protected override GeneralBoard CreateBoard()
         {
             CreateBoardShape();
+            return board;
         }
 
         [ContextMenu("Refresh")]
