@@ -93,8 +93,8 @@ namespace Bipolar.PuzzleBoard.Components
         {
             var board = GetBoardInternal();
             (board[pieceCoord1], board[pieceCoord2]) = (board[pieceCoord2], board[pieceCoord1]);
-            GetPieceComponent(pieceCoord1).transform.position = CoordToWorld(pieceCoord1);
-            GetPieceComponent(pieceCoord2).transform.position = CoordToWorld(pieceCoord2);
+            board[pieceCoord1].Coord = pieceCoord1;
+            board[pieceCoord2].Coord = pieceCoord2;
         }
 
         public void MovePiece(Piece piece, Vector2Int newCoord)
