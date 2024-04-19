@@ -30,6 +30,7 @@ namespace Bipolar.PuzzleBoard.Components
 
         private void Release(PieceComponent piece)
         {
+            targetBoard.RemovePieceComponent(piece);
             piece.gameObject.SetActive(false);
             piecesPool.Push(piece);
         }

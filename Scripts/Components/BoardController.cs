@@ -3,11 +3,6 @@ using UnityEngine;
 
 namespace Bipolar.PuzzleBoard.Components
 {
-    public interface IPiecesIndexable // i want to remove that
-    {
-        PieceComponent this[Vector2Int coord] { get; set; }
-    }
-
     public delegate void PieceCoordChangeEventHandler(PieceComponent piece, Vector2Int newCoord);
 
     [DisallowMultipleComponent, RequireComponent(typeof(IBoardComponent), typeof(BoardCollapseController<,>))]
@@ -64,21 +59,12 @@ namespace Bipolar.PuzzleBoard.Components
             set => collapseOnStart = value;
         }
 
-        private BoardControllerPiecesIndexable piecesIndexable;
-        private IPiecesIndexable Pieces
+        [SerializeField]
+        private bool collapseConstantly;
+        public bool CollapseConstantly
         {
-            get
-            {
-                piecesIndexable ??= new BoardControllerPiecesIndexable(
-                    getFunction: (coord) => BoardComponent.GetPiece(coord),
-                    setFunction: (coord, pieceComponent) =>
-                    {
-                        if (pieceComponent)
-                            piecesMovementManager.StartPieceMovement(pieceComponent, coord);
-                        BoardComponent.Board[coord] = pieceComponent.Piece;
-                    });
-                return piecesIndexable;
-            }
+            get => collapseConstantly;
+            set => collapseConstantly = value;
         }
 
         protected virtual void Awake()
@@ -96,6 +82,9 @@ namespace Bipolar.PuzzleBoard.Components
 
         private void Update()
         {
+            if (collapseConstantly)
+                Collapse();
+
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 ShufflePieces();
@@ -121,26 +110,7 @@ namespace Bipolar.PuzzleBoard.Components
             {
                 var randomCoord = shuffledCoords.First;
                 shuffledCoords.RemoveFirst();
-                (Pieces[randomCoord.Value], Pieces[coord]) = (Pieces[coord], Pieces[randomCoord.Value]);
-            }
-        }
-
-        public class BoardControllerPiecesIndexable : IPiecesIndexable
-        {
-            private readonly System.Func<Vector2Int, PieceComponent> getFunction;
-            private readonly System.Action<Vector2Int, PieceComponent> setFunction;
-
-            public BoardControllerPiecesIndexable(System.Func<Vector2Int, PieceComponent> getFunction,
-                System.Action<Vector2Int, PieceComponent> setFunction)
-            {
-                this.getFunction = getFunction;
-                this.setFunction = setFunction;
-            }
-
-            public PieceComponent this[Vector2Int coord]
-            {
-                get => getFunction(coord);
-                set => setFunction(coord, value);
+                // (Pieces[randomCoord.Value], Pieces[coord]) = (Pieces[coord], Pieces[randomCoord.Value]);
             }
         }
     }

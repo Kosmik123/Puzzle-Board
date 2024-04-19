@@ -194,7 +194,7 @@ namespace Bipolar.PuzzleBoard.Components
                     var targetCoord = line.Coords[index + nonExistingPiecesCount];
                    // Board[coord] = null;
                    // Board[targetCoord] = piece.Piece;
-                    piecesMovementManager.StartPieceMovement(piece, line, index);
+                   // piecesMovementManager.StartPieceMovement(piece, line, index);
                 }
             }
             return nonExistingPiecesCount;

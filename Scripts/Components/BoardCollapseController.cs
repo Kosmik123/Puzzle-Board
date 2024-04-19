@@ -90,7 +90,10 @@ namespace Bipolar.PuzzleBoard.Components
 
         private void OnValidate()
         {
-            _collapser ??= CreateNewCollapser();
+            if (Application.isPlaying)
+                _collapser = null;
+            else
+                _collapser ??= CreateNewCollapser();
         }
     }
 }

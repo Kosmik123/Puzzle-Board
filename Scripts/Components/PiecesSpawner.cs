@@ -12,7 +12,7 @@ namespace Bipolar.PuzzleBoard.Components
         public PieceComponent SpawnPiece(Piece piece)
         {
             var pieceComponent = Spawn(piece);
-            targetBoard.AddPiece(pieceComponent);
+            targetBoard.AddPieceComponent(pieceComponent);
             OnPieceSpawned?.Invoke(pieceComponent);
             return pieceComponent;
         }

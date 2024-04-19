@@ -6,7 +6,7 @@ namespace Bipolar.PuzzleBoard.Components
     public class NonAdjacentPieceColorProvider : RandomPieceColorProvider
     {
         [SerializeField]
-        private BoardComponent board;
+        private BoardComponent boardComponent;
 
         [SerializeField]
         private bool avoidAdjacentPieceColors = true;
@@ -21,7 +21,7 @@ namespace Bipolar.PuzzleBoard.Components
 
         protected virtual void Reset()
         {
-            board = FindObjectOfType<BoardComponent>();
+            boardComponent = FindObjectOfType<BoardComponent>();
         }
 
         public override IPieceColor GetPieceColor(int x, int y)
@@ -31,14 +31,14 @@ namespace Bipolar.PuzzleBoard.Components
 
             forbiddenPieceColors.Clear();
             var coord = new Vector2Int(x, y);
-            bool isHexagonal = board.Layout == GridLayout.CellLayout.Hexagon;
+            bool isHexagonal = boardComponent.Layout == GridLayout.CellLayout.Hexagon;
 
-            var directions = BoardHelper.GetDirections(board.Layout);
+            var directions = BoardHelper.GetDirections(boardComponent.Layout);
             for (int i = 0; i < directions.Count; i++)
             {
                 var otherCoord = coord + BoardHelper.GetCorrectedDirection(coord, directions[i], isHexagonal);
-                var piece = board.GetPiece(otherCoord);
-                if (piece)
+                var piece = boardComponent.GetPiece(otherCoord);
+                if (piece != null)
                     forbiddenPieceColors.Add(piece.Color);
             }
 

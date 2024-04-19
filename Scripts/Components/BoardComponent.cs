@@ -22,11 +22,11 @@ namespace Bipolar.PuzzleBoard.Components
 
         public GridLayout.CellLayout Layout => Grid.cellLayout;
 
-        public abstract IBoard Board { get; }
+        public abstract IReadOnlyBoard Board { get; }
 
         public abstract bool ContainsCoord(Vector2Int coord);
 
-        public PieceComponent GetPiece(Vector2Int coord)
+        public Piece GetPiece(Vector2Int coord)
         {
             if (ContainsCoord(coord) == false)
                 return null;
@@ -35,7 +35,7 @@ namespace Bipolar.PuzzleBoard.Components
             if (piece == null || piece.IsCleared)
                 return null;
 
-            return pieceComponents[piece];
+            return piece;
         }
 
         public Vector3 CoordToWorld(float x, float y) => CoordToWorld(new Vector2(x, y));
@@ -69,17 +69,18 @@ namespace Bipolar.PuzzleBoard.Components
 
         public abstract IBoard GetBoardState();
 
-        public void AddPiece(PieceComponent component)
+        public void AddPieceComponent(PieceComponent component)
         {
             var piece = component.Piece;
             pieceComponents.Add(piece, component);
         }
 
-        public void RemovePiece(PieceComponent pieceComponent)
+        public void RemovePieceComponent(PieceComponent pieceComponent)
         {
             pieceComponents.Remove(pieceComponent.Piece);
         }
 
+        public PieceComponent GetPieceComponent(Vector2Int coord) => GetPieceComponent(Board[coord]);
         public PieceComponent GetPieceComponent(Piece piece)
         {
             if (pieceComponents.TryGetValue(piece, out var component))
@@ -88,9 +89,17 @@ namespace Bipolar.PuzzleBoard.Components
             return null;
         }
 
+        public void SwapPieces(Vector2Int pieceCoord1, Vector2Int pieceCoord2)
+        {
+            var board = GetBoardInternal();
+            (board[pieceCoord1], board[pieceCoord2]) = (board[pieceCoord2], board[pieceCoord1]);
+            GetPieceComponent(pieceCoord1).transform.position = CoordToWorld(pieceCoord1);
+            GetPieceComponent(pieceCoord2).transform.position = CoordToWorld(pieceCoord2);
+        }
+
         public void MovePiece(Piece piece, Vector2Int newCoord)
         {
-            var board = Board;
+            var board = GetBoardInternal();
             if (board.ContainsCoord(newCoord) == false)
                 return;
 
@@ -103,13 +112,15 @@ namespace Bipolar.PuzzleBoard.Components
             board[newCoord] = piece;
             piece.Coord = newCoord;
         }
+
+        internal abstract IBoard GetBoardInternal();
     }
 
     public abstract class BoardComponent<TBoard> : BoardComponent
         where TBoard : Board
     {
         protected TBoard board;
-        public override IBoard Board => GetBoard();
+        public override IReadOnlyBoard Board => GetBoard();
 
         public TBoard GetBoard()
         {
@@ -133,5 +144,6 @@ namespace Bipolar.PuzzleBoard.Components
         }
 
         protected abstract void CreateBoardData();
+        internal override IBoard GetBoardInternal() => GetBoard();
     }
 }

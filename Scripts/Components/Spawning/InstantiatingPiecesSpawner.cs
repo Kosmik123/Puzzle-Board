@@ -25,7 +25,7 @@ namespace Bipolar.PuzzleBoard.Components
             pieceComponent.IsCleared = false;
             pieceComponent.OnCleared += clearedPiece =>
             {
-                targetBoard.RemovePiece(clearedPiece);
+                targetBoard.RemovePieceComponent(clearedPiece);
                 Destroy(clearedPiece.gameObject);
             };
             pieceComponent.name = $"{piecePrototype.name} ({piece.Color})";

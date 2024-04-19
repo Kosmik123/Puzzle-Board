@@ -15,8 +15,11 @@ namespace Bipolar.PuzzleBoard
         private readonly bool isInited = false;
         protected virtual bool IsInited => isInited;
 
+        public readonly System.Guid ID;
+
         public Board(GridLayout.CellLayout layout)
         {
+            ID = System.Guid.NewGuid();
             isInited = true;
             Layout = layout;
         }
