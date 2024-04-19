@@ -38,11 +38,11 @@ namespace Bipolar.PuzzleBoard
             if (rightIsNull && leftIsNull)
                 return true;
 
-            if (leftIsNull)
-                return !rhs.IsInited;
-
             if (rightIsNull)
                 return !lhs.IsInited;
+
+            if (leftIsNull)
+                return !rhs.IsInited;
 
             return lhs.Equals(rhs);
         }
