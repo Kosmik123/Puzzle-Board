@@ -117,8 +117,8 @@ namespace Bipolar.PuzzleBoard.Components
         }
 
 
-        private readonly Dictionary<PieceComponent, Vector2Int> collapsingPiecesCoords = new Dictionary<PieceComponent, Vector2Int>();
-        private void PiecesMovementManager_OnPieceMovementEnded(PieceComponent piece)
+        private readonly Dictionary<Piece, Vector2Int> collapsingPiecesCoords = new Dictionary<Piece, Vector2Int>();
+        private void PiecesMovementManager_OnPieceMovementEnded(Piece piece)
         {
             if (collapsingPiecesCoords.TryGetValue(piece, out var coord))
             {

@@ -13,11 +13,11 @@ namespace Bipolar.PuzzleBoard
     {
         private readonly int width;
         private readonly int height;
-        private readonly Piece[,] piecesArray;
+        private readonly BoardPiece[,] piecesArray;
 
         public Vector2Int Dimensions => new Vector2Int(width, height);
 
-        public override Piece this[Vector2Int coord]
+        public override BoardPiece this[Vector2Int coord]
         {
             get => piecesArray[coord.x, coord.y];
             set => piecesArray[coord.x, coord.y] = value;
@@ -27,14 +27,14 @@ namespace Bipolar.PuzzleBoard
         {
             this.width = width;
             this.height = height;
-            piecesArray = new Piece[width, height];
+            piecesArray = new BoardPiece[width, height];
         }
 
         private RectangularBoard (RectangularBoard source) : base(source.Layout) 
         {
             width = source.width;
             height = source.height;
-            piecesArray = (Piece[,])source.piecesArray.Clone();
+            piecesArray = (BoardPiece[,])source.piecesArray.Clone();
         }
 
         public override bool ContainsCoord(int xCoord, int yCoord)

@@ -18,7 +18,7 @@ namespace Bipolar.PuzzleBoard.Components
             }
         }
 
-        protected readonly Dictionary<Piece, PieceComponent> pieceComponents = new Dictionary<Piece, PieceComponent>();
+        protected readonly Dictionary<BoardPiece, Piece> pieceComponents = new Dictionary<BoardPiece, Piece>();
 
         public GridLayout.CellLayout Layout => Grid.cellLayout;
 
@@ -26,8 +26,8 @@ namespace Bipolar.PuzzleBoard.Components
 
         public abstract bool ContainsCoord(Vector2Int coord);
 
-        public PieceComponent GetPiece(int x, int y) => GetPiece(new Vector2Int(x, y));
-        public PieceComponent GetPiece(Vector2Int coord)
+        public Piece GetPiece(int x, int y) => GetPiece(new Vector2Int(x, y));
+        public Piece GetPiece(Vector2Int coord)
         {
             if (ContainsCoord(coord) == false)
                 return null;
@@ -70,18 +70,18 @@ namespace Bipolar.PuzzleBoard.Components
 
         public abstract IBoard GetBoardState();
 
-        public void AddPiece(PieceComponent component)
+        public void AddPiece(Piece component)
         {
-            var piece = component.Piece;
+            var piece = component.BoardPiece;
             pieceComponents.Add(piece, component);
         }
 
-        public void RemovePiece(PieceComponent pieceComponent)
+        public void RemovePiece(Piece pieceComponent)
         {
-            pieceComponents.Remove(pieceComponent.Piece);
+            pieceComponents.Remove(pieceComponent.BoardPiece);
         }
 
-        public PieceComponent GetPieceComponent(Piece piece)
+        public Piece GetPieceComponent(BoardPiece piece)
         {
             if (pieceComponents.TryGetValue(piece, out var component))
                 return component;
@@ -89,7 +89,7 @@ namespace Bipolar.PuzzleBoard.Components
             return null;
         }
 
-        public void MovePiece(Piece piece, Vector2Int newCoord)
+        public void MovePiece(BoardPiece piece, Vector2Int newCoord)
         {
             var board = Board;
             if (board.ContainsCoord(newCoord) == false)

@@ -4,12 +4,12 @@ namespace Bipolar.PuzzleBoard.Components
 {
     public abstract class PiecesSpawner : MonoBehaviour
     {
-        public event System.Action<PieceComponent> OnPieceSpawned;
+        public event System.Action<Piece> OnPieceSpawned;
 
         [SerializeField]
         protected BoardComponent targetBoard;
 
-        public PieceComponent SpawnPiece(Piece piece)
+        public Piece SpawnPiece(BoardPiece piece)
         {
             var pieceComponent = Spawn(piece);
             targetBoard.AddPiece(pieceComponent);
@@ -17,6 +17,6 @@ namespace Bipolar.PuzzleBoard.Components
             return pieceComponent;
         }
 
-        protected abstract PieceComponent Spawn(Piece piece);
+        protected abstract Piece Spawn(BoardPiece piece);
     }
 }

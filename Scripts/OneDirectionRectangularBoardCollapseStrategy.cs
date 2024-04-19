@@ -21,10 +21,10 @@ namespace Bipolar.PuzzleBoard
 
         public readonly struct PieceCollapsedEventArgs : ICollapseEventArgs
         {
-            public readonly Piece Piece { get; }
+            public readonly BoardPiece Piece { get; }
             public readonly Vector2Int FromCoord { get; }
 
-            public PieceCollapsedEventArgs(Piece piece, Vector2Int fromCoord)
+            public PieceCollapsedEventArgs(BoardPiece piece, Vector2Int fromCoord)
             {
                 Piece = piece;
                 FromCoord = fromCoord;

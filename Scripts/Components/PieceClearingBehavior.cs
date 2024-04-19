@@ -3,18 +3,18 @@
 namespace Bipolar.PuzzleBoard.Components
 {
     [DisallowMultipleComponent]
-    [RequireComponent(typeof(PieceComponent))]
+    [RequireComponent(typeof(Piece))]
     public abstract class PieceClearingBehavior : MonoBehaviour
     {
         public event System.Action<PieceClearingBehavior> OnClearing;
 
-        private PieceComponent _piece;
-        public PieceComponent Piece
+        private Piece _piece;
+        public Piece Piece
         {
             get
             {
                 if (_piece == null)
-                    _piece = GetComponent<PieceComponent>();
+                    _piece = GetComponent<Piece>();
                 return _piece;
             }
         }

@@ -29,8 +29,8 @@ namespace Bipolar.PuzzleBoard.Components
             }
         }
 
-        Piece IReadOnlyBoard.this[Vector2Int coord] => this[coord];
-        public Piece this[Vector2Int coord]
+        BoardPiece IReadOnlyBoard.this[Vector2Int coord] => this[coord];
+        public BoardPiece this[Vector2Int coord]
         {
             get => board[coord]; 
             set => board[coord] = value;

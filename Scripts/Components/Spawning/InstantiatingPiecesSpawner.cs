@@ -5,7 +5,7 @@ namespace Bipolar.PuzzleBoard.Components
     public class InstantiatingPiecesSpawner : PiecesSpawner
     {
         [SerializeField]
-        private PieceComponent piecePrototype;
+        private Piece piecePrototype;
         [SerializeField]
         private Transform piecesContainter;
 
@@ -17,10 +17,10 @@ namespace Bipolar.PuzzleBoard.Components
             set => pieceColorProvider = value;
         }
 
-        protected override PieceComponent Spawn(Piece piece)
+        protected override Piece Spawn(BoardPiece piece)
         {
             var pieceComponent = Instantiate(piecePrototype, piecesContainter);
-            pieceComponent.Piece = piece;
+            pieceComponent.BoardPiece = piece;
             pieceComponent.Color = PieceColorProvider.GetPieceColor(piece.Coord.x, piece.Coord.y);
             pieceComponent.IsCleared = false;
             pieceComponent.OnCleared += clearedPiece =>
