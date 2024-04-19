@@ -8,7 +8,7 @@ namespace Bipolar.PuzzleBoard.Components
         public event System.Action<IPieceColor> OnColorChanged;
         public event System.Action<PieceComponent> OnCleared;
 
-        private IReadOnlyBoard containerBoard;
+        //private IReadOnlyBoard containerBoard;
 
         [SerializeField]
         private Piece piece;
@@ -41,6 +41,11 @@ namespace Bipolar.PuzzleBoard.Components
         private bool previousCleared;
         private IPieceColor previousPieceColor;
 
+        protected virtual void OnEnable()
+        {
+            piece.OnCleared += CallClearedEvent;
+        }
+
         private void Update()
         {
             if (previousCleared != piece.IsCleared)
@@ -60,6 +65,12 @@ namespace Bipolar.PuzzleBoard.Components
         {
             OnCleared?.Invoke(this);
         }
+
+        protected virtual void OnDisable()
+        {
+            piece.OnCleared += CallClearedEvent;
+        }
+
 
         protected virtual void OnValidate()
         {

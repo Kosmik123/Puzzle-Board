@@ -26,7 +26,6 @@ namespace Bipolar.PuzzleBoard.Components
 
         public abstract bool ContainsCoord(Vector2Int coord);
 
-        public PieceComponent GetPiece(int x, int y) => GetPiece(new Vector2Int(x, y));
         public PieceComponent GetPiece(Vector2Int coord)
         {
             if (ContainsCoord(coord) == false)

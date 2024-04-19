@@ -5,6 +5,8 @@ namespace Bipolar.PuzzleBoard
     [System.Serializable]
     public class Piece
     {
+        public event System.Action OnCleared;
+
         [SerializeField]
         private Vector2Int coord;
         public Vector2Int Coord
@@ -24,6 +26,8 @@ namespace Bipolar.PuzzleBoard
             set
             {
                 isCleared = value;
+                if (isCleared == true)
+                    OnCleared?.Invoke();
             }
         }
 
