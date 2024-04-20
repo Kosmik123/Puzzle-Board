@@ -17,8 +17,6 @@ namespace Bipolar.PuzzleBoard.Components
         [SerializeField]
         private LinearGeneralBoardPiecesMovementManager piecesMovementManager;
 
-        //public override bool IsCollapsing => piecesMovementManager.ArePiecesMoving;
-
         public override LinearGeneralBoardCollapseStrategy Strategy
         {
             get
@@ -36,7 +34,7 @@ namespace Bipolar.PuzzleBoard.Components
         [ContextMenu("Refresh")]
         private void CreateLines()
         {
-            Dictionary<Vector2Int, Vector2Int> directions = new Dictionary<Vector2Int, Vector2Int>();
+            var directions = new Dictionary<Vector2Int, Vector2Int>();
 
             var startingCoords = new HashSet<Vector2Int>();
             var endingCoords = new HashSet<Vector2Int>();
@@ -144,26 +142,6 @@ namespace Bipolar.PuzzleBoard.Components
 
             return new CoordsLine(coordsList);
         }
-
-        private bool TryGetTileFromBoard(Vector2Int coord, out DirectionTile tile) =>
-            DirectionTileHelper.TryGetTile(coord, ((GeneralBoardComponent)BoardComponent).ShapeTilemap, out tile);
-
-        //public override void Collapse()
-        //{
-        //    bool collapsed = false;
-        //    foreach (var line in Lines)
-        //    {
-        //        int emptyCellsCount = CollapseTokensInLine(line);
-        //        if (emptyCellsCount > 0)
-        //        {
-        //            collapsed = true;
-        //            RefillLine(line, emptyCellsCount);
-        //        }
-        //    }
-
-        //    if (collapsed)
-        //        piecesMovementManager.OnAllPiecesMovementStopped += CallCollapseEvent;
-        //}
 
         private int IndexOfCoordInBoard(Vector2Int checkedCoord)
         {

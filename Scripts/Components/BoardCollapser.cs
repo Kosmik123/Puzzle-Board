@@ -12,8 +12,8 @@ namespace Bipolar.PuzzleBoard
         private readonly BoardCollapseStrategy<TBoard> strategy;
         private readonly IPieceFactory pieceFactory;
         
-        private readonly Queue<ICollapseEventArgs> collapseEvents = new Queue<ICollapseEventArgs>();
-        public IReadOnlyCollection<ICollapseEventArgs> CollapseEvents => collapseEvents;
+        private readonly List<ICollapseEventArgs> collapseEvents = new List<ICollapseEventArgs>();
+        public IReadOnlyList<ICollapseEventArgs> CollapseEvents => collapseEvents;
 
         public TBoard Board => board;
 
@@ -27,7 +27,7 @@ namespace Bipolar.PuzzleBoard
 
         private void Strategy_OnCollapsed(BoardCollapseStrategy<TBoard> sender, ICollapseEventArgs eventArgs)
         {
-            collapseEvents.Enqueue(eventArgs);
+            collapseEvents.Add(eventArgs);
         }
 
         public void Collapse()

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 namespace Bipolar.PuzzleBoard.Components
 {
@@ -7,7 +8,6 @@ namespace Bipolar.PuzzleBoard.Components
         public abstract event System.Action OnPiecesColapsed;
 
         public abstract System.Type BoardType { get; }
-        public bool IsCollapsing { get; protected set; }
         public abstract void Collapse();
     }
 
@@ -72,10 +72,8 @@ namespace Bipolar.PuzzleBoard.Components
 
         private void Collapser_OnCollapsed()
         {
-            foreach (var collapseEvent in Collapser.CollapseEvents)
-            {
-                mover.HandleCollapseMovemement(Strategy, collapseEvent);
-            }
+            var collapseCommand = new CollapseBoardCommand<TStrategy, TBoard>(mover, Collapser.CollapseEvents, Strategy);
+            collapseCommand.Execute();
         }
 
         private void OnDisable()
@@ -94,6 +92,34 @@ namespace Bipolar.PuzzleBoard.Components
                 _collapser = null;
             else
                 _collapser ??= CreateNewCollapser();
+        }
+    }
+
+    public struct CollapseBoardCommand<TStrategy, TBoard> : IBoardCommand 
+        where TBoard : Board
+        where TStrategy : BoardCollapseStrategy<TBoard>
+    {
+        private readonly IReadOnlyList<ICollapseEventArgs> collapseEvents;
+        private readonly PiecesMover<TStrategy, TBoard> piecesMover;
+        private readonly TStrategy strategy;
+
+        public CollapseBoardCommand(
+            PiecesMover<TStrategy, TBoard> piecesMover,
+            IReadOnlyList<ICollapseEventArgs> collapseEvents,
+            TStrategy strategy)
+        {
+            this.collapseEvents = collapseEvents;
+            this.piecesMover = piecesMover;
+            this.strategy = strategy;
+        }
+
+        public void Execute()
+        {
+            foreach (var collapseEvent in collapseEvents)
+            {
+                piecesMover.HandleCollapseMovemement(strategy, collapseEvent);
+            }
+
         }
     }
 }

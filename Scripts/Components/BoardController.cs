@@ -5,6 +5,11 @@ namespace Bipolar.PuzzleBoard.Components
 {
     public delegate void PieceCoordChangeEventHandler(PieceComponent piece, Vector2Int newCoord);
 
+    public interface IBoardCommand
+    {
+        public void Execute();
+    }
+
     [DisallowMultipleComponent, RequireComponent(typeof(IBoardComponent), typeof(BoardCollapseController<,>))]
     public class BoardController : MonoBehaviour
     {
@@ -18,10 +23,6 @@ namespace Bipolar.PuzzleBoard.Components
             }
         }
 
-        [SerializeField]
-        protected DefaultPiecesMovementManager piecesMovementManager;
-        public PiecesMovementManager PiecesMovementManager => piecesMovementManager;
-
         private BoardCollapseController _boardCollapseController;
         public BoardCollapseController BoardCollapseController
         {
@@ -33,9 +34,7 @@ namespace Bipolar.PuzzleBoard.Components
             }
         }
 
-        public bool ArePiecesMoving => piecesMovementManager.ArePiecesMoving;
-
-        public bool IsCollapsing => BoardCollapseController.IsCollapsing;
+        public bool ArePiecesMoving { get; private set; }
 
         [ContextMenu("Collapse")]
         public void Collapse() => BoardCollapseController.Collapse();
@@ -94,7 +93,7 @@ namespace Bipolar.PuzzleBoard.Components
         public void ShufflePieces()
         {
             shuffledCoords.Clear();
-            foreach (var coord in BoardComponent)
+            foreach (var coord in BoardComponent.Board)
             {
                 if (Random.value > 0.5f)
                 {
@@ -106,7 +105,7 @@ namespace Bipolar.PuzzleBoard.Components
                 }
             }
 
-            foreach (var coord in BoardComponent)
+            foreach (var coord in BoardComponent.Board)
             {
                 var randomCoord = shuffledCoords.First;
                 shuffledCoords.RemoveFirst();

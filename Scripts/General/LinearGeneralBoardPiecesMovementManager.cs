@@ -29,8 +29,10 @@ namespace Bipolar.PuzzleBoard.Components
 
         public void StartPieceMovement(PieceComponent piece, CoordsLine line, int fromIndex)
         {
-            var movementCoroutine = StartCoroutine(MovementCo(piece, line, fromIndex));
-            pieceMovementCoroutines.Add(piece, movementCoroutine);
+            if (pieceMovementCoroutines.TryGetValue(piece, out var alreadyMovingCo))
+                StopCoroutine(alreadyMovingCo);
+
+            pieceMovementCoroutines[piece] = StartCoroutine(MovementCo(piece, line, fromIndex));
         }
 
         private IEnumerator MovementCo(PieceComponent piece, CoordsLine line, int fromIndex)
