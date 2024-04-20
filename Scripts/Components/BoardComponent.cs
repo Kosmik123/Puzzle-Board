@@ -65,7 +65,7 @@ namespace Bipolar.PuzzleBoard.Components
             return (Vector2Int)coord;
         }
 
-        public abstract IEnumerator<Vector2Int> GetEnumerator();
+       // public abstract IEnumerator<Vector2Int> GetEnumerator();
 
         public abstract IBoard GetBoardState();
 

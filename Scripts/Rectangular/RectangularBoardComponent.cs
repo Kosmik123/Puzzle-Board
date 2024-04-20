@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Bipolar.PuzzleBoard.Components
 {
-    public interface IRectangularBoardComponent : IReadOnlyBoardComponent
+    public interface IRectangularBoardComponent : IBoardComponent
     {
         Vector2Int Dimensions { get; }
     }
@@ -97,7 +97,7 @@ namespace Bipolar.PuzzleBoard.Components
             }
         }
 
-        public override IEnumerator<Vector2Int> GetEnumerator()
+        public IEnumerator<Vector2Int> GetEnumerator()
         {
             for (int y = 0; y < dimensions.y; y++)
                 for (int x = 0; x < dimensions.x; x++)

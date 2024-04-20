@@ -1,12 +1,11 @@
 ﻿using Bipolar.PuzzleBoard.General;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
 namespace Bipolar.PuzzleBoard.Components
 {
-    public interface IGeneralBoardComponent : IBoardComponent, IGeneralBoard
+    public interface IGeneralBoardComponent : IBoardComponent
     {
         void CreateBoardShape();
     }
@@ -29,7 +28,7 @@ namespace Bipolar.PuzzleBoard.Components
             }
         }
 
-        Piece IReadOnlyBoard.this[Vector2Int coord] => this[coord];
+        //Piece IReadOnlyBoard.this[Vector2Int coord] => this[coord];
         public Piece this[Vector2Int coord]
         {
             get => board[coord]; 
@@ -96,8 +95,7 @@ namespace Bipolar.PuzzleBoard.Components
                 Gizmos.DrawSphere(CoordToWorld(coord), 0.3f);
         }
 
-        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
-        public override IEnumerator<Vector2Int> GetEnumerator()
+        public IEnumerator<Vector2Int> GetEnumerator()
         {
             foreach (var coord in Coords)
                 yield return coord;
