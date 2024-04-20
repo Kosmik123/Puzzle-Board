@@ -10,28 +10,26 @@ namespace Bipolar.PuzzleBoard.Components
 
         //private IReadOnlyBoard containerBoard;
 
-        [SerializeField]
+        [SerializeReference]
         private Piece piece;
-        internal Piece Piece
-        {
-            get => piece;
-            set
-            {
-                piece = value;
-            }
-        }
+        internal Piece Piece => piece;
 
-        public Vector2Int Coord => piece.Coord;
-
+        [SerializeField]
+        private bool isCleared;
         public bool IsCleared
         {
-            get => piece.IsCleared;
-            internal set => piece.IsCleared = value;
+            get => isCleared;
+            set
+            {
+                isCleared = value;
+                if (isCleared)
+                    OnCleared?.Invoke(this);
+            }
         }
 
         public IPieceColor Color
         {
-            get => piece.Color;
+            get => piece?.Color;
             set
             {
                 piece.Color = value;
@@ -40,42 +38,34 @@ namespace Bipolar.PuzzleBoard.Components
             }
         }
 
-        private bool previousCleared;
         private IPieceColor previousPieceColor;
 
-        protected virtual void OnEnable()
+        internal void Init(Piece piece)
         {
-            piece.OnCleared += CallClearedEvent;
+            this.piece = piece;
+            isCleared = false;
         }
 
         private void Update()
         {
-            if (previousCleared != piece.IsCleared)
-            {
-                Invoke(nameof(CallClearedEvent), 0);
-                previousCleared = piece.IsCleared;
-            }
-
             if (previousPieceColor != piece.Color)
             {
                 previousPieceColor = piece.Color;
                 OnColorChanged?.Invoke(piece.Color);
             }
-        }
 
-        private void CallClearedEvent()
-        {
-            OnCleared?.Invoke(this);
-        }
-
-        protected virtual void OnDisable()
-        {
-            piece.OnCleared += CallClearedEvent;
+            // temp disappearing of Pieces
+            if (Piece.IsCleared)
+            {
+                Destroy(gameObject, 0.3f);
+            }
         }
 
         protected virtual void OnValidate()
         {
+#if UNITY_EDITOR
             piece?.Validate();
+#endif
         }
     }
 }

@@ -9,20 +9,10 @@ namespace Bipolar.PuzzleBoard.Components
         [SerializeField]
         private Transform piecesContainter;
 
-        [SerializeField]
-        private PieceColorProvider pieceColorProvider;
-        public PieceColorProvider PieceColorProvider
-        {
-            get => pieceColorProvider;
-            set => pieceColorProvider = value;
-        }
-
         protected override PieceComponent Spawn(Piece piece)
         {
             var pieceComponent = Instantiate(piecePrototype, piecesContainter);
-            pieceComponent.Piece = piece;
-            pieceComponent.Color = PieceColorProvider.GetPieceColor(piece.Coord.x, piece.Coord.y);
-            pieceComponent.IsCleared = false;
+            pieceComponent.Init(piece);
             pieceComponent.OnCleared += clearedPiece =>
             {
                 targetBoard.RemovePieceComponent(clearedPiece);

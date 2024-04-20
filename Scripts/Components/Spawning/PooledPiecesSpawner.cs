@@ -10,20 +10,19 @@ namespace Bipolar.PuzzleBoard.Components
         [SerializeField]
         private Transform piecesContainer;
 
-        private Stack<PieceComponent> piecesPool = new Stack<PieceComponent>();
+        private readonly Stack<PieceComponent> piecesPool = new Stack<PieceComponent>();
 
         protected override PieceComponent Spawn(Piece piece)
         {
-            var spawnedPiece = piecesPool.Count > 0 ? piecesPool.Pop() : CreateNewPiece(piece);
-            spawnedPiece.IsCleared = false;
+            var spawnedPiece = piecesPool.Count > 0 ? piecesPool.Pop() : CreateNewPiece();
+            spawnedPiece.Init(piece);
             spawnedPiece.gameObject.SetActive(true);
             return spawnedPiece;
         }
 
-        private PieceComponent CreateNewPiece(Piece piece)
+        private PieceComponent CreateNewPiece()
         {
             var pieceComponent = Instantiate(piecePrototype, piecesContainer);
-            pieceComponent.Piece = piece;
             pieceComponent.OnCleared += Release;
             return pieceComponent;
         }

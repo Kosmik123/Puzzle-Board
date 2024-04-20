@@ -8,14 +8,14 @@ namespace Bipolar.PuzzleBoard.Components
     {
         public event System.Action<PieceClearingBehavior> OnClearing;
 
-        private PieceComponent _piece;
-        public PieceComponent Piece
+        private PieceComponent _pieceComponent;
+        public PieceComponent PieceComponent
         {
             get
             {
-                if (_piece == null)
-                    _piece = GetComponent<PieceComponent>();
-                return _piece;
+                if (_pieceComponent == null)
+                    _pieceComponent = GetComponent<PieceComponent>();
+                return _pieceComponent;
             }
         }
 
@@ -29,7 +29,7 @@ namespace Bipolar.PuzzleBoard.Components
 
         protected void FinishClearing()
         {
-            Piece.IsCleared = true;
+            PieceComponent.Piece.Clear();
         }
     }
 
@@ -43,7 +43,7 @@ namespace Bipolar.PuzzleBoard.Components
             }
             else
             {
-                piece.IsCleared = true;
+                piece.Piece.Clear();
             }
         }
     }

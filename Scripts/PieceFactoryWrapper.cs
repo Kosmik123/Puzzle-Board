@@ -7,19 +7,19 @@ namespace Bipolar.PuzzleBoard
         public Piece CreatePiece(int x, int y);
     }
 
-    public class PieceFactory : IPieceFactory
+    public class DefaultPieceFactory : IPieceFactory
     {
         private readonly IPieceColorProvider pieceColorProvider;
 
-        public PieceFactory(IPieceColorProvider pieceColorProvider)
+        public DefaultPieceFactory(IPieceColorProvider pieceColorProvider)
         {
             this.pieceColorProvider = pieceColorProvider;
         }
 
         public Piece CreatePiece(int x, int y)
         {
-            Piece piece = new Piece(x, y);
-            piece.Color = pieceColorProvider.GetPieceColor(x, y);
+            var pieceColor = pieceColorProvider.GetPieceColor(x, y);
+            var piece = new DefaultPiece(x, y, pieceColor);
             return piece; 
         }
     }
@@ -34,7 +34,7 @@ namespace Bipolar.PuzzleBoard
         {
             get
             {
-                _pieceFactory ??= new PieceFactory(pieceColorProvider);
+                _pieceFactory ??= new DefaultPieceFactory(pieceColorProvider);
                 return _pieceFactory;
             }
         }
