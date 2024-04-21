@@ -33,7 +33,9 @@ namespace Bipolar.PuzzleBoard.Components
                 speed = defaultSpeed;
 
             var movement = new MovementData(targetPosition, speed);
+            // to jest przykład szybkiego fixa o którym ktoś może zapomnieć
             movementQueue.Enqueue(movement);
+            //currentMovement = movement;
         }
 
         private void Update()

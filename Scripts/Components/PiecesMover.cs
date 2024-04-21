@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 namespace Bipolar.PuzzleBoard.Components
 {
@@ -7,6 +8,8 @@ namespace Bipolar.PuzzleBoard.Components
         where TBoard : Board
         where TStrategy : BoardCollapseStrategy<TBoard>
     {
+        public bool IsMoving { get; protected set; }
+
         private BoardComponent<TBoard> _boardComponent;
         public BoardComponent<TBoard> BoardComponent
         { 
@@ -19,6 +22,6 @@ namespace Bipolar.PuzzleBoard.Components
             }
         }    
 
-        public abstract void HandleCollapseMovemement(TStrategy strategy, ICollapseEventArgs collapseEventArgs);
+        public abstract void HandleCollapseMovemement(TStrategy strategy, IReadOnlyList<ICollapseEventArgs> collapseEvents);
     }
 }

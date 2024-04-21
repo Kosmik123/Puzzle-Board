@@ -10,17 +10,19 @@ namespace Bipolar.PuzzleBoard.General
             public int FromIndex { get; }
             public Piece Piece { get; }
             public CoordsLine Line { get; }
+            public Vector2Int TargetCoord { get; }
 
-            public PieceCollapsedEventArgs(int fromIndex, Piece piece, CoordsLine line)
+            public PieceCollapsedEventArgs(int fromIndex, Piece piece, CoordsLine line, Vector2Int targetCoord)
             {
                 FromIndex = fromIndex;
                 Piece = piece;
                 Line = line;
+                TargetCoord = targetCoord;
             }
 
             public override string ToString()
             {
-                return $"Piece collapsed from {Line.Coords[FromIndex]} to {Piece.Coord} event";
+                return $"Piece collapsed from {Line.Coords[FromIndex]} to {TargetCoord} event";
             }
         }
 
@@ -29,16 +31,19 @@ namespace Bipolar.PuzzleBoard.General
             public Piece Piece { get; }
             public int CreateIndex { get; }
             public CoordsLine Line { get; }
+            public Vector2Int CreationCoord { get; }
 
-            public PieceCreatedEventArgs(Piece piece, int createIndex, CoordsLine line)
+            public PieceCreatedEventArgs(Piece piece, int createIndex, CoordsLine line, Vector2Int creationCoord)
             {
                 Piece = piece;
                 CreateIndex = createIndex;
                 Line = line;
+                CreationCoord = creationCoord;
             }
+
             public override string ToString()
             {
-                return $"New piece was created at {Piece.Coord} event";
+                return $"New piece was created at {CreationCoord} event";
             }
         }
 
@@ -86,11 +91,12 @@ namespace Bipolar.PuzzleBoard.General
                 }
                 else if (nonExistingPiecesCount > 0)
                 {
-                    var targetCoord = line.Coords[index + nonExistingPiecesCount];
+                    int targetIndex = index + nonExistingPiecesCount;
+                    var targetCoord = line.Coords[targetIndex];
                     board[coord] = null;
                     board[targetCoord] = piece;
                     piece.Coord = targetCoord;
-                    OnPieceCollapsed?.Invoke(this, new PieceCollapsedEventArgs(index, piece, line));
+                    OnPieceCollapsed?.Invoke(this, new PieceCollapsedEventArgs(index, piece, line, targetCoord));
                 }
             }
             return nonExistingPiecesCount;
@@ -104,7 +110,7 @@ namespace Bipolar.PuzzleBoard.General
                 var coord = line.Coords[i];
                 var piece = pieceFactory?.CreatePiece(coord.x, coord.y);
                 board[coord] = piece;
-                OnPieceCollapsed?.Invoke(this, new PieceCreatedEventArgs(piece, createIndex, line));
+                OnPieceCollapsed?.Invoke(this, new PieceCreatedEventArgs(piece, createIndex, line, coord));
                 createIndex++;
             }
         }

@@ -15,6 +15,7 @@ namespace Bipolar.PuzzleBoard.Components
         internal Piece Piece => piece;
 
         [SerializeField]
+        [Tooltip("It's different than ")]
         private bool isCleared;
         public bool IsCleared
         {
@@ -52,12 +53,6 @@ namespace Bipolar.PuzzleBoard.Components
             {
                 previousPieceColor = piece.Color;
                 OnColorChanged?.Invoke(piece.Color);
-            }
-
-            // temp disappearing of Pieces
-            if (Piece.IsCleared)
-            {
-                Destroy(gameObject, 0.3f);
             }
         }
 

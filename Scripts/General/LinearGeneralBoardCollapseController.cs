@@ -5,8 +5,6 @@ using UnityEngine.Tilemaps;
 
 namespace Bipolar.PuzzleBoard.Components
 {
-    public abstract class MockGeneralCollapseStrategy : BoardCollapseStrategy<GeneralBoard>
-    { }
 
     [RequireComponent(typeof(GeneralBoardComponent))]
     public class LinearGeneralBoardCollapseController : BoardCollapseController<LinearGeneralBoardCollapseStrategy, GeneralBoard>
@@ -178,6 +176,7 @@ namespace Bipolar.PuzzleBoard.Components
             return nonExistingPiecesCount;
         }
 
+        // its legacy code anyway
         private void RefillLine(CoordsLine line, int count)
         {
             var startCoord = line.Coords[0];
@@ -185,11 +184,10 @@ namespace Bipolar.PuzzleBoard.Components
             var firstCellPosition = BoardComponent.CoordToWorld(startCoord);
             for (int i = 0; i < count; i++)
             {
-                var coord = line.Coords[i];
                 PieceComponent newPiece = null; // CreatePiece(coord);
                 var spawningPosition = firstCellPosition + (Vector3)(creatingDirection * (count - i));
                 newPiece.transform.position = spawningPosition;
-                piecesMovementManager.StartPieceMovement(newPiece, line, -1);
+               // piecesMovementManager.StartPieceMovement(newPiece, line, -1, i, coo);
             }
         }
 

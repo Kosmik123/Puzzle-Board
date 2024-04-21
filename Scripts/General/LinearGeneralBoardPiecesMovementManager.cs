@@ -27,15 +27,18 @@ namespace Bipolar.PuzzleBoard.Components
         private readonly Dictionary<PieceComponent, Coroutine> pieceMovementCoroutines = new Dictionary<PieceComponent, Coroutine>();
         public override bool ArePiecesMoving => pieceMovementCoroutines.Count > 0;
 
-        public void StartPieceMovement(PieceComponent piece, CoordsLine line, int fromIndex)
+        public void StartPieceMovement(PieceComponent pieceComponent, CoordsLine line, int fromIndex, Vector2Int endCoord)
         {
-            if (pieceMovementCoroutines.TryGetValue(piece, out var alreadyMovingCo))
+            if (pieceComponent == null)
+                Debug.LogError("PieceCompoennet jest null? Czemu");
+
+            if (pieceMovementCoroutines.TryGetValue(pieceComponent, out var alreadyMovingCo))
                 StopCoroutine(alreadyMovingCo);
 
-            pieceMovementCoroutines[piece] = StartCoroutine(MovementCo(piece, line, fromIndex));
+            pieceMovementCoroutines[pieceComponent] = StartCoroutine(MovementCo(pieceComponent, line, fromIndex, endCoord));
         }
 
-        private IEnumerator MovementCo(PieceComponent piece, CoordsLine line, int fromIndex)
+        private IEnumerator MovementCo(PieceComponent piece, CoordsLine line, int fromIndex, Vector2Int endCoord)
         {
             for (int startIndex = fromIndex; startIndex < line.Coords.Count - 1; startIndex++)
             {
@@ -54,8 +57,9 @@ namespace Bipolar.PuzzleBoard.Components
                     yield return null;
                     piece.transform.position = Vector3.Lerp(startPosition, targetPosition, progress);
                 }
+
                 piece.transform.position = targetPosition;
-                if (targetCoord == piece.Piece.Coord)
+                if (targetCoord == endCoord)
                     break;
             }
             

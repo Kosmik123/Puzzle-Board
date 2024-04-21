@@ -1,28 +1,15 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Bipolar.PuzzleBoard.Components
 {
     public delegate void PieceCoordChangeEventHandler(PieceComponent piece, Vector2Int newCoord);
 
-    public interface IBoardCommand
-    {
-        public void Execute();
-    }
 
     [DisallowMultipleComponent, RequireComponent(typeof(IBoardComponent), typeof(BoardCollapseController<,>))]
     public class BoardController : MonoBehaviour
     {
-        public event System.Action OnPiecesColapsed
-        {
-            add => BoardCollapseController.OnPiecesColapsed += value;
-            remove
-            {
-                if (BoardCollapseController)
-                    BoardCollapseController.OnPiecesColapsed -= value;
-            }
-        }
-
         private BoardCollapseController _boardCollapseController;
         public BoardCollapseController BoardCollapseController
         {
@@ -34,7 +21,7 @@ namespace Bipolar.PuzzleBoard.Components
             }
         }
 
-        public bool ArePiecesMoving { get; private set; }
+        public bool IsBusy { get; private set; }
 
         [ContextMenu("Collapse")]
         public void Collapse() => BoardCollapseController.Collapse();
@@ -66,6 +53,9 @@ namespace Bipolar.PuzzleBoard.Components
             set => collapseConstantly = value;
         }
 
+        private readonly Queue<IBoardCommand> commandsQueue = new Queue<IBoardCommand>();
+        private IBoardCommand currentlyExecutedCommand = null;
+
         protected virtual void Awake()
         {
             _boardComponent = GetComponent<BoardComponent>();
@@ -77,10 +67,32 @@ namespace Bipolar.PuzzleBoard.Components
                 Collapse();
         }
 
-        private readonly LinkedList<Vector2Int> shuffledCoords = new LinkedList<Vector2Int>();
+        public void RequestCommand(IBoardCommand command)
+        {
+            commandsQueue.Enqueue(command);
+
+            DisplayCommandsQueue();
+        }
+
+        private void DisplayCommandsQueue()
+        {
+            string message = "Queue:\n";
+            foreach (var c in commandsQueue)
+                message += $"\t{c}\n";
+
+            Debug.Log(message);
+        }
 
         private void Update()
         {
+            if (currentlyExecutedCommand == null && commandsQueue.Count > 0)
+            {
+                var command = commandsQueue.Dequeue();
+                Debug.Log($"Starting command: {command}");
+                StartCoroutine(ExecuteCommand(command));
+                DisplayCommandsQueue();
+            }
+            
             if (collapseConstantly)
                 Collapse();
 
@@ -90,6 +102,14 @@ namespace Bipolar.PuzzleBoard.Components
             }
         }
 
+        private IEnumerator ExecuteCommand(IBoardCommand command)
+        {
+            currentlyExecutedCommand = command;
+            yield return command.Execute();
+            currentlyExecutedCommand = null;
+        }
+
+        private readonly LinkedList<Vector2Int> shuffledCoords = new LinkedList<Vector2Int>();
         public void ShufflePieces()
         {
             shuffledCoords.Clear();

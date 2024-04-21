@@ -1,4 +1,5 @@
 ﻿using Bipolar.PuzzleBoard.General;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Bipolar.PuzzleBoard.Components
@@ -19,29 +20,39 @@ namespace Bipolar.PuzzleBoard.Components
         [SerializeField]
         private bool dontRefillEmptySpaces;
 
-        public override void HandleCollapseMovemement(LinearGeneralBoardCollapseStrategy strategy, ICollapseEventArgs collapseEventArgs)
+        public override void HandleCollapseMovemement(LinearGeneralBoardCollapseStrategy strategy, IReadOnlyList<ICollapseEventArgs> collapseEvents)
         {
-            if (collapseEventArgs is LinearGeneralBoardCollapseStrategy.PieceCollapsedEventArgs collapseEvent)
+            IsMoving = true;
+            piecesMovementManager.OnAllPiecesMovementStopped += PiecesMovementManager_OnAllPiecesMovementStopped;
+            for (int i = 0; i < collapseEvents.Count; i++)
             {
-                var piece = collapseEvent.Piece;
-                var pieceComponent = BoardComponent.GetPieceComponent(piece);
-                piecesMovementManager.StartPieceMovement(pieceComponent, collapseEvent.Line, collapseEvent.FromIndex);
+                var collapseEventArgs = collapseEvents[i];
+                if (collapseEventArgs is LinearGeneralBoardCollapseStrategy.PieceCollapsedEventArgs collapseEvent)
+                {
+                    var piece = collapseEvent.Piece;
+                    var pieceComponent = BoardComponent.GetPieceComponent(piece);
+                    piecesMovementManager.StartPieceMovement(pieceComponent, collapseEvent.Line, collapseEvent.FromIndex, collapseEvent.TargetCoord);
 
+                }
+                else if (dontRefillEmptySpaces == false && collapseEventArgs is LinearGeneralBoardCollapseStrategy.PieceCreatedEventArgs createEvent)
+                {
+                    var piece = createEvent.Piece;
+                    var pieceComponent = PiecesSpawner.SpawnPiece(piece);
+
+                    var lineStartCoord = createEvent.Line.Coords[0];
+                    var creatingDirection = -BoardHelper.GetCorrectedDirection(lineStartCoord, strategy.Directions[lineStartCoord], BoardComponent.Layout == GridLayout.CellLayout.Hexagon);
+                    var firstCellPosition = BoardComponent.CoordToWorld(lineStartCoord);
+                    var spawningPosition = firstCellPosition + (Vector3)((Vector2)creatingDirection * (createEvent.CreateIndex + 1));
+                    pieceComponent.transform.position = spawningPosition;
+                    piecesMovementManager.StartPieceMovement(pieceComponent, createEvent.Line, -1, createEvent.CreationCoord);
+                }
             }
-            else if (dontRefillEmptySpaces == false && collapseEventArgs is LinearGeneralBoardCollapseStrategy.PieceCreatedEventArgs createEvent)
-            {
-                var piece = createEvent.Piece;
-                var pieceComponent = PiecesSpawner.SpawnPiece(piece);
+        }
 
-                var lineStartCoord = createEvent.Line.Coords[0];
-                var creatingDirection = -BoardHelper.GetCorrectedDirection(lineStartCoord, strategy.Directions[lineStartCoord], BoardComponent.Layout == GridLayout.CellLayout.Hexagon);
-                var firstCellPosition = BoardComponent.CoordToWorld(lineStartCoord);
-                var spawningPosition = firstCellPosition + (Vector3)((Vector2)creatingDirection * (createEvent.CreateIndex + 1));
-                pieceComponent.transform.position = spawningPosition;
-
-
-                piecesMovementManager.StartPieceMovement(pieceComponent, createEvent.Line, -1);
-            }
+        private void PiecesMovementManager_OnAllPiecesMovementStopped()
+        {
+            piecesMovementManager.OnAllPiecesMovementStopped -= PiecesMovementManager_OnAllPiecesMovementStopped;
+            IsMoving = false;
         }
 
         public Vector2 GetRealDirection(Vector2Int coord, Vector2Int direction)

@@ -29,7 +29,7 @@ namespace Bipolar.PuzzleBoard.Components
 
         protected void FinishClearing()
         {
-            PieceComponent.Piece.Clear();
+            //PieceComponent.Piece.Clear();
         }
     }
 
@@ -43,7 +43,7 @@ namespace Bipolar.PuzzleBoard.Components
             }
             else
             {
-                piece.Piece.Clear();
+                piece.IsCleared = true;
             }
         }
     }

@@ -72,6 +72,8 @@ namespace Bipolar.PuzzleBoard.Components
         public void AddPieceComponent(PieceComponent component)
         {
             var piece = component.Piece;
+            if (pieceComponents.ContainsKey(piece))
+                Debug.LogError("EJ!");
             pieceComponents.Add(piece, component);
         }
 

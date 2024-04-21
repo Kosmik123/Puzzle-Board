@@ -101,7 +101,7 @@ namespace Bipolar.PuzzleBoard
             {
                 var piece = pieceFactory?.CreatePiece(coord.x, coord.y);
                 board[coord] = piece;
-                OnPieceCollapsed?.Invoke(this, new PieceCreatedEventArgs(piece, count - 1 - indexInLine));
+                OnPieceCollapsed?.Invoke(this, new PieceCreatedEventArgs(piece, count - 1 - indexInLine, coord));
                 indexInLine++;
             });
         }

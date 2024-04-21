@@ -13,15 +13,16 @@ namespace Bipolar.PuzzleBoard.Components
 
     public static class PieceMovementExtension
     {
-        public static void MoveTo(this PieceComponent piece, Vector3 targetPosition, float speed = -1)
+        public static void MoveTo(this PieceComponent piece, Vector3 targetPosition, System.Action moveFinishedCallback = null, float speed = -1)
         {
-            if (piece.TryGetComponent<PieceMovementBehavior>(out var pieceMovement))
+            if (piece.TryGetComponent<PieceMovementBehavior>(out var pieceMovement) && pieceMovement.isActiveAndEnabled)
             {
                 pieceMovement.MoveTo(targetPosition, speed);
             }
             else
             {
                 piece.transform.position = targetPosition;
+                moveFinishedCallback?.Invoke();
             }
         }
     }
