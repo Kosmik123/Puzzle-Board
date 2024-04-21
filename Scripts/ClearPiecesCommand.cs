@@ -25,18 +25,12 @@ namespace Bipolar.PuzzleBoard
                 pieceComponent.Clear();
             }
 
-            yield return new WaitForSeconds(0.5f); // temporary to test
+            yield return new WaitForSeconds(0.3f); // temporary to test
         }
 
         public override string ToString()
         {
             return $"Command to clear {piecesToClear.Count} pieces";
         }
-    }
-   
-}
-
-namespace Bipolar.PuzzleBoard.Components
-{
-
+    }   
 }
