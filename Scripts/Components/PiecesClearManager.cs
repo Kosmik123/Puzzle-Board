@@ -7,60 +7,47 @@ namespace Bipolar.PuzzleBoard.Components
     {
         public event System.Action OnAllPiecesCleared;
 
-        [SerializeField]
-        private BoardController boardController;
-
         private readonly List<PieceComponent> currentlyClearedPieces = new List<PieceComponent>();
-        public int CurrentlyClearedPiecesCount => currentlyClearedPieces.Count;
 
-        protected virtual void Reset()
-        {
-            boardController = FindObjectOfType<BoardController>();
-        }
+        [SerializeField]
+        private BoardComponent boardComponent;
 
-        //public void ClearPiecesInChain(PiecesChain chain)
-        //{
-        //    var clearedPieces = new List<Piece>();
-        //    foreach (var coord in chain.PiecesCoords)
-        //    {
-        //        var piece = boardController.BoardComponent.GetPiece(coord);
-        //        piece.Clear();
-        //        clearedPieces.Add(piece);
-        //    }
-
-        //    var command = new ClearPiecesCommand(clearedPieces, boardController.BoardComponent);
-        //    boardController.RequestCommand(command);
-        //}
+        public bool IsClearing => currentlyClearedPieces.Count > 0;
 
         public void ClearPieces(IReadOnlyList<Piece> pieces)
         {
             foreach (var piece in pieces)
             {
-                piece.Clear();
+                ClearPieceComponent(piece);
             }
-
-            var command = new ClearPiecesCommand(pieces, boardController.BoardComponent);
-            boardController.RequestCommand(command);
         }
 
-        [ContextMenu("Clear queued pieces")]
-        private void ClearQueuedPieces()
+        private void ClearPieceComponent(Piece piece)
         {
-            foreach (var piece in currentlyClearedPieces)
-            {
-                if (piece == null) 
-                    Debug.LogError("null in chain");
-
-                piece.OnCleared += Piece_OnCleared;
-                piece.Clear();
-            }
+            var pieceComponent = boardComponent.GetPieceComponent(piece);
+            currentlyClearedPieces.Add(pieceComponent);
+            pieceComponent.OnCleared += Piece_OnCleared;
+            pieceComponent.Clear();
         }
+
+        //[ContextMenu("Clear queued pieces")]
+        //private void ClearQueuedPieces()
+        //{
+        //    foreach (var piece in currentlyClearedPieces)
+        //    {
+        //        if (piece == null) 
+        //            Debug.LogError("null in chain");
+
+        //        piece.OnCleared += Piece_OnCleared;
+        //        piece.Clear();
+        //    }
+        //}
 
         private void Piece_OnCleared(PieceComponent piece)
         {
             piece.OnCleared -= Piece_OnCleared;
             currentlyClearedPieces.Remove(piece);
-            if (currentlyClearedPieces.Count <= 0)
+            if (IsClearing == false)
                 OnAllPiecesCleared?.Invoke();
         }
     }

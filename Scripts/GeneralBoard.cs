@@ -12,7 +12,6 @@ namespace Bipolar.PuzzleBoard.General
     public class GeneralBoard : Board, IGeneralBoard
     {
         private readonly Dictionary<Vector2Int, Piece> piecesByCoords = new Dictionary<Vector2Int, Piece>();
-
         public IReadOnlyCollection<Vector2Int> Coords => piecesByCoords.Keys;
 
         protected override bool IsInited => base.IsInited && piecesByCoords != null;

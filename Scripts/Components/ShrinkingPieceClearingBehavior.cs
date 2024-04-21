@@ -15,12 +15,7 @@ namespace Bipolar.PuzzleBoard.Components
             resizedVisual.localScale = Vector3.one;
         }
 
-        protected override void ClearPiece()
-        {
-            StartCoroutine(ShrinkingCo());
-        }
-
-        private IEnumerator ShrinkingCo()
+        protected override IEnumerator ClearingProcessCo()
         {
             float progress = 0;
             float speed = 1f / shrinkingDuration;
@@ -32,7 +27,6 @@ namespace Bipolar.PuzzleBoard.Components
                 yield return null;
             }
             resizedVisual.localScale = Vector3.zero;
-            FinishClearing();
         }
     }
 }

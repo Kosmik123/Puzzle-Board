@@ -126,7 +126,8 @@ namespace Bipolar.PuzzleBoard.Components
 
         public TBoard GetBoard()
         {
-            board ??= CreateBoard();
+            if (board == null)
+                CreateBoard();
             return board;
         }
 

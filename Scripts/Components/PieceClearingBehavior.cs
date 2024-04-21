@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 namespace Bipolar.PuzzleBoard.Components
 {
@@ -19,17 +20,18 @@ namespace Bipolar.PuzzleBoard.Components
             }
         }
 
-        protected abstract void ClearPiece();
+        protected abstract IEnumerator ClearingProcessCo();
 
         public void Clear()
         {
             OnClearing?.Invoke(this);
-            ClearPiece();
+            StartCoroutine(ClearingCo());
         }
-
-        protected void FinishClearing()
+        
+        private IEnumerator ClearingCo()
         {
-            //PieceComponent.Piece.Clear();
+            yield return ClearingProcessCo();
+            PieceComponent.IsCleared = true;
         }
     }
 
