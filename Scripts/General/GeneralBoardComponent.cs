@@ -58,10 +58,8 @@ namespace Bipolar.PuzzleBoard.Components
                 {
                     var coord = new Vector2Int(x, y);
                     var tile = shapeTilemap.GetTile((Vector3Int)coord);
-                    if (tile != null)
-                    {
+                    if (tile)
                         includedCoords.Add(coord);
-                    }
                 }
             }
             board = new GeneralBoard(includedCoords, Grid.cellLayout);
@@ -85,6 +83,12 @@ namespace Bipolar.PuzzleBoard.Components
             return base.WorldToCoord(worldPosition);
         }
 
+        public IEnumerator<Vector2Int> GetEnumerator()
+        {
+            foreach (var coord in Coords)
+                yield return coord;
+        }
+
         private void OnDrawGizmosSelected()
         {
             if (includedCoords == null)
@@ -93,12 +97,6 @@ namespace Bipolar.PuzzleBoard.Components
             Gizmos.color = 0.7f * Color.white;
             foreach (var coord in Coords)
                 Gizmos.DrawSphere(CoordToWorld(coord), 0.3f);
-        }
-
-        public IEnumerator<Vector2Int> GetEnumerator()
-        {
-            foreach (var coord in Coords)
-                yield return coord;
         }
     }
 }

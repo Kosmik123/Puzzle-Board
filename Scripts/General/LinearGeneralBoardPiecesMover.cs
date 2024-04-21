@@ -17,9 +17,6 @@ namespace Bipolar.PuzzleBoard.Components
         [SerializeField]
         private LinearGeneralBoardPiecesMovementManager piecesMovementManager;
 
-        [SerializeField]
-        private bool dontRefillEmptySpaces;
-
         public override void HandleCollapseMovemement(LinearGeneralBoardCollapseStrategy strategy, IReadOnlyList<ICollapseEventArgs> collapseEvents)
         {
             IsMoving = true;
@@ -32,9 +29,8 @@ namespace Bipolar.PuzzleBoard.Components
                     var piece = collapseEvent.Piece;
                     var pieceComponent = BoardComponent.GetPieceComponent(piece);
                     piecesMovementManager.StartPieceMovement(pieceComponent, collapseEvent.Line, collapseEvent.FromIndex, collapseEvent.TargetCoord);
-
                 }
-                else if (dontRefillEmptySpaces == false && collapseEventArgs is LinearGeneralBoardCollapseStrategy.PieceCreatedEventArgs createEvent)
+                else if (collapseEventArgs is LinearGeneralBoardCollapseStrategy.PieceCreatedEventArgs createEvent)
                 {
                     var piece = createEvent.Piece;
                     var pieceComponent = PiecesSpawner.SpawnPiece(piece);

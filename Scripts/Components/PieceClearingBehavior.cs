@@ -20,14 +20,29 @@ namespace Bipolar.PuzzleBoard.Components
             }
         }
 
-        protected abstract IEnumerator ClearingProcessCo();
+        protected abstract void ClearPiece();
 
         public void Clear()
         {
             OnClearing?.Invoke(this);
+            ClearPiece();
+        }
+
+        protected void FinishClearing()
+        {
+            PieceComponent.IsCleared = true;
+        }
+    }
+
+    public abstract class CoroutinePieceClearingBehavior : PieceClearingBehavior
+    {
+        protected abstract IEnumerator ClearingProcessCo();
+
+        protected sealed override void ClearPiece()
+        {
             StartCoroutine(ClearingCo());
         }
-        
+
         private IEnumerator ClearingCo()
         {
             yield return ClearingProcessCo();

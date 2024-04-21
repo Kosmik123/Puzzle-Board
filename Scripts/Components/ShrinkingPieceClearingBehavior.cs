@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Bipolar.PuzzleBoard.Components
 {
-    public class ShrinkingPieceClearingBehavior : PieceClearingBehavior
+    public class ShrinkingPieceClearingBehavior : CoroutinePieceClearingBehavior
     {
         [SerializeField]
         private float shrinkingDuration = 0.2f;
