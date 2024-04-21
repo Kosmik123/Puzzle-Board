@@ -5,7 +5,6 @@ using UnityEngine.Tilemaps;
 
 namespace Bipolar.PuzzleBoard.Components
 {
-
     [RequireComponent(typeof(GeneralBoardComponent))]
     public class LinearGeneralBoardCollapseController : BoardCollapseController<LinearGeneralBoardCollapseStrategy, GeneralBoard>
     {

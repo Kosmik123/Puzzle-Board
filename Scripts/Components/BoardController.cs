@@ -4,9 +4,6 @@ using UnityEngine;
 
 namespace Bipolar.PuzzleBoard.Components
 {
-    public delegate void PieceCoordChangeEventHandler(PieceComponent piece, Vector2Int newCoord);
-
-    [DisallowMultipleComponent, RequireComponent(typeof(IBoardComponent), typeof(BoardCollapseController<,>))]
     public class BoardController : MonoBehaviour
     {
         public bool IsBusy { get; private set; }
