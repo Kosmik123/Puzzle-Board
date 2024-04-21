@@ -47,6 +47,11 @@ namespace Bipolar.PuzzleBoard
             Color = Color;
         }
 #endif
+
+        public override string ToString()
+        {
+            return $"Piece ({Color})";
+        }
     }
 
     public abstract class Piece<T> : Piece

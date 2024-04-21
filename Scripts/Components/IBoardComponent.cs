@@ -12,5 +12,7 @@ namespace Bipolar.PuzzleBoard.Components
     public interface IBoardComponent : IReadOnlyBoardComponent
     {
         void AddPieceComponent(PieceComponent piece);
+        PieceComponent GetPieceComponent(Piece piece);
+        PieceComponent GetPieceComponent(Vector2Int coord);
     }
 }

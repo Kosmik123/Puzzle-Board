@@ -70,8 +70,6 @@ namespace Bipolar.PuzzleBoard.Components
         public void RequestCommand(IBoardCommand command)
         {
             commandsQueue.Enqueue(command);
-
-            DisplayCommandsQueue();
         }
 
         private void DisplayCommandsQueue()
@@ -88,9 +86,7 @@ namespace Bipolar.PuzzleBoard.Components
             if (currentlyExecutedCommand == null && commandsQueue.Count > 0)
             {
                 var command = commandsQueue.Dequeue();
-                Debug.Log($"Starting command: {command}");
                 StartCoroutine(ExecuteCommand(command));
-                DisplayCommandsQueue();
             }
             
             if (collapseConstantly)
