@@ -27,7 +27,7 @@ namespace Bipolar.PuzzleBoard
         public override IPieceColor GetPieceColor(int x, int y)
         {
             if (avoidAdjacentPieceColors == false)
-                base.GetPieceColor(x, y);
+                return base.GetPieceColor(x, y);
 
             forbiddenPieceColors.Clear();
             var coord = new Vector2Int(x, y);

@@ -19,7 +19,7 @@ namespace Bipolar.PuzzleBoard.Rectangular
         [SerializeField]
         private bool dontRefillEmptySpaces;
 
-        private PieceComponent CreatePiece(Piece piece)
+        private PieceComponent CreatePieceComponent(Piece piece)
         {
             var pieceComponent = PiecesSpawner.SpawnPiece(piece);
             return pieceComponent;
@@ -41,10 +41,10 @@ namespace Bipolar.PuzzleBoard.Rectangular
                 else if (dontRefillEmptySpaces == false && collapseEventArgs is IPieceCreatedCollapseEventArgs createEvent)
                 {
                     var piece = createEvent.Piece;
-                    var pieceComponent = CreatePiece(piece);
-                    var collapseDirection = BoardHelper.GetCorrectedDirection(piece.Coord, strategy.CollapseDirection, BoardComponent.Board.Layout == GridLayout.CellLayout.Hexagon);
+                    var pieceComponent = CreatePieceComponent(piece);
+                    var collapseDirection = BoardHelper.GetCorrectedDirection(createEvent.CreationCoord, strategy.CollapseDirection, BoardComponent.Board.Layout == GridLayout.CellLayout.Hexagon);
 
-                    var spawnCoord = piece.Coord;
+                    var spawnCoord = createEvent.CreationCoord;
                     {
                         spawnCoord[strategy.CollapseAxis] = collapseDirection[strategy.CollapseAxis] switch
                         {
