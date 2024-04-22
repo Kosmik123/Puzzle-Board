@@ -23,16 +23,18 @@ namespace Bipolar.PuzzleBoard
         {
             public readonly Piece Piece { get; }
             public readonly Vector2Int FromCoord { get; }
+            public readonly Vector2Int TargetCoord { get; }
 
-            public PieceCollapsedEventArgs(Piece piece, Vector2Int fromCoord)
+            public PieceCollapsedEventArgs(Piece piece, Vector2Int fromCoord, Vector2Int targetCoord)
             {
                 Piece = piece;
                 FromCoord = fromCoord;
+                TargetCoord = targetCoord;
             }
 
             public override string ToString()
             {
-                return $"Piece collapsed from {FromCoord} to {Piece.Coord} event";
+                return $"Piece collapsed from {FromCoord} to {TargetCoord} event";
             }
         }
     }
