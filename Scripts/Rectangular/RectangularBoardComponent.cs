@@ -1,8 +1,7 @@
-using Bipolar.PuzzleBoard.Core;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Bipolar.PuzzleBoard
+namespace Bipolar.PuzzleBoard.Rectangular
 {
     public interface IRectangularBoardComponent : IBoardComponent
     {

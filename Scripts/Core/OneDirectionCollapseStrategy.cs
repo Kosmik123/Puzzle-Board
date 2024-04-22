@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Bipolar.PuzzleBoard.Core
+namespace Bipolar.PuzzleBoard
 {
     public abstract class OneDirectionCollapseStrategy<TBoard> : BoardCollapseStrategy<TBoard>
         where TBoard : IBoard

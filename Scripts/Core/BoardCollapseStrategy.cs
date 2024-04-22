@@ -1,4 +1,4 @@
-﻿namespace Bipolar.PuzzleBoard.Core
+﻿namespace Bipolar.PuzzleBoard
 { 
     [System.Serializable]
     public abstract class BoardCollapseStrategy<TBoard>

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Bipolar.PuzzleBoard.Core
+namespace Bipolar.PuzzleBoard
 {
     [System.Serializable]
     public abstract class Board : IBoard

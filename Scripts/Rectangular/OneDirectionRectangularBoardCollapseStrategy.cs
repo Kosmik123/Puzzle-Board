@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Bipolar.PuzzleBoard.Core
+namespace Bipolar.PuzzleBoard.Rectangular
 {
     [System.Serializable]
     public class OneDirectionRectangularBoardCollapseStrategy : OneDirectionCollapseStrategy<RectangularBoard>

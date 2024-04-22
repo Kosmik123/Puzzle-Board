@@ -1,9 +1,8 @@
-﻿using Bipolar.PuzzleBoard.Core;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-namespace Bipolar.PuzzleBoard
+namespace Bipolar.PuzzleBoard.General
 {
     public interface IGeneralBoardComponent : IBoardComponent
     {

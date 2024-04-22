@@ -1,5 +1,4 @@
-﻿using Bipolar.PuzzleBoard.Core;
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
 
 namespace Bipolar.PuzzleBoard

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Bipolar.PuzzleBoard.Core
+namespace Bipolar.PuzzleBoard
 {
     [System.Serializable]
     public class Piece

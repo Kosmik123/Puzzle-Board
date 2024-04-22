@@ -1,4 +1,4 @@
-namespace Bipolar.PuzzleBoard.Core
+namespace Bipolar.PuzzleBoard
 {
     public interface IPieceFactory
     {

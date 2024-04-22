@@ -1,5 +1,4 @@
-﻿using Bipolar.PuzzleBoard.Core;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace Bipolar.PuzzleBoard
 {

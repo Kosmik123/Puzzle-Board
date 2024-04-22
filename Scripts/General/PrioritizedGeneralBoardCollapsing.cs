@@ -1,5 +1,4 @@
-﻿using Bipolar.PuzzleBoard.Core;
-using Bipolar.PuzzleBoard.General;
+﻿using Bipolar.PuzzleBoard.General;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;

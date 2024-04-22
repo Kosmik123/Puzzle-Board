@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace Bipolar.PuzzleBoard.Core
+namespace Bipolar.PuzzleBoard
 {
     public interface IReadOnlyBoard : IEnumerable<Vector2Int>
     {

@@ -1,8 +1,7 @@
-﻿using Bipolar.PuzzleBoard.General;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace Bipolar.PuzzleBoard.Core
+namespace Bipolar.PuzzleBoard.General
 {
     public class LinearGeneralBoardCollapseStrategy : BoardCollapseStrategy<GeneralBoard>
     {
