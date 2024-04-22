@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Bipolar.PuzzleBoard.Components
+namespace Bipolar.PuzzleBoard
 {
     public abstract class RectangularBoardVisual : MonoBehaviour
     {

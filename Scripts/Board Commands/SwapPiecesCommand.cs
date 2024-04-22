@@ -1,9 +1,10 @@
-﻿using System.Collections;
+﻿using Bipolar.PuzzleBoard.Core;
+using System.Collections;
 using UnityEngine;
 
 namespace Bipolar.PuzzleBoard
 {
-    public struct SwapPiecesCommand : IBoardCommand
+    public readonly struct SwapPiecesCommand : IBoardCommand
     {
         private readonly Piece piece1;
         private readonly Piece piece2;

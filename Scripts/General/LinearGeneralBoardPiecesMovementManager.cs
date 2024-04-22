@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Bipolar.PuzzleBoard.Components
+namespace Bipolar.PuzzleBoard
 {
     [RequireComponent(typeof(GeneralBoardComponent))]
     public class LinearGeneralBoardPiecesMovementManager : PiecesMovementManager

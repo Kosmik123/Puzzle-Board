@@ -1,9 +1,10 @@
-﻿using Bipolar.PuzzleBoard.General;
+﻿using Bipolar.PuzzleBoard.Core;
+using Bipolar.PuzzleBoard.General;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-namespace Bipolar.PuzzleBoard.Components
+namespace Bipolar.PuzzleBoard
 {
     [RequireComponent(typeof(GeneralBoardComponent))]
     public class PrioritizedGeneralBoardCollapsing : BoardCollapseController<MockGeneralCollapseStrategy, GeneralBoard>

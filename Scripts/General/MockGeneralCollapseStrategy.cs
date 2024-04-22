@@ -1,6 +1,4 @@
-﻿using Bipolar.PuzzleBoard.General;
-
-namespace Bipolar.PuzzleBoard.Components
+﻿namespace Bipolar.PuzzleBoard.Core
 {
     public abstract class MockGeneralCollapseStrategy : BoardCollapseStrategy<GeneralBoard>
     { }
