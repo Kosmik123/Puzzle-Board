@@ -54,13 +54,13 @@ namespace Bipolar.PuzzleBoard
         }
     }
 
-    public abstract class Piece<T> : Piece
+    public class Piece<T> : Piece
         where T : Object, IPieceColor
     {
         [SerializeField]
         private T color;
 
-        protected Piece(int x, int y, IPieceColor color) : base(x, y, color)
+        public Piece(int x, int y, IPieceColor color) : base(x, y, color)
         { }
 
         public override IPieceColor Color
