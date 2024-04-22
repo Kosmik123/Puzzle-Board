@@ -14,11 +14,12 @@ namespace Bipolar.PuzzleBoard
         public void RequestCommand(IBoardCommand command)
         {
             commandsQueue.Enqueue(command);
+            DisplayCommandsQueue();
         }
 
         private void DisplayCommandsQueue()
         {
-            string message = "Queue:\n";
+            string message = $"Queue [{commandsQueue.Count}]:\n";
             foreach (var c in commandsQueue)
                 message += $"\t{c}\n";
 

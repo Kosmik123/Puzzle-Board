@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Bipolar.PuzzleBoard
 {
-    public struct CollapseBoardCommand<TStrategy, TBoard> : IBoardCommand 
+    public readonly struct CollapseBoardCommand<TStrategy, TBoard> : IBoardCommand 
         where TBoard : Board
         where TStrategy : BoardCollapseStrategy<TBoard>
     {
