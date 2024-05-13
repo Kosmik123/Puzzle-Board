@@ -8,7 +8,13 @@ namespace Bipolar.PuzzleBoard
         public event System.Action<IPieceColor> OnColorChanged;
         public event System.Action<ScenePiece> OnCleared;
 
-        //private IReadOnlyBoard containerBoard;
+        [SerializeField]
+        private Vector2Int coord;
+        public Vector2Int Coord
+        {
+            get => coord;
+            set => coord = value;
+        }
 
         [SerializeReference]
         private Piece piece;

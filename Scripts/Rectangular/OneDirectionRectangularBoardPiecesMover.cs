@@ -19,7 +19,7 @@ namespace Bipolar.PuzzleBoard.Rectangular
         [SerializeField]
         private bool dontRefillEmptySpaces;
 
-        private ScenePiece CreatePieceComponent(Piece piece)
+        private ScenePiece CreateScenePiece(Piece piece)
         {
             var pieceComponent = PiecesSpawner.SpawnPiece(piece);
             return pieceComponent;
@@ -35,15 +35,17 @@ namespace Bipolar.PuzzleBoard.Rectangular
                 if (collapseEventArgs is OneDirectionRectangularBoardCollapseStrategy.PieceCollapsedEventArgs collapseEvent)
                 {
                     var piece = collapseEvent.Piece;
-                    var pieceComponent = SceneBoard.GetScenePiece(piece);
-                    piecesMovementManager.StartPieceMovement(pieceComponent, collapseEvent.TargetCoord);
+                    var scenePiece = SceneBoard.GetScenePiece(piece);
+                    scenePiece.Coord = collapseEvent.TargetCoord;
+                    piecesMovementManager.StartPieceMovement(scenePiece, collapseEvent.TargetCoord);
                 }
                 else if (dontRefillEmptySpaces == false && collapseEventArgs is IPieceCreatedCollapseEventArgs createEvent)
                 {
                     var piece = createEvent.Piece;
-                    var pieceComponent = CreatePieceComponent(piece);
-                    var collapseDirection = BoardHelper.GetCorrectedDirection(createEvent.CreationCoord, strategy.CollapseDirection, SceneBoard.Board.Layout == GridLayout.CellLayout.Hexagon);
+                    var scenePiece = CreateScenePiece(piece);
+                    scenePiece.Coord = createEvent.CreationCoord;
 
+                    var collapseDirection = BoardHelper.GetCorrectedDirection(createEvent.CreationCoord, strategy.CollapseDirection, SceneBoard.Board.Layout == GridLayout.CellLayout.Hexagon);
                     var spawnCoord = createEvent.CreationCoord;
                     {
                         spawnCoord[strategy.CollapseAxis] = collapseDirection[strategy.CollapseAxis] switch
@@ -55,8 +57,9 @@ namespace Bipolar.PuzzleBoard.Rectangular
                     }
 
                     spawnCoord -= collapseDirection * createEvent.CreateIndex;
-                    pieceComponent.transform.position = SceneBoard.CoordToWorld(spawnCoord);
-                    piecesMovementManager.StartPieceMovement(pieceComponent, createEvent.CreationCoord);
+                    scenePiece.transform.position = SceneBoard.CoordToWorld(spawnCoord);
+
+                    piecesMovementManager.StartPieceMovement(scenePiece, createEvent.CreationCoord);
                 }
             }
         }
