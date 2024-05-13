@@ -95,7 +95,6 @@ namespace Bipolar.PuzzleBoard.General
                     var targetCoord = line.Coords[targetIndex];
                     board[coord] = null;
                     board[targetCoord] = piece;
-                    piece.Coord = targetCoord;
                     OnPieceCollapsed?.Invoke(this, new PieceCollapsedEventArgs(index, piece, line, targetCoord));
                 }
             }

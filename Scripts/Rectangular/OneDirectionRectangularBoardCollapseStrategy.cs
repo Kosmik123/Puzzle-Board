@@ -46,7 +46,6 @@ namespace Bipolar.PuzzleBoard.Rectangular
                     var targetCoord = coord + offsetToMove;
                     board[coord] = null;
                     board[targetCoord] = piece;
-                    piece.Coord = targetCoord;
                     OnPieceCollapsed?.Invoke(this, new PieceCollapsedEventArgs(piece, coord, targetCoord));
                 }
             });

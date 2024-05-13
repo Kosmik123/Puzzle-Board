@@ -104,7 +104,6 @@ namespace Bipolar.PuzzleBoard
             }
 
             board[newCoord] = piece;
-            piece.Coord = newCoord;
         }
 
         internal abstract IBoard GetBoardInternal();
