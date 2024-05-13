@@ -56,5 +56,17 @@ namespace Bipolar.PuzzleBoard.Rectangular
                 for (int x = 0; x < width; x++)
                     yield return new Vector2Int(x, y);
         }
+
+        protected override void CopyState(IBoard target)
+        {
+            if (!(target is RectangularBoard rectangularTarget))
+                throw new System.InvalidCastException();
+
+            int width = Mathf.Min(this.width, rectangularTarget.width);
+            int height = Mathf.Min(this.height, rectangularTarget.height);
+            for (int y = 0; y < height; y++)
+                for (int x = 0; x < width; x++)
+                    rectangularTarget.piecesArray[x, y] = piecesArray[x, y];
+        }
     }
 }

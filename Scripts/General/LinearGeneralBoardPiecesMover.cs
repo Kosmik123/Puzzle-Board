@@ -26,20 +26,22 @@ namespace Bipolar.PuzzleBoard.General
                 if (collapseEventArgs is LinearGeneralBoardCollapseStrategy.PieceCollapsedEventArgs collapseEvent)
                 {
                     var piece = collapseEvent.Piece;
-                    var pieceComponent = BoardComponent.GetPieceComponent(piece);
-                    piecesMovementManager.StartPieceMovement(pieceComponent, collapseEvent.Line, collapseEvent.FromIndex, collapseEvent.TargetCoord);
+                    var scenePiece = SceneBoard.GetScenePiece(piece);
+                    scenePiece.Coord = collapseEvent.TargetCoord;
+                    piecesMovementManager.StartPieceMovement(scenePiece, collapseEvent.Line, collapseEvent.FromIndex, collapseEvent.TargetCoord);
                 }
                 else if (collapseEventArgs is LinearGeneralBoardCollapseStrategy.PieceCreatedEventArgs createEvent)
                 {
                     var piece = createEvent.Piece;
-                    var pieceComponent = PiecesSpawner.SpawnPiece(piece);
+                    var scenePiece = PiecesSpawner.SpawnPiece(piece);
 
                     var lineStartCoord = createEvent.Line.Coords[0];
-                    var creatingDirection = -BoardHelper.GetCorrectedDirection(lineStartCoord, strategy.Directions[lineStartCoord], BoardComponent.Layout == GridLayout.CellLayout.Hexagon);
-                    var firstCellPosition = BoardComponent.CoordToWorld(lineStartCoord);
+                    var creatingDirection = -BoardHelper.GetCorrectedDirection(lineStartCoord, strategy.Directions[lineStartCoord], SceneBoard.Layout == GridLayout.CellLayout.Hexagon);
+                    var firstCellPosition = SceneBoard.CoordToWorld(lineStartCoord);
                     var spawningPosition = firstCellPosition + (Vector3)((Vector2)creatingDirection * (createEvent.CreateIndex + 1));
-                    pieceComponent.transform.position = spawningPosition;
-                    piecesMovementManager.StartPieceMovement(pieceComponent, createEvent.Line, -1, createEvent.CreationCoord);
+                    scenePiece.transform.position = spawningPosition;
+                    scenePiece.Coord = createEvent.CreationCoord;
+                    piecesMovementManager.StartPieceMovement(scenePiece, createEvent.Line, -1, createEvent.CreationCoord);
                 }
             }
         }
@@ -54,8 +56,8 @@ namespace Bipolar.PuzzleBoard.General
         {
             var nextCoord = coord + direction;
 
-            var worldPos = BoardComponent.CoordToWorld(coord);
-            var nextWorldPos = BoardComponent.CoordToWorld(nextCoord);
+            var worldPos = SceneBoard.CoordToWorld(coord);
+            var nextWorldPos = SceneBoard.CoordToWorld(nextCoord);
 
             return nextWorldPos - worldPos;
         }

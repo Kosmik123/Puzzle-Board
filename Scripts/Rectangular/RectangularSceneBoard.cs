@@ -3,13 +3,13 @@ using UnityEngine;
 
 namespace Bipolar.PuzzleBoard.Rectangular
 {
-    public interface IRectangularBoardComponent : IBoardComponent
+    public interface IRectangularSceneBoard : ISceneBoard
     {
         Vector2Int Dimensions { get; }
     }
 
     [AddComponentMenu("Board Puzzles/Rectangular Board")]
-    public class RectangularBoardComponent : BoardComponent<RectangularBoard>, IRectangularBoardComponent
+    public class RectangularSceneBoard : SceneBoard<RectangularBoard>, IRectangularSceneBoard
     {
         public event System.Action<Vector2Int> OnDimensionsChanged;
 
@@ -63,7 +63,7 @@ namespace Bipolar.PuzzleBoard.Rectangular
             var lightColor = Color.white;
             var redColor = Color.red;
             lightColor.a = darkColor.a = redColor.a = 0.3f;
-
+            CalculateOtherDimensions();
             for (int j = 0; j < dimensions.y; j++)
             {
                 for (int i = 0; i < dimensions.x; i++)

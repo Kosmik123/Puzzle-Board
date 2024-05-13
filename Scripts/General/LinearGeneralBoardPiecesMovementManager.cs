@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Bipolar.PuzzleBoard
 {
-    [RequireComponent(typeof(GeneralBoardComponent))]
+    [RequireComponent(typeof(GeneralSceneBoard))]
     public class LinearGeneralBoardPiecesMovementManager : PiecesMovementManager
     {
         public override event System.Action OnAllPiecesMovementStopped;
@@ -13,32 +13,32 @@ namespace Bipolar.PuzzleBoard
         [SerializeField]
         private float piecesMovementSpeed = 8f;
 
-        private GeneralBoardComponent _board;
-        public GeneralBoardComponent Board
+        private GeneralSceneBoard _board;
+        public GeneralSceneBoard Board
         {
             get
             {
                 if (_board == null && this)
-                    _board = GetComponent<GeneralBoardComponent>();
+                    _board = GetComponent<GeneralSceneBoard>();
                 return _board;
             }
         }
 
-        private readonly Dictionary<PieceComponent, Coroutine> pieceMovementCoroutines = new Dictionary<PieceComponent, Coroutine>();
+        private readonly Dictionary<ScenePiece, Coroutine> pieceMovementCoroutines = new Dictionary<ScenePiece, Coroutine>();
         public override bool ArePiecesMoving => pieceMovementCoroutines.Count > 0;
 
-        public void StartPieceMovement(PieceComponent pieceComponent, CoordsLine line, int fromIndex, Vector2Int endCoord)
+        public void StartPieceMovement(ScenePiece scenePiece, CoordsLine line, int fromIndex, Vector2Int endCoord)
         {
-            if (pieceComponent == null)
+            if (scenePiece == null)
                 Debug.LogError("PieceCompoennet jest null? Czemu");
 
-            if (pieceMovementCoroutines.TryGetValue(pieceComponent, out var alreadyMovingCo))
+            if (pieceMovementCoroutines.TryGetValue(scenePiece, out var alreadyMovingCo))
                 StopCoroutine(alreadyMovingCo);
 
-            pieceMovementCoroutines[pieceComponent] = StartCoroutine(MovementCo(pieceComponent, line, fromIndex, endCoord));
+            pieceMovementCoroutines[scenePiece] = StartCoroutine(MovementCo(scenePiece, line, fromIndex, endCoord));
         }
 
-        private IEnumerator MovementCo(PieceComponent piece, CoordsLine line, int fromIndex, Vector2Int endCoord)
+        private IEnumerator MovementCo(ScenePiece piece, CoordsLine line, int fromIndex, Vector2Int endCoord)
         {
             for (int startIndex = fromIndex; startIndex < line.Coords.Count - 1; startIndex++)
             {

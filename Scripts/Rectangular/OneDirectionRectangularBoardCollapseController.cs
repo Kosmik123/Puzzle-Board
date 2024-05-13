@@ -2,7 +2,7 @@
 
 namespace Bipolar.PuzzleBoard.Rectangular
 {
-    [RequireComponent(typeof(RectangularBoardComponent))]
+    [RequireComponent(typeof(RectangularSceneBoard))]
     public class OneDirectionRectangularBoardCollapseController : BoardCollapseController<OneDirectionRectangularBoardCollapseStrategy, RectangularBoard>
     { }
 }

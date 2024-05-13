@@ -5,7 +5,7 @@ using UnityEngine.Tilemaps;
 
 namespace Bipolar.PuzzleBoard
 {
-    [RequireComponent(typeof(GeneralBoardComponent))]
+    [RequireComponent(typeof(GeneralSceneBoard))]
     public class PrioritizedGeneralBoardCollapsing : BoardCollapseController<MockGeneralCollapseStrategy, GeneralBoard>
     {
         [SerializeField]
@@ -35,7 +35,7 @@ namespace Bipolar.PuzzleBoard
 
         private void ExtractDirectionsFromTilemap(Tilemap tilemap)
         {
-            bool isBoardHexagonal = BoardComponent.Layout == GridLayout.CellLayout.Hexagon;
+            bool isBoardHexagonal = SceneBoard.Layout == GridLayout.CellLayout.Hexagon;
             var bounds = tilemap.cellBounds;
             for (int y = bounds.yMin; y < bounds.yMax; y++)
             {
@@ -92,7 +92,7 @@ namespace Bipolar.PuzzleBoard
 
         private bool TryCollapsePieceFromCoord(Vector2Int coord)
         {
-            var piece = BoardComponent.GetPiece(coord);
+            var piece = SceneBoard.GetPiece(coord);
             var directions = GetDirections(coord);
             if (directions == null)
                 return false;
@@ -100,10 +100,10 @@ namespace Bipolar.PuzzleBoard
             foreach (var direction in directions)
             {
                 var targetCoord = coord + direction;
-                if (BoardComponent.ContainsCoord(targetCoord) == false)
+                if (SceneBoard.ContainsCoord(targetCoord) == false)
                     continue;
 
-                if (BoardComponent.GetPiece(targetCoord) == null)
+                if (SceneBoard.GetPiece(targetCoord) == null)
                 {
                     //Board[coord] = null;
                     //Board[targetCoord] = piece;
@@ -117,8 +117,8 @@ namespace Bipolar.PuzzleBoard
         }
 
 
-        private readonly Dictionary<PieceComponent, Vector2Int> collapsingPiecesCoords = new Dictionary<PieceComponent, Vector2Int>();
-        private void PiecesMovementManager_OnPieceMovementEnded(PieceComponent piece)
+        private readonly Dictionary<ScenePiece, Vector2Int> collapsingPiecesCoords = new Dictionary<ScenePiece, Vector2Int>();
+        private void PiecesMovementManager_OnPieceMovementEnded(ScenePiece piece)
         {
             if (collapsingPiecesCoords.TryGetValue(piece, out var coord))
             {
@@ -147,10 +147,10 @@ namespace Bipolar.PuzzleBoard
                 {
                     var direction = directions[i];
                     var targetCoord = coord + direction;
-                    if (BoardComponent.ContainsCoord(targetCoord))
+                    if (SceneBoard.ContainsCoord(targetCoord))
                     {
-                        var startPosition = BoardComponent.CoordToWorld(coord);
-                        var endPosition = BoardComponent.CoordToWorld(targetCoord);
+                        var startPosition = SceneBoard.CoordToWorld(coord);
+                        var endPosition = SceneBoard.CoordToWorld(targetCoord);
                         Gizmos.DrawLine(startPosition, endPosition);
                     }
                 }

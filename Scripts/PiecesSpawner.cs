@@ -4,19 +4,19 @@ namespace Bipolar.PuzzleBoard
 {
     public abstract class PiecesSpawner : MonoBehaviour
     {
-        public event System.Action<PieceComponent> OnPieceSpawned;
+        public event System.Action<ScenePiece> OnPieceSpawned;
 
         [SerializeField]
-        protected BoardComponent targetBoard;
+        protected SceneBoard targetBoard;
 
-        public PieceComponent SpawnPiece(Piece piece)
+        public ScenePiece SpawnPiece(Piece piece)
         {
             var pieceComponent = Spawn(piece);
-            targetBoard.AddPieceComponent(pieceComponent);
+            targetBoard.AddScenePiece(pieceComponent);
             OnPieceSpawned?.Invoke(pieceComponent);
             return pieceComponent;
         }
 
-        protected abstract PieceComponent Spawn(Piece piece);
+        protected abstract ScenePiece Spawn(Piece piece);
     }
 }

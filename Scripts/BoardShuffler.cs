@@ -6,7 +6,7 @@ namespace Bipolar.PuzzleBoard
     public class BoardShuffler : MonoBehaviour
     {
         [SerializeField]
-        private BoardComponent boardComponent;
+        private SceneBoard sceneBoard;
 
         private void Update()
         {
@@ -20,7 +20,7 @@ namespace Bipolar.PuzzleBoard
         public void ShufflePieces()
         {
             shuffledCoords.Clear();
-            foreach (var coord in boardComponent.Board)
+            foreach (var coord in sceneBoard.Board)
             {
                 if (Random.value > 0.5f)
                 {
@@ -32,7 +32,7 @@ namespace Bipolar.PuzzleBoard
                 }
             }
 
-            foreach (var coord in boardComponent.Board)
+            foreach (var coord in sceneBoard.Board)
             {
                 var randomCoord = shuffledCoords.First;
                 shuffledCoords.RemoveFirst();

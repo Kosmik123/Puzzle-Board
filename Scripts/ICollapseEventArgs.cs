@@ -30,6 +30,6 @@ public readonly struct PieceCreatedEventArgs : IPieceCreatedCollapseEventArgs
 
     public override string ToString()
     {
-        return $"New piece was created at {Piece.Coord} event";
+        return $"New piece was created at {CreationCoord} event";
     }
 }

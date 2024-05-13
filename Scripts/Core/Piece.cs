@@ -9,17 +9,6 @@ namespace Bipolar.PuzzleBoard
         public event System.Action OnCleared;
 
         [SerializeField]
-        private Vector2Int coord;
-        public Vector2Int Coord
-        {
-            get => coord;
-            internal set
-            {
-                coord = value;
-            }
-        }
-
-        [SerializeField]
         private bool isCleared = false;
         public bool IsCleared => isCleared;
 
@@ -31,11 +20,8 @@ namespace Bipolar.PuzzleBoard
         public static bool Exists(Piece piece) => piece != null && !piece.IsCleared;
         public virtual IPieceColor Color { get; set; }
 
-        public Piece (int x, int y/*, IBoard board*/, IPieceColor color)
+        public Piece (IPieceColor color)
         {
-            //containingBoard = board;
-            //board[coord] = this;
-            coord = new Vector2Int (x, y);
             Color = color;
         }
 
@@ -107,7 +93,7 @@ namespace Bipolar.PuzzleBoard
         [SerializeField]
         private T color;
 
-        public Piece(int x, int y, IPieceColor color) : base(x, y, color)
+        public Piece(IPieceColor color) : base(color)
         {
             AddProperty<ImmovablePieceProperty>();
             AddProperty(new FrozenPieceProperty());

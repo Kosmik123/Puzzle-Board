@@ -41,7 +41,9 @@ namespace Bipolar.PuzzleBoard
             Vector2Int.down + Vector2Int.right,
         };
 
-        public static IReadOnlyList<Vector2Int> GetDirections(GridLayout.CellLayout layout) => layout == GridLayout.CellLayout.Hexagon
+        public static IReadOnlyList<Vector2Int> GetDirections(GridLayout.CellLayout layout) => GetDirections(layout == GridLayout.CellLayout.Hexagon);
+
+        public static IReadOnlyList<Vector2Int> GetDirections(bool isHexagonal) => isHexagonal
             ? (IReadOnlyList<Vector2Int>)hexagonalBoardDirections
             : defaultBoardDirections;
     }

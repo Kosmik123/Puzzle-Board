@@ -5,7 +5,7 @@ namespace Bipolar.PuzzleBoard
 {
     [DisallowMultipleComponent]
     [RequireComponent(typeof(Grid))]
-    public abstract class BoardComponent : MonoBehaviour, IBoardComponent
+    public abstract class SceneBoard : MonoBehaviour, ISceneBoard
     {
         private Grid _grid;
         public Grid Grid
@@ -18,7 +18,7 @@ namespace Bipolar.PuzzleBoard
             }
         }
 
-        protected readonly Dictionary<Piece, PieceComponent> pieceComponents = new Dictionary<Piece, PieceComponent>();
+        protected readonly Dictionary<Piece, ScenePiece> scenePieces = new Dictionary<Piece, ScenePiece>();
 
         public GridLayout.CellLayout Layout => Grid.cellLayout;
 
@@ -69,34 +69,26 @@ namespace Bipolar.PuzzleBoard
 
         public abstract IBoard GetBoardState();
 
-        public void AddPieceComponent(PieceComponent component)
+        public void AddScenePiece(ScenePiece scenePiece)
         {
-            var piece = component.Piece;
-            if (pieceComponents.ContainsKey(piece))
+            var piece = scenePiece.Piece;
+            if (scenePieces.ContainsKey(piece))
                 Debug.LogError("EJ!");
-            pieceComponents.Add(piece, component);
+            scenePieces.Add(piece, scenePiece);
         }
 
-        public void RemovePieceComponent(PieceComponent pieceComponent)
+        public void RemoveScenePiece(ScenePiece scenePiece)
         {
-            pieceComponents.Remove(pieceComponent.Piece);
+            scenePieces.Remove(scenePiece.Piece);
         }
 
-        public PieceComponent GetPieceComponent(Vector2Int coord) => GetPieceComponent(Board[coord]);
-        public PieceComponent GetPieceComponent(Piece piece)
+        public ScenePiece GetScenePiece(Vector2Int coord) => GetScenePiece(Board[coord]);
+        public ScenePiece GetScenePiece(Piece piece)
         {
-            if (pieceComponents.TryGetValue(piece, out var component))
+            if (scenePieces.TryGetValue(piece, out var component))
                 return component;
 
             return null;
-        }
-
-        public void SwapPieces(Vector2Int pieceCoord1, Vector2Int pieceCoord2)
-        {
-            var board = GetBoardInternal();
-            (board[pieceCoord1], board[pieceCoord2]) = (board[pieceCoord2], board[pieceCoord1]);
-            board[pieceCoord1].Coord = pieceCoord1;
-            board[pieceCoord2].Coord = pieceCoord2;
         }
 
         public void MovePiece(Piece piece, Vector2Int newCoord)
@@ -112,13 +104,12 @@ namespace Bipolar.PuzzleBoard
             }
 
             board[newCoord] = piece;
-            piece.Coord = newCoord;
         }
 
         internal abstract IBoard GetBoardInternal();
     }
 
-    public abstract class BoardComponent<TBoard> : BoardComponent
+    public abstract class SceneBoard<TBoard> : SceneBoard
         where TBoard : Board
     {
         protected TBoard board;
