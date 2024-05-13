@@ -91,14 +91,6 @@ namespace Bipolar.PuzzleBoard
             return null;
         }
 
-        public void SwapPieces(Vector2Int pieceCoord1, Vector2Int pieceCoord2)
-        {
-            var board = GetBoardInternal();
-            (board[pieceCoord1], board[pieceCoord2]) = (board[pieceCoord2], board[pieceCoord1]);
-            board[pieceCoord1].Coord = pieceCoord1;
-            board[pieceCoord2].Coord = pieceCoord2;
-        }
-
         public void MovePiece(Piece piece, Vector2Int newCoord)
         {
             var board = GetBoardInternal();
