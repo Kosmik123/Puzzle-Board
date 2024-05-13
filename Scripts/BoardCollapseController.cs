@@ -21,7 +21,7 @@ namespace Bipolar.PuzzleBoard
     }
 
     [DisallowMultipleComponent]
-    [RequireComponent(typeof(BoardComponent<>))]
+    [RequireComponent(typeof(SceneBoard<>))]
     public class BoardCollapseController<TStrategy, TBoard> : BoardCollapseController
         where TBoard : Board
         where TStrategy : BoardCollapseStrategy<TBoard>
@@ -29,14 +29,14 @@ namespace Bipolar.PuzzleBoard
         [SerializeField]
         private PieceFactoryWrapper pieceFactory;
 
-        private BoardComponent<TBoard> _boardComponent;
-        public BoardComponent<TBoard> BoardComponent
+        private SceneBoard<TBoard> _sceneBoard;
+        public SceneBoard<TBoard> SceneBoard
         {
             get
             {
-                if (_boardComponent == null)
-                    _boardComponent = GetComponent<BoardComponent<TBoard>>();
-                return _boardComponent;
+                if (_sceneBoard == null)
+                    _sceneBoard = GetComponent<SceneBoard<TBoard>>();
+                return _sceneBoard;
             }
         }
 
@@ -58,7 +58,7 @@ namespace Bipolar.PuzzleBoard
         protected PiecesMover<TStrategy, TBoard> mover;
 
         private BoardCollapser<TBoard> CreateNewCollapser() => new BoardCollapser<TBoard>(
-            BoardComponent.GetBoard(),
+            SceneBoard.GetBoard(),
             Strategy,
             pieceFactory ? pieceFactory.PieceFactory : null);
 

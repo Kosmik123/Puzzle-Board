@@ -3,22 +3,22 @@ using UnityEngine;
 
 namespace Bipolar.PuzzleBoard
 {
-    [RequireComponent(typeof(BoardComponent<>))]
+    [RequireComponent(typeof(SceneBoard<>))]
     public abstract class PiecesMover<TStrategy, TBoard> : MonoBehaviour
         where TBoard : Board
         where TStrategy : BoardCollapseStrategy<TBoard>
     {
         public bool IsMoving { get; protected set; }
 
-        private BoardComponent<TBoard> _boardComponent;
-        public BoardComponent<TBoard> BoardComponent
+        private SceneBoard<TBoard> _sceneBoard;
+        public SceneBoard<TBoard> SceneBoard
         { 
             get
             {
-                if (_boardComponent == null)
-                    _boardComponent = GetComponent<BoardComponent<TBoard>>();    
+                if (_sceneBoard == null)
+                    _sceneBoard = GetComponent<SceneBoard<TBoard>>();    
                 
-                return _boardComponent;
+                return _sceneBoard;
             }
         }    
 

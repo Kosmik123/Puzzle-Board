@@ -34,6 +34,4 @@ namespace Bipolar.PuzzleBoard
             return $"Command to collapse {collapseEvents.Count} pieces";
         }
     }
-
-
 }

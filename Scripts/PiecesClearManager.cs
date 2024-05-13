@@ -7,10 +7,10 @@ namespace Bipolar.PuzzleBoard
     {
         public event System.Action OnAllPiecesCleared;
 
-        private readonly List<PieceComponent> currentlyClearedPieces = new List<PieceComponent>();
+        private readonly List<ScenePiece> currentlyClearedPieces = new List<ScenePiece>();
 
         [SerializeField]
-        private BoardComponent boardComponent;
+        private SceneBoard board;
 
         public bool IsClearing => currentlyClearedPieces.Count > 0;
 
@@ -18,16 +18,16 @@ namespace Bipolar.PuzzleBoard
         {
             foreach (var piece in pieces)
             {
-                ClearPieceComponent(piece);
+                ClearScenePiece(piece);
             }
         }
 
-        private void ClearPieceComponent(Piece piece)
+        private void ClearScenePiece(Piece piece)
         {
-            var pieceComponent = boardComponent.GetPieceComponent(piece);
-            currentlyClearedPieces.Add(pieceComponent);
-            pieceComponent.OnCleared += Piece_OnCleared;
-            pieceComponent.Clear();
+            var scenePiece = board.GetScenePiece(piece);
+            currentlyClearedPieces.Add(scenePiece);
+            scenePiece.OnCleared += Piece_OnCleared;
+            scenePiece.Clear();
         }
 
         //[ContextMenu("Clear queued pieces")]
@@ -43,7 +43,7 @@ namespace Bipolar.PuzzleBoard
         //    }
         //}
 
-        private void Piece_OnCleared(PieceComponent piece)
+        private void Piece_OnCleared(ScenePiece piece)
         {
             piece.OnCleared -= Piece_OnCleared;
             currentlyClearedPieces.Remove(piece);

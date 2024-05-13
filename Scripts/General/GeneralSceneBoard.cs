@@ -4,13 +4,13 @@ using UnityEngine.Tilemaps;
 
 namespace Bipolar.PuzzleBoard.General
 {
-    public interface IGeneralBoardComponent : IBoardComponent
+    public interface IGeneralSceneBoard : ISceneBoard
     {
         void CreateBoardShape();
     }
 
     [AddComponentMenu("Board Puzzles/General Board")]
-    public class GeneralBoardComponent : BoardComponent<GeneralBoard>, IGeneralBoardComponent
+    public class GeneralSceneBoard : SceneBoard<GeneralBoard>, IGeneralSceneBoard
     {
         [SerializeField, Tooltip("Provides board shape")]
         private Tilemap shapeTilemap;

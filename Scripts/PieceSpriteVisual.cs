@@ -7,13 +7,13 @@ namespace Bipolar.PuzzleBoard
         [SerializeField]
         private PieceVisualSettings settings;
         [SerializeField] 
-        private PieceComponent pieceComponent;
+        private ScenePiece pieceComponent;
         [SerializeField]
         private SpriteRenderer spriteRenderer;
 
         protected virtual void Reset()
         {
-            pieceComponent = GetComponentInParent<PieceComponent>();
+            pieceComponent = GetComponentInParent<ScenePiece>();
             spriteRenderer = GetComponentInChildren<SpriteRenderer>();
         }
 

@@ -3,23 +3,23 @@ using UnityEngine;
 
 namespace Bipolar.PuzzleBoard
 {
-    public delegate void PieceMovementEndEventHandler(PieceComponent piece);
+    public delegate void PieceMovementEndEventHandler(ScenePiece piece);
 
-    [RequireComponent(typeof(BoardComponent))]
+    [RequireComponent(typeof(SceneBoard))]
     public class DefaultPiecesMovementManager : PiecesMovementManager
     {
         public override event System.Action OnAllPiecesMovementStopped;
         public event PieceMovementEndEventHandler OnPieceMovementEnded;
 
         [SerializeField]
-        private BoardComponent board;
+        private SceneBoard board;
         [SerializeField]
         private float defaultMovementDuration = 0.3f;
 
         public override bool ArePiecesMoving => movingPieces.Count > 0;
         private readonly List<PieceMovementBehavior> movingPieces = new List<PieceMovementBehavior>();
 
-        public void StartPieceMovement(PieceComponent piece, Vector2Int targetCoord, float duration = -1)
+        public void StartPieceMovement(ScenePiece piece, Vector2Int targetCoord, float duration = -1)
         {
             if (duration < 0)
                 duration = defaultMovementDuration;

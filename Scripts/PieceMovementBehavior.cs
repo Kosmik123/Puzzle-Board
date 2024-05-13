@@ -3,7 +3,7 @@
 namespace Bipolar.PuzzleBoard
 {
     [DisallowMultipleComponent]
-    [RequireComponent(typeof(PieceComponent))]
+    [RequireComponent(typeof(ScenePiece))]
     public abstract class PieceMovementBehavior : MonoBehaviour
     {
         public abstract event System.Action<PieceMovementBehavior> OnMovementEnded;
@@ -13,7 +13,7 @@ namespace Bipolar.PuzzleBoard
 
     public static class PieceMovementExtension
     {
-        public static void MoveTo(this PieceComponent piece, Vector3 targetPosition, System.Action moveFinishedCallback = null, float speed = -1)
+        public static void MoveTo(this ScenePiece piece, Vector3 targetPosition, System.Action moveFinishedCallback = null, float speed = -1)
         {
             if (piece.TryGetComponent<PieceMovementBehavior>(out var pieceMovement) && pieceMovement.isActiveAndEnabled)
             {

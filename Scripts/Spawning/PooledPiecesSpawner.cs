@@ -6,13 +6,11 @@ namespace Bipolar.PuzzleBoard
     public class PooledPiecesSpawner : PiecesSpawner
     {
         [SerializeField]
-        private PieceComponent piecePrototype;
-        [SerializeField]
-        private Transform piecesContainer;
+        private ScenePiece piecePrototype;
 
-        private readonly Stack<PieceComponent> piecesPool = new Stack<PieceComponent>();
+        private readonly Stack<ScenePiece> piecesPool = new Stack<ScenePiece>();
 
-        protected override PieceComponent Spawn(Piece piece)
+        protected override ScenePiece Spawn(Piece piece)
         {
             var spawnedPiece = piecesPool.Count > 0 ? piecesPool.Pop() : CreateNewPiece();
             spawnedPiece.Init(piece);
@@ -20,16 +18,16 @@ namespace Bipolar.PuzzleBoard
             return spawnedPiece;
         }
 
-        private PieceComponent CreateNewPiece()
+        private ScenePiece CreateNewPiece()
         {
-            var pieceComponent = Instantiate(piecePrototype, piecesContainer);
+            var pieceComponent = Instantiate(piecePrototype, targetBoard.transform);
             pieceComponent.OnCleared += Release;
             return pieceComponent;
         }
 
-        private void Release(PieceComponent piece)
+        private void Release(ScenePiece piece)
         {
-            targetBoard.RemovePieceComponent(piece);
+            targetBoard.RemoveScenePiece(piece);
             piece.gameObject.SetActive(false);
             piecesPool.Push(piece);
         }

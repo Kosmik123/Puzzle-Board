@@ -2,14 +2,17 @@
 
 namespace Bipolar.PuzzleBoard.Rectangular
 {
-    public class TiledRectangularBoardVisual : RectangularBoardVisual
+    public class TiledSpriteRectangularBoardVisual : RectangularBoardVisual
     {
         [SerializeField]
         private Vector2 tilesScale = Vector2.one;
+        [SerializeField]
+        private SpriteRenderer spriteRenderer;
 
         protected override void Reset()
         {
             base.Reset();
+            spriteRenderer = GetComponentInChildren<SpriteRenderer>();
             tilesScale = Vector2.one;
         }
 
@@ -18,7 +21,7 @@ namespace Bipolar.PuzzleBoard.Rectangular
         {
             var tilesSize = new Vector2(dimensions.x / tilesScale.x, dimensions.y / tilesScale.y);
             var oneOverParentScale = GetInverseParentScale();
-            var rendererScale = Vector3.Scale(boardComponent.Grid.cellSize + boardComponent.Grid.cellGap, boardComponent.transform.lossyScale);
+            var rendererScale = Vector3.Scale(board.Grid.cellSize + board.Grid.cellGap, board.transform.lossyScale);
             rendererScale.Scale(tilesScale);
 
             spriteRenderer.transform.localScale = Vector3.Scale(oneOverParentScale, rendererScale);

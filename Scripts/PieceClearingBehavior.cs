@@ -4,18 +4,18 @@ using UnityEngine;
 namespace Bipolar.PuzzleBoard
 {
     [DisallowMultipleComponent]
-    [RequireComponent(typeof(PieceComponent))]
+    [RequireComponent(typeof(ScenePiece))]
     public abstract class PieceClearingBehavior : MonoBehaviour
     {
         public event System.Action<PieceClearingBehavior> OnClearing;
 
-        private PieceComponent _pieceComponent;
-        public PieceComponent PieceComponent
+        private ScenePiece _pieceComponent;
+        public ScenePiece PieceComponent
         {
             get
             {
                 if (_pieceComponent == null)
-                    _pieceComponent = GetComponent<PieceComponent>();
+                    _pieceComponent = GetComponent<ScenePiece>();
                 return _pieceComponent;
             }
         }
@@ -52,7 +52,7 @@ namespace Bipolar.PuzzleBoard
 
     public static class PieceClearingExtension
     {
-        public static void Clear(this PieceComponent piece)
+        public static void Clear(this ScenePiece piece)
         {
             if (piece.TryGetComponent<PieceClearingBehavior>(out var pieceClearing))
             {

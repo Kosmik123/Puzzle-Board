@@ -5,17 +5,15 @@ namespace Bipolar.PuzzleBoard
     public class InstantiatingPiecesSpawner : PiecesSpawner
     {
         [SerializeField]
-        private PieceComponent piecePrototype;
-        [SerializeField]
-        private Transform piecesContainter;
+        private ScenePiece piecePrototype;
 
-        protected override PieceComponent Spawn(Piece piece)
+        protected override ScenePiece Spawn(Piece piece)
         {
-            var pieceComponent = Instantiate(piecePrototype, piecesContainter);
+            var pieceComponent = Instantiate(piecePrototype, targetBoard.transform);
             pieceComponent.Init(piece);
             pieceComponent.OnCleared += clearedPiece =>
             {
-                targetBoard.RemovePieceComponent(clearedPiece);
+                targetBoard.RemoveScenePiece(clearedPiece);
                 Destroy(clearedPiece.gameObject);
             };
             pieceComponent.name = $"{piecePrototype.name} ({piece.Color})";

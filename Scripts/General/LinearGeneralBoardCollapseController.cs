@@ -5,7 +5,7 @@ using UnityEngine.Tilemaps;
 
 namespace Bipolar.PuzzleBoard
 {
-    [RequireComponent(typeof(GeneralBoardComponent))]
+    [RequireComponent(typeof(GeneralSceneBoard))]
     public class LinearGeneralBoardCollapseController : BoardCollapseController<LinearGeneralBoardCollapseStrategy, GeneralBoard>
     {
         [SerializeField]
@@ -41,8 +41,8 @@ namespace Bipolar.PuzzleBoard
             var tempTargetCoordsDict = new Dictionary<Vector2Int, Vector2Int>();
             var tempSourceCoordsDict = new Dictionary<Vector2Int, Vector2Int>();
 
-            bool isBoardHexagonal = BoardComponent.Layout == GridLayout.CellLayout.Hexagon;
-            foreach (var coord in BoardComponent.Board)
+            bool isBoardHexagonal = SceneBoard.Layout == GridLayout.CellLayout.Hexagon;
+            foreach (var coord in SceneBoard.Board)
             {
                 HandleCoordCreation(coord, isBoardHexagonal, startingCoords, endingCoords,
                     notStartingCoords, notEndingCoords, directions, tempSourceCoordsDict);
@@ -87,9 +87,9 @@ namespace Bipolar.PuzzleBoard
             if (tile.Jump)
             {
                 bool hasJumpTarget = gameObject;
-                while (TilemapContainsCoord(((GeneralBoardComponent)BoardComponent).ShapeTilemap, targetCoord))
+                while (TilemapContainsCoord(((GeneralSceneBoard)SceneBoard).ShapeTilemap, targetCoord))
                 {
-                    if (BoardComponent.ContainsCoord(targetCoord))
+                    if (SceneBoard.ContainsCoord(targetCoord))
                     {
                         hasJumpTarget = true;
                         break;
@@ -103,7 +103,7 @@ namespace Bipolar.PuzzleBoard
                     return;
                 }
             }
-            else if (BoardComponent.ContainsCoord(targetCoord) == false)
+            else if (SceneBoard.ContainsCoord(targetCoord) == false)
             {
                 endingCoords.Add(coord);
                 return;
@@ -143,7 +143,7 @@ namespace Bipolar.PuzzleBoard
         private int IndexOfCoordInBoard(Vector2Int checkedCoord)
         {
             int index = -1;
-            foreach (var coord in BoardComponent.Board)
+            foreach (var coord in SceneBoard.Board)
             {
                 index++;
                 if (coord == checkedCoord)
@@ -159,7 +159,7 @@ namespace Bipolar.PuzzleBoard
             for (int index = line.Coords.Count - 1; index >= 0; index--)
             {
                 var coord = line.Coords[index];
-                var piece = BoardComponent.GetPiece(coord);
+                var piece = SceneBoard.GetPiece(coord);
                 if (piece == null || piece.IsCleared)
                 {
                     nonExistingPiecesCount++;
@@ -180,10 +180,10 @@ namespace Bipolar.PuzzleBoard
         {
             var startCoord = line.Coords[0];
             var creatingDirection = -GetRealDirection(startCoord);
-            var firstCellPosition = BoardComponent.CoordToWorld(startCoord);
+            var firstCellPosition = SceneBoard.CoordToWorld(startCoord);
             for (int i = 0; i < count; i++)
             {
-                PieceComponent newPiece = null; // CreatePiece(coord);
+                ScenePiece newPiece = null; // CreatePiece(coord);
                 var spawningPosition = firstCellPosition + (Vector3)(creatingDirection * (count - i));
                 newPiece.transform.position = spawningPosition;
                // piecesMovementManager.StartPieceMovement(newPiece, line, -1, i, coo);
@@ -197,8 +197,8 @@ namespace Bipolar.PuzzleBoard
             var direction = GetDirection(coord);
             var nextCoord = coord + direction;
 
-            var worldPos = BoardComponent.CoordToWorld(coord);
-            var nextWorldPos = BoardComponent.CoordToWorld(nextCoord);
+            var worldPos = SceneBoard.CoordToWorld(coord);
+            var nextWorldPos = SceneBoard.CoordToWorld(nextCoord);
 
             return nextWorldPos - worldPos;
         }
@@ -211,7 +211,7 @@ namespace Bipolar.PuzzleBoard
 
         private void OnDrawGizmosSelected()
         {
-            if (strategy != null && strategy.Lines != null && (BoardComponent as GeneralBoardComponent).Coords.Count > 0)
+            if (strategy != null && strategy.Lines != null && (SceneBoard as GeneralSceneBoard).Coords.Count > 0)
                 foreach (var line in strategy.Lines)
                     GizmosDrawLine(line);
 
@@ -236,8 +236,8 @@ namespace Bipolar.PuzzleBoard
 
             void GizmosDrawLineSegment(Vector2Int start, Vector2Int end)
             {
-                var startPos = BoardComponent.CoordToWorld(start);
-                var target = BoardComponent.CoordToWorld(end);
+                var startPos = SceneBoard.CoordToWorld(start);
+                var target = SceneBoard.CoordToWorld(end);
                 Gizmos.color = Color.yellow;
                 Gizmos.DrawLine(startPos, target);
             }
@@ -249,7 +249,7 @@ namespace Bipolar.PuzzleBoard
                 if (DirectionTileHelper.TryGetTile(coord, directionsMap, out var tile))
                 {
                     Gizmos.color = color;
-                    Gizmos.DrawSphere(BoardComponent.CoordToWorld(coord) + (Vector3)(offset * (Vector2)tile.Direction), 0.1f);
+                    Gizmos.DrawSphere(SceneBoard.CoordToWorld(coord) + (Vector3)(offset * (Vector2)tile.Direction), 0.1f);
                 }
             }
         }

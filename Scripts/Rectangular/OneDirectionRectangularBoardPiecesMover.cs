@@ -19,7 +19,7 @@ namespace Bipolar.PuzzleBoard.Rectangular
         [SerializeField]
         private bool dontRefillEmptySpaces;
 
-        private PieceComponent CreatePieceComponent(Piece piece)
+        private ScenePiece CreatePieceComponent(Piece piece)
         {
             var pieceComponent = PiecesSpawner.SpawnPiece(piece);
             return pieceComponent;
@@ -35,27 +35,27 @@ namespace Bipolar.PuzzleBoard.Rectangular
                 if (collapseEventArgs is OneDirectionRectangularBoardCollapseStrategy.PieceCollapsedEventArgs collapseEvent)
                 {
                     var piece = collapseEvent.Piece;
-                    var pieceComponent = BoardComponent.GetPieceComponent(piece);
+                    var pieceComponent = SceneBoard.GetScenePiece(piece);
                     piecesMovementManager.StartPieceMovement(pieceComponent, collapseEvent.TargetCoord);
                 }
                 else if (dontRefillEmptySpaces == false && collapseEventArgs is IPieceCreatedCollapseEventArgs createEvent)
                 {
                     var piece = createEvent.Piece;
                     var pieceComponent = CreatePieceComponent(piece);
-                    var collapseDirection = BoardHelper.GetCorrectedDirection(createEvent.CreationCoord, strategy.CollapseDirection, BoardComponent.Board.Layout == GridLayout.CellLayout.Hexagon);
+                    var collapseDirection = BoardHelper.GetCorrectedDirection(createEvent.CreationCoord, strategy.CollapseDirection, SceneBoard.Board.Layout == GridLayout.CellLayout.Hexagon);
 
                     var spawnCoord = createEvent.CreationCoord;
                     {
                         spawnCoord[strategy.CollapseAxis] = collapseDirection[strategy.CollapseAxis] switch
                         {
                             1 => -1,
-                            -1 => BoardComponent.GetBoard().Dimensions[strategy.CollapseAxis],
+                            -1 => SceneBoard.GetBoard().Dimensions[strategy.CollapseAxis],
                             _ => 0
                         };
                     }
 
                     spawnCoord -= collapseDirection * createEvent.CreateIndex;
-                    pieceComponent.transform.position = BoardComponent.CoordToWorld(spawnCoord);
+                    pieceComponent.transform.position = SceneBoard.CoordToWorld(spawnCoord);
                     piecesMovementManager.StartPieceMovement(pieceComponent, createEvent.CreationCoord);
                 }
             }

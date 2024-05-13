@@ -22,10 +22,10 @@ namespace Bipolar.PuzzleBoard
             this.board = board;    
             this.strategy = strategy;
             this.pieceFactory = pieceFactory;
-            strategy.OnPieceCollapsed += Strategy_OnCollapsed;
+            strategy.OnPieceCollapsed += Strategy_OnPieceCollapsed;
         }
 
-        private void Strategy_OnCollapsed(BoardCollapseStrategy<TBoard> sender, ICollapseEventArgs eventArgs)
+        private void Strategy_OnPieceCollapsed(BoardCollapseStrategy<TBoard> sender, ICollapseEventArgs eventArgs)
         {
             collapseEvents.Add(eventArgs);
         }
@@ -39,7 +39,7 @@ namespace Bipolar.PuzzleBoard
 
         public void Dispose()
         {
-            strategy.OnPieceCollapsed -= Strategy_OnCollapsed;
+            strategy.OnPieceCollapsed -= Strategy_OnPieceCollapsed;
         }
     }
 }
