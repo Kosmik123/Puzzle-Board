@@ -12,15 +12,15 @@ namespace Bipolar.PuzzleBoard
         public bool ContainsCoord(Vector2Int coord) => ContainsCoord(coord.x, coord.y);
         public abstract bool ContainsCoord(int x, int y);
 
-        private readonly bool isInited = false;
-        protected virtual bool IsInited => isInited;
+        private readonly bool isValid = false;
+        protected virtual bool IsValid => isValid;
 
         public readonly System.Guid ID;
 
         public Board(GridLayout.CellLayout layout)
         {
             ID = System.Guid.NewGuid();
-            isInited = true;
+            isValid = true;
             Layout = layout;
         }
 
@@ -41,10 +41,10 @@ namespace Bipolar.PuzzleBoard
                 return true;
 
             if (rightIsNull)
-                return !lhs.IsInited;
+                return !lhs.IsValid;
 
             if (leftIsNull)
-                return !rhs.IsInited;
+                return !rhs.IsValid;
 
             return lhs.Equals(rhs);
         }
