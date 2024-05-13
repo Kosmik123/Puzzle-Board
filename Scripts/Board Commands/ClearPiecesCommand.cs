@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Bipolar.PuzzleBoard
 {
-    public struct ClearPiecesCommand : IBoardCommand
+    public readonly struct ClearPiecesCommand : IBoardCommand
     {
         private readonly IReadOnlyList<Piece> piecesToClear;
         private readonly PiecesClearManager piecesClearManager;
@@ -30,9 +30,9 @@ namespace Bipolar.PuzzleBoard
             //yield return new WaitForSeconds(0.3f); // temporary to test
         }
 
-        private bool IsClearing() => piecesClearManager.IsClearing;
+        private readonly bool IsClearing() => piecesClearManager.IsClearing;
 
-        public override string ToString()
+        public override readonly string ToString()
         {
             return $"Command to clear {piecesToClear.Count} pieces";
         }

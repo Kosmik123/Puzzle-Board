@@ -43,5 +43,10 @@ namespace Bipolar.PuzzleBoard.General
             foreach (var coord in piecesByCoords.Keys)
                 yield return coord;
         }
+
+        protected override void CopyState(IBoard target)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

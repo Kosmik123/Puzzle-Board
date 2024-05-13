@@ -23,7 +23,7 @@ namespace Bipolar.PuzzleBoard
         public IEnumerator Execute()
         {
             piecesSwapManager.SwapPieces(piece1, piece2, targetCoord1, targetCoord2);
-            yield return new WaitForSeconds(0.3f);
+            yield return new WaitForSeconds(0.3f); 
         }
 
         public override string ToString()
