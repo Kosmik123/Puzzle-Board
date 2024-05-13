@@ -14,7 +14,7 @@ namespace Bipolar.PuzzleBoard.General
         private readonly Dictionary<Vector2Int, Piece> piecesByCoords = new Dictionary<Vector2Int, Piece>();
         public IReadOnlyCollection<Vector2Int> Coords => piecesByCoords.Keys;
 
-        protected override bool IsInited => base.IsInited && piecesByCoords != null;
+        protected override bool IsValid => base.IsValid && piecesByCoords != null;
 
         public override Piece this[Vector2Int coord]
         {
@@ -46,7 +46,12 @@ namespace Bipolar.PuzzleBoard.General
 
         protected override void CopyState(IBoard target)
         {
-            throw new System.NotImplementedException();
+            if (!(target is GeneralBoard generalTarget))
+                throw new System.InvalidCastException();
+
+            generalTarget.piecesByCoords.Clear();
+            foreach (var coordAndPiece in piecesByCoords)
+                generalTarget.piecesByCoords.Add(coordAndPiece.Key, coordAndPiece.Value);
         }
     }
 }
