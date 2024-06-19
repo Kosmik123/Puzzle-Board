@@ -25,7 +25,7 @@ namespace Bipolar.PuzzleBoard
         }
 
         public abstract Board Clone();
-        public static void Copy(Board source, IBoard target) => source.CopyState(target);
+        public static void Copy(IReadOnlyBoard source, IBoard target) => (source as Board).CopyState(target);
         protected abstract void CopyState(IBoard target);
 
         public abstract IEnumerator<Vector2Int> GetEnumerator();

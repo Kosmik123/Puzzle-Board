@@ -1,5 +1,3 @@
-using UnityEngine;
-
 namespace Bipolar.PuzzleBoard
 {
     public interface IPieceFactory
@@ -20,7 +18,7 @@ namespace Bipolar.PuzzleBoard
         public Piece CreatePiece(int x, int y)
         {
             var pieceColor = pieceColorProvider.GetPieceColor(x, y);
-            var piece = (TPiece)System.Activator.CreateInstance(typeof(TPiece), x, y, pieceColor);
+            var piece = (TPiece)System.Activator.CreateInstance(typeof(TPiece), pieceColor);
             return piece;
         }
     }

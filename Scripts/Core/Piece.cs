@@ -12,8 +12,6 @@ namespace Bipolar.PuzzleBoard
         private bool isCleared = false;
         public bool IsCleared => isCleared;
 
-        // private IBoard containingBoard;
-
         [SerializeReference]
         public List<PieceProperty> pieceProperties = new List<PieceProperty>();
 
