@@ -61,15 +61,21 @@ namespace Bipolar.PuzzleBoard
 
         public bool RemoveProperty<T>() where T : PieceProperty
         {
-            for (int i = pieceProperties.Count - 1; i >= 0; i--)
+            int index = -1;
+            for (int i = 0; i < pieceProperties.Count; i++)
             {
                 if (pieceProperties[i] is T)
                 {
-                    pieceProperties.RemoveAt(i);
-                    return true;
+                    index = i;
+                    break;
                 }
             }
-            return false;
+
+            if (index < 0)
+                return false;
+
+            pieceProperties.RemoveAt(index);
+            return true;
         }
 
         public bool RemoveProperty(PieceProperty property) => pieceProperties.Remove(property);
@@ -85,11 +91,11 @@ namespace Bipolar.PuzzleBoard
         }
     }
 
-    public class Piece<T> : Piece
-        where T : Object, IPieceColor
+    public class Piece<TColor> : Piece
+        where TColor : IPieceColor
     {
         [SerializeField]
-        private T color;
+        private TColor color;
 
         public Piece(IPieceColor color) : base(color)
         {
@@ -102,7 +108,7 @@ namespace Bipolar.PuzzleBoard
             get => color;
             set
             {
-                color = value as T;
+                color = (TColor)value;
                 base.Color = color;
             }
         }
@@ -129,20 +135,39 @@ namespace Bipolar.PuzzleBoard
     {
         private static readonly Dictionary<System.Type, StaticPieceProperty> instances = new Dictionary<System.Type, StaticPieceProperty>();
 
-        public string Name;
+        [SerializeField]
+        private string Name;
 
         public static T Get<T>() where T : StaticPieceProperty
         {
-            if (instances.TryGetValue(typeof(T), out var instance) == false)
+            var propertyType = typeof(T);
+            if (instances.TryGetValue(propertyType, out var instance) == false)
             {
                 instance = System.Activator.CreateInstance<T>();
-                instances.Add(typeof(T), instance);
+                instance.Name = propertyType.Name;
+                instances.Add(propertyType, instance);
             }
 
             return (T)instance;
         }
 
-        private protected StaticPieceProperty()
+        protected StaticPieceProperty()
         { }
     }
+#if UNITY_EDITOR
+    [UnityEditor.CustomPropertyDrawer(typeof(StaticPieceProperty), useForChildren: true)]
+    public class StaticPiecePropertyDrawer : UnityEditor.PropertyDrawer
+    {
+        public override float GetPropertyHeight(UnityEditor.SerializedProperty property, GUIContent label)
+        {
+            return base.GetPropertyHeight(property, label);
+        }
+
+        public override void OnGUI(Rect position, UnityEditor.SerializedProperty property, GUIContent label)
+        {
+            var name = property.FindPropertyRelative("Name").stringValue;
+            UnityEditor.EditorGUI.LabelField(position, UnityEditor.ObjectNames.NicifyVariableName(name));
+        }
+    }
+#endif
 }
