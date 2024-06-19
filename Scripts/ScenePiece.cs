@@ -51,21 +51,7 @@ namespace Bipolar.PuzzleBoard
         {
             this.piece = piece;
             isCleared = false;
-            CheckColorChange();
-        }
-
-        private void Update()
-        {
-            CheckColorChange();
-        }
-
-        private void CheckColorChange()
-        {
-            if (previousPieceColor != piece.Color)
-            {
-                previousPieceColor = piece.Color;
-                OnColorChanged?.Invoke(piece.Color);
-            }
+            OnColorChanged?.Invoke(piece.Color);
         }
 
         protected virtual void OnValidate()

@@ -11,9 +11,11 @@ namespace Bipolar.PuzzleBoard
         {
             var scenePiece1 = sceneBoard.GetScenePiece(piece1);
             var scenePiece2 = sceneBoard.GetScenePiece(piece2);
-
-            scenePiece1.MoveTo(sceneBoard.CoordToWorld(targetCoord1));
-            scenePiece2.MoveTo(sceneBoard.CoordToWorld(targetCoord2));
+            
+            if (scenePiece1)    
+                scenePiece1.MoveTo(sceneBoard.CoordToWorld(targetCoord1));
+            if (scenePiece2)    
+                scenePiece2.MoveTo(sceneBoard.CoordToWorld(targetCoord2));
         }
     }
 }

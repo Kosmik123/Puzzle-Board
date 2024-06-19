@@ -36,15 +36,17 @@ namespace Bipolar.PuzzleBoard.Rectangular
                 {
                     var piece = collapseEvent.Piece;
                     var scenePiece = SceneBoard.GetScenePiece(piece);
-                    scenePiece.Coord = collapseEvent.TargetCoord;
-                    piecesMovementManager.StartPieceMovement(scenePiece, collapseEvent.TargetCoord);
+                    if (scenePiece)
+                    {
+                        scenePiece.Coord = collapseEvent.TargetCoord;
+                        piecesMovementManager.StartPieceMovement(scenePiece, collapseEvent.TargetCoord);
+                    }
                 }
                 else if (dontRefillEmptySpaces == false && collapseEventArgs is IPieceCreatedCollapseEventArgs createEvent)
                 {
                     var piece = createEvent.Piece;
                     var scenePiece = CreateScenePiece(piece);
                     scenePiece.Coord = createEvent.CreationCoord;
-
                     var collapseDirection = BoardHelper.GetCorrectedDirection(createEvent.CreationCoord, strategy.CollapseDirection, SceneBoard.Board.Layout == GridLayout.CellLayout.Hexagon);
                     var spawnCoord = createEvent.CreationCoord;
                     {
