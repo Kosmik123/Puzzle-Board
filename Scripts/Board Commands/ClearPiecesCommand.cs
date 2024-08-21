@@ -6,10 +6,10 @@ namespace Bipolar.PuzzleBoard
 {
     public readonly struct ClearPiecesCommand : IBoardCommand
     {
-        private readonly IReadOnlyList<Piece> piecesToClear;
+        private readonly IReadOnlyList<IPiece> piecesToClear;
         private readonly PiecesClearManager piecesClearManager;
 
-        public ClearPiecesCommand(IReadOnlyList<Piece> piecesToClear, PiecesClearManager piecesClearManager)
+        public ClearPiecesCommand(IReadOnlyList<IPiece> piecesToClear, PiecesClearManager piecesClearManager)
         {
             this.piecesToClear = piecesToClear;
             this.piecesClearManager = piecesClearManager;

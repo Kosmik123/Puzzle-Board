@@ -3,8 +3,16 @@ using UnityEngine;
 
 namespace Bipolar.PuzzleBoard
 {
+    public interface IPiece
+    {
+        event System.Action OnCleared;
+        bool IsCleared { get; }
+        IPieceColor Color { get; set; }
+        void ClearPiece();
+    }
+
     [System.Serializable]
-    public class Piece
+    public abstract class Piece : IPiece
     {
         public event System.Action OnCleared;
 
@@ -15,15 +23,9 @@ namespace Bipolar.PuzzleBoard
         [SerializeReference]
         public List<PieceProperty> pieceProperties = new List<PieceProperty>();
 
-        public static bool Exists(Piece piece) => piece != null && !piece.IsCleared;
         public virtual IPieceColor Color { get; set; }
 
-        public Piece (IPieceColor color)
-        {
-            Color = color;
-        }
-
-        public void ClearPiece()
+        public virtual void ClearPiece()
         {
             isCleared = true;
             OnCleared?.Invoke();
@@ -97,11 +99,8 @@ namespace Bipolar.PuzzleBoard
         [SerializeField]
         private TColor color;
 
-        public Piece(IPieceColor color) : base(color)
-        {
-            AddProperty<ImmovablePieceProperty>();
-            AddProperty(new FrozenPieceProperty());
-        }
+        public Piece() : base()
+        { }
 
         public override IPieceColor Color
         {

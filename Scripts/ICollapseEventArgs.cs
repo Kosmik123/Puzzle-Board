@@ -4,8 +4,8 @@ using UnityEngine;
 namespace Bipolar.PuzzleBoard
 {
     public interface ICollapseEventArgs
-    { 
-        Piece Piece { get; }
+    {
+        IPiece Piece { get; }
     }
 }
 
@@ -17,11 +17,11 @@ public interface IPieceCreatedCollapseEventArgs : ICollapseEventArgs
 
 public readonly struct PieceCreatedEventArgs : IPieceCreatedCollapseEventArgs
 {
-    public readonly Piece Piece { get; }
+    public readonly IPiece Piece { get; }
     public int CreateIndex { get; }
     public Vector2Int CreationCoord { get; }
 
-    public PieceCreatedEventArgs(Piece piece, int createIndex, Vector2Int creationCoord)
+    public PieceCreatedEventArgs(IPiece piece, int createIndex, Vector2Int creationCoord)
     {
         Piece = piece;
         CreateIndex = createIndex;

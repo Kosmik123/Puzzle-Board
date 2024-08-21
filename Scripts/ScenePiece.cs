@@ -17,8 +17,8 @@ namespace Bipolar.PuzzleBoard
         }
 
         [SerializeReference]
-        private Piece piece;
-        internal Piece Piece => piece;
+        private IPiece piece;
+        public IPiece Piece => piece;
 
         [SerializeField]
         [Tooltip("It's different than Piece.IsCleared")]
@@ -47,7 +47,7 @@ namespace Bipolar.PuzzleBoard
 
         private IPieceColor previousPieceColor;
 
-        internal void Init(Piece piece)
+        internal void Init(IPiece piece)
         {
             this.piece = piece;
             isCleared = false;
@@ -57,7 +57,8 @@ namespace Bipolar.PuzzleBoard
         protected virtual void OnValidate()
         {
 #if UNITY_EDITOR
-            piece?.Validate();
+            if (this.piece is Piece piece)
+                piece?.Validate();
 #endif
         }
     }

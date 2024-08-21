@@ -7,7 +7,7 @@ namespace Bipolar.PuzzleBoard
         [SerializeField]
         private ScenePiece piecePrototype;
 
-        protected override ScenePiece Spawn(Piece piece)
+        protected override ScenePiece Spawn(IPiece piece)
         {
             var pieceComponent = Instantiate(piecePrototype, targetBoard.transform);
             pieceComponent.Init(piece);

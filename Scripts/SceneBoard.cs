@@ -18,7 +18,7 @@ namespace Bipolar.PuzzleBoard
             }
         }
 
-        protected readonly Dictionary<Piece, ScenePiece> scenePieces = new Dictionary<Piece, ScenePiece>();
+        protected readonly Dictionary<IPiece, ScenePiece> scenePieces = new Dictionary<IPiece, ScenePiece>();
 
         public GridLayout.CellLayout Layout => Grid.cellLayout;
 
@@ -26,7 +26,7 @@ namespace Bipolar.PuzzleBoard
 
         public abstract bool ContainsCoord(Vector2Int coord);
 
-        public Piece GetPiece(Vector2Int coord)
+        public IPiece GetPiece(Vector2Int coord)
         {
             if (ContainsCoord(coord) == false)
                 return null;
@@ -83,7 +83,7 @@ namespace Bipolar.PuzzleBoard
         }
 
         public ScenePiece GetScenePiece(Vector2Int coord) => GetScenePiece(Board[coord]);
-        public ScenePiece GetScenePiece(Piece piece)
+        public ScenePiece GetScenePiece(IPiece piece)
         {
             if (scenePieces.TryGetValue(piece, out var component))
                 return component;

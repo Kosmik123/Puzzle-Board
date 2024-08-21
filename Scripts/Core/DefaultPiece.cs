@@ -2,7 +2,7 @@
 {
     public class DefaultPiece : Piece<PieceColor>
     {
-        public DefaultPiece(IPieceColor color) : base(color)
+        public DefaultPiece() : base()
         { }
     }
 }

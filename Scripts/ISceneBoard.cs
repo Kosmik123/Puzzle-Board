@@ -12,7 +12,7 @@ namespace Bipolar.PuzzleBoard
     public interface ISceneBoard : IReadOnlySceneBoard
     {
         void AddScenePiece(ScenePiece piece);
-        ScenePiece GetScenePiece(Piece piece);
+        ScenePiece GetScenePiece(IPiece piece);
         ScenePiece GetScenePiece(Vector2Int coord);
     }
 }

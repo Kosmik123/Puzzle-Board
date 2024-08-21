@@ -13,11 +13,11 @@ namespace Bipolar.PuzzleBoard.Rectangular
     {
         private readonly int width;
         private readonly int height;
-        private readonly Piece[,] piecesArray;
+        private readonly IPiece[,] piecesArray;
 
         public Vector2Int Dimensions => new Vector2Int(width, height);
 
-        public override Piece this[Vector2Int coord]
+        public override IPiece this[Vector2Int coord]
         {
             get => piecesArray[coord.x, coord.y];
             set => piecesArray[coord.x, coord.y] = value;

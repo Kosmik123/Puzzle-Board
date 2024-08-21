@@ -11,12 +11,12 @@ namespace Bipolar.PuzzleBoard.General
     [System.Serializable]
     public class GeneralBoard : Board, IGeneralBoard
     {
-        private readonly Dictionary<Vector2Int, Piece> piecesByCoords = new Dictionary<Vector2Int, Piece>();
+        private readonly Dictionary<Vector2Int, IPiece> piecesByCoords = new Dictionary<Vector2Int, IPiece>();
         public IReadOnlyCollection<Vector2Int> Coords => piecesByCoords.Keys;
 
         protected override bool IsValid => base.IsValid && piecesByCoords != null;
 
-        public override Piece this[Vector2Int coord]
+        public override IPiece this[Vector2Int coord]
         {
             get => piecesByCoords[coord];
             set => piecesByCoords[coord] = value;

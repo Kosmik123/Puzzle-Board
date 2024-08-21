@@ -9,7 +9,7 @@ namespace Bipolar.PuzzleBoard
         [SerializeField]
         protected SceneBoard targetBoard;
 
-        public ScenePiece SpawnPiece(Piece piece)
+        public ScenePiece SpawnPiece(IPiece piece)
         {
             var pieceComponent = Spawn(piece);
             targetBoard.AddScenePiece(pieceComponent);
@@ -17,6 +17,6 @@ namespace Bipolar.PuzzleBoard
             return pieceComponent;
         }
 
-        protected abstract ScenePiece Spawn(Piece piece);
+        protected abstract ScenePiece Spawn(IPiece piece);
     }
 }

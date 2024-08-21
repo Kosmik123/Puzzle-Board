@@ -14,7 +14,7 @@ namespace Bipolar.PuzzleBoard
 
         public bool IsClearing => currentlyClearedPieces.Count > 0;
 
-        public void ClearPieces(IReadOnlyList<Piece> pieces)
+        public void ClearPieces(IReadOnlyList<IPiece> pieces)
         {
             foreach (var piece in pieces)
             {
@@ -22,7 +22,7 @@ namespace Bipolar.PuzzleBoard
             }
         }
 
-        private void ClearScenePiece(Piece piece)
+        private void ClearScenePiece(IPiece piece)
         {
             var scenePiece = board.GetScenePiece(piece);
             currentlyClearedPieces.Add(scenePiece);

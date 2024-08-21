@@ -8,11 +8,11 @@ namespace Bipolar.PuzzleBoard.General
         public readonly struct PieceCollapsedEventArgs : ICollapseEventArgs
         {
             public int FromIndex { get; }
-            public Piece Piece { get; }
+            public IPiece Piece { get; }
             public CoordsLine Line { get; }
             public Vector2Int TargetCoord { get; }
 
-            public PieceCollapsedEventArgs(int fromIndex, Piece piece, CoordsLine line, Vector2Int targetCoord)
+            public PieceCollapsedEventArgs(int fromIndex, IPiece piece, CoordsLine line, Vector2Int targetCoord)
             {
                 FromIndex = fromIndex;
                 Piece = piece;
@@ -28,12 +28,12 @@ namespace Bipolar.PuzzleBoard.General
 
         public readonly struct PieceCreatedEventArgs : IPieceCreatedCollapseEventArgs
         {
-            public Piece Piece { get; }
+            public IPiece Piece { get; }
             public int CreateIndex { get; }
             public CoordsLine Line { get; }
             public Vector2Int CreationCoord { get; }
 
-            public PieceCreatedEventArgs(Piece piece, int createIndex, CoordsLine line, Vector2Int creationCoord)
+            public PieceCreatedEventArgs(IPiece piece, int createIndex, CoordsLine line, Vector2Int creationCoord)
             {
                 Piece = piece;
                 CreateIndex = createIndex;
@@ -107,7 +107,7 @@ namespace Bipolar.PuzzleBoard.General
             for (int i = count - 1; i >= 0; i--)
             {
                 var coord = line.Coords[i];
-                var piece = pieceFactory?.CreatePiece(coord.x, coord.y);
+                var piece = pieceFactory?.CreatePiece(coord);
                 board[coord] = piece;
                 OnPieceCollapsed?.Invoke(this, new PieceCreatedEventArgs(piece, createIndex, line, coord));
                 createIndex++;

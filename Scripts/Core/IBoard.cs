@@ -5,14 +5,14 @@ namespace Bipolar.PuzzleBoard
 {
     public interface IReadOnlyBoard : IEnumerable<Vector2Int>
     {
-        Piece this[Vector2Int coord] { get; }
+        IPiece this[Vector2Int coord] { get; }
         bool ContainsCoord(Vector2Int coord);
         GridLayout.CellLayout Layout { get; }
     }
 
     public interface IBoard : IReadOnlyBoard
     {
-        new Piece this[Vector2Int coord] { get; set; }
+        new IPiece this[Vector2Int coord] { get; set; }
     }
 
     public static class BoardExtensions

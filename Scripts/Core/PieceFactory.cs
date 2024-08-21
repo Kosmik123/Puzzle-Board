@@ -2,11 +2,11 @@ namespace Bipolar.PuzzleBoard
 {
     public interface IPieceFactory
     {
-        public Piece CreatePiece(int x, int y);
+        public IPiece CreatePiece(Vector2Int coord);
     }
 
     public class GenericPieceFactory<TPiece> : IPieceFactory
-        where TPiece : Piece
+        where TPiece : IPiece, new()
     {
         private readonly IPieceColorProvider pieceColorProvider;
 
@@ -15,7 +15,7 @@ namespace Bipolar.PuzzleBoard
             this.pieceColorProvider = pieceColorProvider;
         }
 
-        public Piece CreatePiece(int x, int y)
+        public virtual IPiece CreatePiece(Vector2Int coord)
         {
             var pieceColor = pieceColorProvider.GetPieceColor(x, y);
             var piece = (TPiece)System.Activator.CreateInstance(typeof(TPiece), pieceColor);

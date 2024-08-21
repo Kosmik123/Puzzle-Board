@@ -7,7 +7,7 @@ namespace Bipolar.PuzzleBoard
         [SerializeField]
         private SceneBoard sceneBoard;
 
-        public void SwapPieces(Piece piece1, Piece piece2, Vector2Int targetCoord1, Vector2Int targetCoord2)
+        public void SwapPieces(IPiece piece1, IPiece piece2, Vector2Int targetCoord1, Vector2Int targetCoord2)
         {
             var scenePiece1 = sceneBoard.GetScenePiece(piece1);
             var scenePiece2 = sceneBoard.GetScenePiece(piece2);

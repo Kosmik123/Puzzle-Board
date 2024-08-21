@@ -63,7 +63,7 @@ namespace Bipolar.PuzzleBoard.Rectangular
             int indexInLine = 0;
             IterateOverCellsInLine(board, lineIndex, count, startCellIndex, refillingDirection, (coord) =>
             {
-                var piece = pieceFactory?.CreatePiece(coord.x, coord.y);
+                var piece = pieceFactory?.CreatePiece(coord);
                 board[coord] = piece;
                 OnPieceCollapsed?.Invoke(this, new PieceCreatedEventArgs(piece, count - 1 - indexInLine, coord));
                 indexInLine++;

@@ -19,7 +19,7 @@ namespace Bipolar.PuzzleBoard.Rectangular
         [SerializeField]
         private bool dontRefillEmptySpaces;
 
-        private ScenePiece CreateScenePiece(Piece piece)
+        private ScenePiece CreateScenePiece(IPiece piece)
         {
             var pieceComponent = PiecesSpawner.SpawnPiece(piece);
             return pieceComponent;

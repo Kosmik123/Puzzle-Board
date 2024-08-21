@@ -5,13 +5,13 @@ namespace Bipolar.PuzzleBoard
 {
     public readonly struct SwapPiecesCommand : IBoardCommand
     {
-        private readonly Piece piece1;
-        private readonly Piece piece2;
+        private readonly IPiece piece1;
+        private readonly IPiece piece2;
         private readonly Vector2Int targetCoord1;
         private readonly Vector2Int targetCoord2;
         private readonly PiecesSwapManager piecesSwapManager;
 
-        public SwapPiecesCommand(Piece piece1, Piece piece2, Vector2Int targetCoord1, Vector2Int targetCoord2, PiecesSwapManager piecesSwapManager)
+        public SwapPiecesCommand(IPiece piece1, IPiece piece2, Vector2Int targetCoord1, Vector2Int targetCoord2, PiecesSwapManager piecesSwapManager)
         {
             this.piece1 = piece1;
             this.piece2 = piece2;
