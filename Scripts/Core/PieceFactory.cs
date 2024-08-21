@@ -1,3 +1,5 @@
+using UnityEngine;
+
 namespace Bipolar.PuzzleBoard
 {
     public interface IPieceFactory
@@ -17,15 +19,17 @@ namespace Bipolar.PuzzleBoard
 
         public virtual IPiece CreatePiece(Vector2Int coord)
         {
-            var pieceColor = pieceColorProvider.GetPieceColor(x, y);
-            var piece = (TPiece)System.Activator.CreateInstance(typeof(TPiece), pieceColor);
+            var pieceColor = pieceColorProvider.GetPieceColor(coord.x, coord.y);
+            var piece = new TPiece();
+            piece.Color = pieceColor;
             return piece;
         }
     }
 
     public class DefaultPieceFactory : GenericPieceFactory<DefaultPiece>
     {
-        public DefaultPieceFactory(IPieceColorProvider pieceColorProvider) : base(pieceColorProvider)
+        public DefaultPieceFactory(IPieceColorProvider pieceColorProvider) 
+            : base(pieceColorProvider)
         { }
     }
 }
