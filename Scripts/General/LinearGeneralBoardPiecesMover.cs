@@ -22,15 +22,14 @@ namespace Bipolar.PuzzleBoard.General
             piecesMovementManager.OnAllPiecesMovementStopped += PiecesMovementManager_OnAllPiecesMovementStopped;
             for (int i = 0; i < collapseEvents.Count; i++)
             {
-                var collapseEventArgs = collapseEvents[i];
-                if (collapseEventArgs is LinearGeneralBoardCollapseStrategy.PieceCollapsedEventArgs collapseEvent)
+                var eventArgs = collapseEvents[i];
+                if (eventArgs is LinearGeneralBoardCollapseStrategy.PieceCollapsedEventArgs collapseEvent)
                 {
                     var piece = collapseEvent.Piece;
                     var scenePiece = SceneBoard.GetScenePiece(piece);
-                    scenePiece.Coord = collapseEvent.TargetCoord;
                     piecesMovementManager.StartPieceMovement(scenePiece, collapseEvent.Line, collapseEvent.FromIndex, collapseEvent.TargetCoord);
                 }
-                else if (collapseEventArgs is LinearGeneralBoardCollapseStrategy.PieceCreatedEventArgs createEvent)
+                else if (eventArgs is LinearGeneralBoardCollapseStrategy.PieceCreatedEventArgs createEvent)
                 {
                     var piece = createEvent.Piece;
                     var scenePiece = PiecesSpawner.SpawnPiece(piece);
@@ -40,7 +39,6 @@ namespace Bipolar.PuzzleBoard.General
                     var firstCellPosition = SceneBoard.CoordToWorld(lineStartCoord);
                     var spawningPosition = firstCellPosition + (Vector3)((Vector2)creatingDirection * (createEvent.CreateIndex + 1));
                     scenePiece.transform.position = spawningPosition;
-                    scenePiece.Coord = createEvent.CreationCoord;
                     piecesMovementManager.StartPieceMovement(scenePiece, createEvent.Line, -1, createEvent.CreationCoord);
                 }
             }

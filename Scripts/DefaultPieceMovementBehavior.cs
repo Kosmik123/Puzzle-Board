@@ -25,13 +25,14 @@ namespace Bipolar.PuzzleBoard
         private readonly Queue<MovementData> movementQueue = new Queue<MovementData>();
         private MovementData currentMovement;
         private bool hasMovement = false;
+        private System.Action moveFinishedCallback;
 
-
-        public override void MoveTo(Vector3 targetPosition, float speed = -1)
+        public override void MoveTo(Vector3 targetPosition, float speed = -1, System.Action moveFinishedCallback = null)
         {
             if (speed < 0)
                 speed = defaultSpeed;
 
+            this.moveFinishedCallback += moveFinishedCallback;
             var movement = new MovementData(targetPosition, speed);
             // to jest przykład szybkiego fixa o którym ktoś może zapomnieć
             movementQueue.Enqueue(movement);
@@ -50,17 +51,24 @@ namespace Bipolar.PuzzleBoard
         private void FixedUpdate()
         {
             if (hasMovement)
+                HandleMovement(Time.fixedDeltaTime);
+        }
+
+        private void HandleMovement(float dt)
+        {
+            var position = transform.position;
+            float distance = currentMovement.Speed * dt;
+            Vector3 target = currentMovement.TargetPosition;
+            position = Vector3.MoveTowards(position, target, distance);
+            transform.position = position;
+            if (position == target)
             {
-                var position = transform.position;
-                float distance = currentMovement.Speed * Time.deltaTime;
-                Vector3 target = currentMovement.TargetPosition;
-                position = Vector3.MoveTowards(position, target, distance);
-                transform.position = position;
-                if (position == target)
+                hasMovement = false;
+                if (movementQueue.Count <= 0)
                 {
-                    hasMovement = false;
-                    if (movementQueue.Count <= 0)
-                        OnMovementEnded?.Invoke(this);  
+                    moveFinishedCallback?.Invoke();
+                    moveFinishedCallback = null;
+                    OnMovementEnded?.Invoke(this);
                 }
             }
         }

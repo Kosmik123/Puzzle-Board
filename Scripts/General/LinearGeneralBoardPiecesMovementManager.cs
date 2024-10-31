@@ -30,7 +30,7 @@ namespace Bipolar.PuzzleBoard
         public void StartPieceMovement(ScenePiece scenePiece, CoordsLine line, int fromIndex, Vector2Int endCoord)
         {
             if (scenePiece == null)
-                Debug.LogError("PieceCompoennet jest null? Czemu");
+                Debug.LogError($"{nameof(ScenePiece)} jest null? Czemu");
 
             if (pieceMovementCoroutines.TryGetValue(scenePiece, out var alreadyMovingCo))
                 StopCoroutine(alreadyMovingCo);

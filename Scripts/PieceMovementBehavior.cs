@@ -8,7 +8,7 @@ namespace Bipolar.PuzzleBoard
     {
         public abstract event System.Action<PieceMovementBehavior> OnMovementEnded;
 
-        public abstract void MoveTo(Vector3 targetPosition, float speed = -1);
+        public abstract void MoveTo(Vector3 targetPosition, float speed = -1, System.Action moveFinishedCallback = null);
     }
 
     public static class PieceMovementExtension
@@ -17,7 +17,7 @@ namespace Bipolar.PuzzleBoard
         {
             if (piece.TryGetComponent<PieceMovementBehavior>(out var pieceMovement) && pieceMovement.isActiveAndEnabled)
             {
-                pieceMovement.MoveTo(targetPosition, speed);
+                pieceMovement.MoveTo(targetPosition, speed, moveFinishedCallback);
             }
             else
             {

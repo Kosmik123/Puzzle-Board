@@ -7,20 +7,20 @@ namespace Bipolar.PuzzleBoard
         [SerializeField]
         private PieceVisualSettings settings;
         [SerializeField] 
-        private ScenePiece pieceComponent;
+        private ScenePiece scenePiece;
         [SerializeField]
         private SpriteRenderer spriteRenderer;
 
         protected virtual void Reset()
         {
-            pieceComponent = GetComponentInParent<ScenePiece>();
+            scenePiece = GetComponentInParent<ScenePiece>();
             spriteRenderer = GetComponentInChildren<SpriteRenderer>();
         }
 
         private void OnEnable()
         {
-            pieceComponent.OnColorChanged += RefreshPieceSprite;
-            RefreshPieceSprite(pieceComponent.Color);
+            scenePiece.OnColorChanged += RefreshPieceSprite;
+            RefreshPieceSprite(scenePiece.Color);
         }
 
         private void RefreshPieceSprite(IPieceColor pieceColor)
@@ -41,7 +41,7 @@ namespace Bipolar.PuzzleBoard
 
         private void OnDisable()
         {
-            pieceComponent.OnColorChanged -= RefreshPieceSprite;       
+            scenePiece.OnColorChanged -= RefreshPieceSprite;       
         }
     }
 }

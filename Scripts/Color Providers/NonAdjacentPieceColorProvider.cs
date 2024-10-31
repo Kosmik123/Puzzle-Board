@@ -37,8 +37,7 @@ namespace Bipolar.PuzzleBoard
             for (int i = 0; i < directions.Count; i++)
             {
                 var otherCoord = coord + BoardHelper.GetCorrectedDirection(coord, directions[i], isHexagonal);
-                var piece = sceneBoard.GetPiece(otherCoord);
-                if (piece != null)
+                if (sceneBoard.TryGetPiece(otherCoord, out var piece))
                     forbiddenPieceColors.Add(piece.Color);
             }
 

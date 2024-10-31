@@ -9,6 +9,11 @@ namespace Bipolar.PuzzleBoard
         [SerializeField]
         protected SceneBoard targetBoard;
 
+        protected virtual void Reset()
+        {
+            targetBoard = FindObjectOfType<SceneBoard>();
+        }
+
         public ScenePiece SpawnPiece(IPiece piece)
         {
             var pieceComponent = Spawn(piece);

@@ -24,7 +24,7 @@ namespace Bipolar.PuzzleBoard
 
         public static void SwapPieces(this SceneBoard sceneBoard, Vector2Int pieceCoord1, Vector2Int pieceCoord2)
         {
-            var board = sceneBoard.GetBoardInternal();
+            var board = sceneBoard.Board;
             (board[pieceCoord1], board[pieceCoord2]) = (board[pieceCoord2], board[pieceCoord1]);
         }
     }

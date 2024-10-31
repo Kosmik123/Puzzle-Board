@@ -24,8 +24,8 @@ namespace Bipolar.PuzzleBoard
 
         public IEnumerator Execute()
         {
-            piecesMover.HandleCollapseMovemement(strategy, collapseEvents);
             var mover = piecesMover;
+            mover.HandleCollapseMovemement(strategy, collapseEvents);
             yield return new WaitWhile(() => mover.IsMoving);
         }
 

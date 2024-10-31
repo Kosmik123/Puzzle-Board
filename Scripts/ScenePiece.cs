@@ -2,19 +2,16 @@
 
 namespace Bipolar.PuzzleBoard
 {
+    public interface IScenePiece
+    {
+
+    }
+
     [SelectionBase, DisallowMultipleComponent]
-    public class ScenePiece : MonoBehaviour
+    public class ScenePiece : MonoBehaviour, IScenePiece
     {
         public event System.Action<IPieceColor> OnColorChanged;
         public event System.Action<ScenePiece> OnCleared;
-
-        [SerializeField]
-        private Vector2Int coord;
-        public Vector2Int Coord
-        {
-            get => coord;
-            set => coord = value;
-        }
 
         [SerializeReference]
         private IPiece piece;

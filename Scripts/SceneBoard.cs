@@ -21,21 +21,20 @@ namespace Bipolar.PuzzleBoard
         protected readonly Dictionary<IPiece, ScenePiece> scenePieces = new Dictionary<IPiece, ScenePiece>();
 
         public GridLayout.CellLayout Layout => Grid.cellLayout;
-
-        public abstract IReadOnlyBoard Board { get; }
-
+        public IBoard Board => GetBoard();
         public abstract bool ContainsCoord(Vector2Int coord);
 
-        public IPiece GetPiece(Vector2Int coord)
+        public bool TryGetPiece(Vector2Int coord, out IPiece piece)
         {
+            piece = default;
             if (ContainsCoord(coord) == false)
-                return null;
+                return false;
 
-            var piece = Board[coord];
+            piece = Board[coord];
             if (piece == null || piece.IsCleared)
-                return null;
+                return false;
 
-            return piece;
+            return true;
         }
 
         public Vector3 CoordToWorld(float x, float y) => CoordToWorld(new Vector2(x, y));
@@ -93,7 +92,7 @@ namespace Bipolar.PuzzleBoard
 
         public void MovePiece(Piece piece, Vector2Int newCoord)
         {
-            var board = GetBoardInternal();
+            var board = Board;
             if (board.ContainsCoord(newCoord) == false)
                 return;
 
@@ -106,21 +105,24 @@ namespace Bipolar.PuzzleBoard
             board[newCoord] = piece;
         }
 
-        internal abstract IBoard GetBoardInternal();
+        protected abstract IBoard GetBoard();
     }
 
     public abstract class SceneBoard<TBoard> : SceneBoard
         where TBoard : Board
     {
         protected TBoard board;
-        public override IReadOnlyBoard Board => GetBoard();
-
-        public TBoard GetBoard()
+        public new TBoard Board
         {
-            if (board == null)
-                CreateBoard();
-            return board;
+            get
+            {
+                if (board == null)
+                    CreateBoard();
+                return board;
+            }
         }
+
+        protected override IBoard GetBoard() => Board;
 
         public override bool ContainsCoord(Vector2Int coord) => board.ContainsCoord(coord);
 
@@ -137,6 +139,5 @@ namespace Bipolar.PuzzleBoard
         }
 
         protected abstract TBoard CreateBoard();
-        internal override IBoard GetBoardInternal() => GetBoard();
     }
 }

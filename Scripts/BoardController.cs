@@ -1,15 +1,24 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace Bipolar.PuzzleBoard
 {
-    public class BoardController : MonoBehaviour
+    public interface IBoardCommandsInvoker
     {
-        public bool IsBusy { get; private set; }
+        void RequestCommand(IBoardCommand command);
+    }
+
+    public class BoardController : MonoBehaviour, IBoardCommandsInvoker
+    {
+        public bool IsBusy => currentlyExecutedCommand != null && commandsQueue.Count > 0;
 
         private readonly Queue<IBoardCommand> commandsQueue = new Queue<IBoardCommand>();
         private IBoardCommand currentlyExecutedCommand = null;
+
+        [field: SerializeField]
+        public int CommandsCount { get; private set; }
 
         public void RequestCommand(IBoardCommand command)
         {
@@ -28,10 +37,12 @@ namespace Bipolar.PuzzleBoard
 
         private void Update()
         {
+            CommandsCount = commandsQueue.Count;
             if (currentlyExecutedCommand == null && commandsQueue.Count > 0)
             {
                 var command = commandsQueue.Dequeue();
                 StartCoroutine(ExecuteCommand(command));
+                DisplayCommandsQueue();
             }
         }
 
@@ -39,7 +50,28 @@ namespace Bipolar.PuzzleBoard
         {
             currentlyExecutedCommand = command;
             yield return command.Execute();
+            if (command is IDisposable disposableCommand)
+                disposableCommand.Dispose();
+
             currentlyExecutedCommand = null;
+        }
+    }
+
+    public readonly struct ShuffleBoardCommand : IBoardCommand
+    {
+        private readonly IBoard board;
+        private readonly BoardShuffler boardShuffler;
+
+        public ShuffleBoardCommand(IBoard board, BoardShuffler boardShuffler)
+        {
+            this.board = board;
+            this.boardShuffler = boardShuffler;
+        }
+
+        public IEnumerator Execute()
+        {
+            boardShuffler.Shuffle(board);
+            yield return null;
         }
     }
 }

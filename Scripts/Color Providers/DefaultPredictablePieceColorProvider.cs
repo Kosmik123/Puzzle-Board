@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.Profiling;
 
 namespace Bipolar.PuzzleBoard
 {
@@ -17,18 +16,18 @@ namespace Bipolar.PuzzleBoard
         public override IPieceColor GetPieceColor(int x, int y)
         {
             int seedInstance = 10000 * x + 100 * y + Time + Seed;
-            using (new PredictableRandom(seedInstance))
+            using (new RandomScope(seedInstance))
             {
                 int randomIndex = Random.Range(0, pieceColorsList.Count);
                 return pieceColorsList[randomIndex];
             }
         }
 
-        public readonly struct PredictableRandom : System.IDisposable
+        public readonly struct RandomScope : System.IDisposable
         {
             private readonly Random.State previousState;
 
-            public PredictableRandom(int seed)
+            public RandomScope(int seed)
             {
                 previousState = Random.state;
                 Random.InitState(seed);

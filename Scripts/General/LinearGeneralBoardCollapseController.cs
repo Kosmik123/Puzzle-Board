@@ -159,8 +159,7 @@ namespace Bipolar.PuzzleBoard
             for (int index = line.Coords.Count - 1; index >= 0; index--)
             {
                 var coord = line.Coords[index];
-                var piece = SceneBoard.GetPiece(coord);
-                if (piece == null || piece.IsCleared)
+                if (SceneBoard.TryGetPiece(coord, out _))
                 {
                     nonExistingPiecesCount++;
                 }

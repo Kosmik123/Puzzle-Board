@@ -27,6 +27,9 @@ namespace Bipolar.PuzzleBoard.Rectangular
 
         public override void HandleCollapseMovemement(OneDirectionRectangularBoardCollapseStrategy strategy, IReadOnlyList<ICollapseEventArgs> collapseEvents)
         {
+            if (collapseEvents.Count <= 0)
+                return;
+
             IsMoving = true;
             piecesMovementManager.OnAllPiecesMovementStopped += PiecesMovementManager_OnAllPiecesMovementStopped;
             for (int i = 0; i < collapseEvents.Count; i++)
@@ -38,7 +41,6 @@ namespace Bipolar.PuzzleBoard.Rectangular
                     var scenePiece = SceneBoard.GetScenePiece(piece);
                     if (scenePiece)
                     {
-                        scenePiece.Coord = collapseEvent.TargetCoord;
                         piecesMovementManager.StartPieceMovement(scenePiece, collapseEvent.TargetCoord);
                     }
                 }
@@ -46,14 +48,13 @@ namespace Bipolar.PuzzleBoard.Rectangular
                 {
                     var piece = createEvent.Piece;
                     var scenePiece = CreateScenePiece(piece);
-                    scenePiece.Coord = createEvent.CreationCoord;
                     var collapseDirection = BoardHelper.GetCorrectedDirection(createEvent.CreationCoord, strategy.CollapseDirection, SceneBoard.Board.Layout == GridLayout.CellLayout.Hexagon);
                     var spawnCoord = createEvent.CreationCoord;
                     {
                         spawnCoord[strategy.CollapseAxis] = collapseDirection[strategy.CollapseAxis] switch
                         {
                             1 => -1,
-                            -1 => SceneBoard.GetBoard().Dimensions[strategy.CollapseAxis],
+                            -1 => SceneBoard.Board.Dimensions[strategy.CollapseAxis],
                             _ => 0
                         };
                     }

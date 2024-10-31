@@ -10,11 +10,15 @@ namespace Bipolar.PuzzleBoard
 
         private readonly Stack<ScenePiece> piecesPool = new Stack<ScenePiece>();
 
+        [SerializeField]
+        private int pooledCount;
+
         protected override ScenePiece Spawn(IPiece piece)
         {
             var spawnedPiece = piecesPool.Count > 0 ? piecesPool.Pop() : CreateNewPiece();
             spawnedPiece.Init(piece);
             spawnedPiece.gameObject.SetActive(true);
+            UpdatePooledCount();
             return spawnedPiece;
         }
 
@@ -30,6 +34,12 @@ namespace Bipolar.PuzzleBoard
             targetBoard.RemoveScenePiece(piece);
             piece.gameObject.SetActive(false);
             piecesPool.Push(piece);
+            UpdatePooledCount();
+        }
+
+        private void UpdatePooledCount()
+        {
+            pooledCount = piecesPool.Count;
         }
     }
 }

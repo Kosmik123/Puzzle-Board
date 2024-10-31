@@ -58,7 +58,7 @@ namespace Bipolar.PuzzleBoard
         protected PiecesMover<TStrategy, TBoard> mover;
 
         private BoardCollapser<TBoard> CreateNewCollapser() => new BoardCollapser<TBoard>(
-            SceneBoard.GetBoard(),
+            SceneBoard.Board,
             Strategy,
             pieceFactory ? pieceFactory.PieceFactory : null);
 

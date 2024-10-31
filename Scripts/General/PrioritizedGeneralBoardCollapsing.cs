@@ -92,7 +92,6 @@ namespace Bipolar.PuzzleBoard
 
         private bool TryCollapsePieceFromCoord(Vector2Int coord)
         {
-            var piece = SceneBoard.GetPiece(coord);
             var directions = GetDirections(coord);
             if (directions == null)
                 return false;
@@ -103,12 +102,12 @@ namespace Bipolar.PuzzleBoard
                 if (SceneBoard.ContainsCoord(targetCoord) == false)
                     continue;
 
-                if (SceneBoard.GetPiece(targetCoord) == null)
+                if (SceneBoard.TryGetPiece(targetCoord, out var piece) == false)
                 {
-                    //Board[coord] = null;
-                    //Board[targetCoord] = piece;
-                   // collapsingPiecesCoords.Add(piece, targetCoord);
-                    //piecesMovementManager.StartPieceMovement(piece, targetCoord);
+                    // Board[coord] = null;
+                    // Board[targetCoord] = piece;
+                    // collapsingPiecesCoords.Add(piece, targetCoord);
+                    // piecesMovementManager.StartPieceMovement(piece, targetCoord);
                     return true;
                 }
             }

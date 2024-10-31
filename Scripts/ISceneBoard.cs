@@ -4,7 +4,7 @@ namespace Bipolar.PuzzleBoard
 {
     public interface IReadOnlySceneBoard
     {
-        IReadOnlyBoard Board { get; }
+        IBoard Board { get; }
         Vector3 CoordToWorld(Vector2 coord);
         Vector3 CoordToWorld(float x, float y);
     }
