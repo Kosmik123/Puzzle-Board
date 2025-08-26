@@ -15,7 +15,7 @@ namespace Bipolar.PuzzleBoard
             board = FindObjectOfType<SceneBoard>();
         }
 
-        public void OnPointerClick(PointerEventData eventData)
+        void IPointerClickHandler.OnPointerClick(PointerEventData eventData)
         {
             var pressWorldPosition = eventData.pointerPressRaycast.worldPosition;
             var pressedPieceCoord = board.WorldToCoord(pressWorldPosition);
@@ -28,6 +28,7 @@ namespace Bipolar.PuzzleBoard
                 return;
 
             OnPieceClicked?.Invoke(pieceCoord);
+
         }
     }
 }

@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Bipolar.PuzzleBoard
 {
@@ -28,12 +27,13 @@ namespace Bipolar.PuzzleBoard
             OnCleared?.Invoke();
         }
 
-#if UNITY_EDITOR
         internal void Validate()
         {
+#if UNITY_EDITOR
             Color = Color;
-        }
 #endif
+        }
+
         public override string ToString()
         {
             return $"Piece ({Color})";

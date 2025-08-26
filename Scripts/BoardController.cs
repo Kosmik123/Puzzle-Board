@@ -18,6 +18,9 @@ namespace Bipolar.PuzzleBoard
         private IBoardCommand currentlyExecutedCommand = null;
 
         [field: SerializeField]
+#if NAUGHTY_ATTRIBUTES
+        [field:NaughtyAttributes.ReadOnly]
+#endif
         public int CommandsCount { get; private set; }
 
         public void RequestCommand(IBoardCommand command)
