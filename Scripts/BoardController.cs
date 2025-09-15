@@ -8,7 +8,9 @@ namespace Bipolar.PuzzleBoard
     public interface IBoardCommandsInvoker
     {
         void RequestCommand(IBoardCommand command);
-    }
+        bool IsBusy { get; }
+
+	}
 
     public class BoardController : MonoBehaviour, IBoardCommandsInvoker
     {
@@ -35,7 +37,7 @@ namespace Bipolar.PuzzleBoard
             foreach (var c in commandsQueue)
                 message += $"\t{c}\n";
 
-            Debug.Log(message);
+            //Debug.Log(message);
         }
 
         private void Update()

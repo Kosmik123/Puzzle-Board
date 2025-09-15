@@ -10,7 +10,7 @@ namespace Bipolar.PuzzleBoard.General
         bool Jump { get; }
     }
 
-    [CreateAssetMenu(menuName = CreateAssetsPath.Root + "General Board Tile")]
+    [CreateAssetMenu(menuName = Paths.Root + "General Board Tile")]
     public class DirectionTile : Tile, IDirectionTile
     {
         [SerializeField]

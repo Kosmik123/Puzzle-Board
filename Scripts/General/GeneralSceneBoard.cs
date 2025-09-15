@@ -9,7 +9,7 @@ namespace Bipolar.PuzzleBoard.General
         void CreateBoardShape();
     }
 
-    [AddComponentMenu("Board Puzzles/General Board")]
+    [AddComponentMenu(Paths.Root + "General Board")]
     public class GeneralSceneBoard : SceneBoard<GeneralBoard>, IGeneralSceneBoard
     {
         [SerializeField, Tooltip("Provides board shape")]

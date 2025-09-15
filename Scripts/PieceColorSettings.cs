@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Bipolar.PuzzleBoard
 {
-    [CreateAssetMenu(menuName = CreateAssetsPath.Root + "Piece Color Settings")]
+    [CreateAssetMenu(menuName = Paths.Root + "Piece Color Settings")]
     public class PieceColorSettings : PieceColorsList
     {
         [SerializeField]

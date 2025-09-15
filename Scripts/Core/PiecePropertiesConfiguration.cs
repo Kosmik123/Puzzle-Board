@@ -8,7 +8,7 @@ namespace Bipolar.PuzzleBoard
         void ConfigureProperties(ICompoundPiece piece, Vector2Int coord);
     }
 
-    [CreateAssetMenu(menuName = CreateAssetsPath.Root + "Piece Properties Configuration")]
+    [CreateAssetMenu(menuName = Paths.Root + "Piece Properties Configuration")]
     public class PiecePropertiesConfiguration : ScriptableObject, IPiecePropertiesConfiguration
     {
         [SerializeReference, SubclassSelector]

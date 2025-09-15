@@ -8,7 +8,7 @@ namespace Bipolar.PuzzleBoard.Rectangular
         Vector2Int Dimensions { get; }
     }
 
-    [AddComponentMenu("Board Puzzles/Rectangular Board")]
+    [AddComponentMenu(Paths.Root + "Rectangular Board")]
     public class RectangularSceneBoard : SceneBoard<RectangularBoard>, IRectangularSceneBoard
     {
         public event System.Action<Vector2Int> OnDimensionsChanged;
@@ -25,7 +25,8 @@ namespace Bipolar.PuzzleBoard.Rectangular
                 OnDimensionsChanged?.Invoke(dimensions);
             }
         }
-        private Vector3 localCenter;
+
+		private Vector3 localCenter;
 
         protected override void Awake()
         {

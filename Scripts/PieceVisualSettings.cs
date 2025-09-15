@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Bipolar.PuzzleBoard
 {
-    [CreateAssetMenu(menuName = CreateAssetsPath.Root + "Piece Visual Settings")]
+    [CreateAssetMenu(menuName = Paths.Root + "Piece Visual Settings")]
     public class PieceVisualSettings : ScriptableObject
     {
         [System.Serializable]

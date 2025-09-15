@@ -27,26 +27,15 @@ namespace Bipolar.PuzzleBoard.Rectangular
         {
             this.width = width;
             this.height = height;
-            piecesArray = new Piece[width, height];
+            piecesArray = new IPiece[width, height];
         }
 
-        private RectangularBoard (RectangularBoard source) : base(source.Layout) 
-        {
-            width = source.width;
-            height = source.height;
-            piecesArray = (Piece[,])source.piecesArray.Clone();
-        }
+		private RectangularBoard(RectangularBoard source) 
+            : this(source.width, source.height, source.Layout)
+            => System.Array.Copy(source.piecesArray, piecesArray, source.width * source.height);  
 
-        public override bool ContainsCoord(int xCoord, int yCoord)
-        {
-            if (xCoord < 0 || yCoord < 0)
-                return false;
-
-            if (xCoord >= width || yCoord >= height)
-                return false;
-
-            return true;
-        }
+		public override bool ContainsCoord(int xCoord, int yCoord) =>
+            xCoord >= 0 && yCoord >= 0 && xCoord < width && yCoord < height; 
 
         public override Board Clone() => new RectangularBoard(this);
 
@@ -58,15 +47,15 @@ namespace Bipolar.PuzzleBoard.Rectangular
         }
 
         protected override void CopyState(IBoard target)
-        {
-            if (!(target is RectangularBoard rectangularTarget))
-                throw new System.InvalidCastException();
-
-            int width = Mathf.Min(this.width, rectangularTarget.width);
-            int height = Mathf.Min(this.height, rectangularTarget.height);
-            for (int y = 0; y < height; y++)
-                for (int x = 0; x < width; x++)
-                    rectangularTarget.piecesArray[x, y] = piecesArray[x, y];
-        }
-    }
+		{
+            if (target is RectangularBoard rectangularTarget)
+            {
+                System.Array.Copy(piecesArray, rectangularTarget.piecesArray, width * height);  
+			}
+            else
+            {
+                throw new System.ArgumentException();
+            }
+		}
+	}
 }

@@ -3,8 +3,8 @@ using UnityEngine;
 
 namespace Bipolar.PuzzleBoard
 {
+
     [DisallowMultipleComponent]
-    [RequireComponent(typeof(Grid))]
     public abstract class SceneBoard : MonoBehaviour, ISceneBoard
     {
         private Grid _grid;
@@ -13,7 +13,7 @@ namespace Bipolar.PuzzleBoard
             get
             {
                 if (_grid == null)
-                    _grid = GetComponent<Grid>();
+                    _grid = GetComponentInParent<Grid>() ?? gameObject.AddComponent<Grid>();
                 return _grid;
             }
         }
@@ -117,7 +117,7 @@ namespace Bipolar.PuzzleBoard
             get
             {
                 if (board == null)
-                    CreateBoard();
+					board = CreateBoard();
                 return board;
             }
         }
